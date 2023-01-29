@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@keyframes close {
+	0% {
+		translate: calc(0);
+	}
+
+	100% {
+		translate: calc(50% * var(--tip));
+	}
+}
+
+html {
+	font-size: .9em;
+	font-family: 'Roboto', sans-serif;
+}
+
+curtain {
+
+	/* background: linear-gradient(90deg, #fff8dc 50%, #6495ed 50%); */
+	background: rgb(45, 45, 45);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	--ang: 90deg;
+	--posY: 0;
+	--posX: 0;
+	transition: translate .1s;
+	/* animation: rotate 20s linear infinite; */
+
+	/* transform: scale(14) rotate(var(--ang)); */
+	translate: var(--posX) var(--posY);
+	/* scale: 16; */
+
+	/* cursor: n-resize; */
+
+	height: 100vh;
+	width: 100vw;
+
+	-webkit-user-select: none;
+	user-select: none;
+
+	will-change: transform;
+}
+
+div[title] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+curtain>div[title]>p {
+	position: absolute;
+	--margin: 0.83em;
+	/* font-size: min(.43em, 1.35vw); */
+	font-size: max(6.5em, max(7vw, 7vh));
+	color: firebrick;
+}
+
+curtain>div[title]>quote {
+	font-size: max(6.5em, max(7vw, 7vh));
+	color: rgb(117, 25, 25);
+	animation: float 2.2s ease-in-out infinite alternate forwards;
+}
+
+curtain>div[title]>quote:first-of-type {
+	margin-right: 1.2em;
+	margin-top: 2.2em;
+}
+
+curtain>div[title]>quote:not(:first-of-type) {
+	/* margin-right: 40%; */
+	margin-bottom: 2.3em;
+	transform: rotate(180deg);
+}
+
+@keyframes float {
+	0% {
+		padding-bottom: 0px;
+	}
+
+	50% {
+		padding-top: 30px;
+	}
+}
+
+curtain>div[title]>t:after {
+	content: "0";
+	display: none;
+	/* font-size: min(1em, 4vw); */
+}
+
+curtain>div[title]>p:first-of-type {
+	margin-right: var(--margin);
+	transform: rotate(270deg);
+}
+
+curtain>div[title]>p:last-of-type {
+	margin-left: var(--margin);
+	transform: rotate(90deg);
+}
+
+[head] {
+	--offSet: 110px;
+	max-width: 90%;
+	position: absolute;
+	top: calc(1em - var(--offSet));
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	transition: all 2s;
+}
+
+[head] > div[info] {
+	/* max-width: 5em; */
+	background-color: #181818E0;
+	border-radius: .6em;
+	padding: 10px;
+	color: white;
+	margin: auto;
+} 
+
+curtain div[spotify] {
+	/* width: 24em;
+	max-width: 100%; */
+	max-width: 24em;
+	position: relative;
+
+	/* cursor: pointer; */
+
+	background-color: #181818E0;
+	border-radius: .6em;
+	padding: 10px;
+	color: white;
+	display: flex;
+
+	/* display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-areas:
+		"img info"
+		"duration"; */
+}
+
+curtain div[spotify]>a {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	border-radius: .6em;
+}
+
+curtain div[spotify]>img {
+	border-radius: .3em;
+	max-width: 24%;
+	min-width: max(24%, 5em);
+	aspect-ratio: 1;
+	z-index: 99;
+	/* max-height: 20%; */
+}
+
+curtain div[spotify]>div {
+	margin-left: .8em;
+	/* padding-left: 1em; */
+	font-size: 1.3rem;
+	display: flex;
+	flex: auto;
+	flex-direction: column;
+	justify-content: space-between;
+
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+curtain div[spotify]>div>div[info]>t[anim] {
+	display: inline-block;
+	--end: 0px;
+	animation: transl 10s ease-in-out infinite alternate forwards;
+
+
+	/* transform: translateX(-50%); */
+}
+@keyframes transl {
+	0% {
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(var(--end));
+	}
+}
+
+curtain div[spotify]>div>div[info]>p {
+	font-size: 1rem;
+	color: rgb(153, 151, 151);
+}
+
+curtain div[spotify]>div>div[buttons] {
+	display: flex;
+	justify-content: center;
+}
+
+curtain div[spotify]>div>div[time] {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+curtain div[spotify]>div>div[time] t {
+	font-size: .7em;
+}
+
+curtain div[spotify]>div>div[time] bar {
+	--temp: 0%;
+	--height: .6em;
+	--radius: 10px;
+	position: relative;
+	display: block;
+	height: var(--height);
+	/* width: 80%; */
+	flex: auto;
+	margin-inline: 8px;
+	border-radius: var(--radius);
+
+	background-color: #2b2b2b;
+}
+
+curtain div[spotify]>div>div[time] bar::after {
+	content: "";
+	background-color: white;
+	position: absolute;
+	display: inline-block;
+	border-radius: var(--radius);
+	height: var(--height);
+	width: var(--temp);
+	/* width: 50%; */
+}
+
+body>*:not(curtain) {
+	font-family: 'Courier New', Courier, monospace;
+}
+
+links {
+	position: absolute;
+	right: 15px;
+	bottom: 20px;
+	text-align: end;
+	color: white;
+}
+
+links>div {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row-reverse;
+	width: 100%;
+}
+
+links div a {
+	display: flex;
+	align-items: center;
+	font-size: 1.3em;
+	margin-right: .4em;
+	margin-bottom: .2em;
+
+	border-radius: .4em;
+	background-color: rgba(137, 130, 67, 0.3);
+	padding-inline: 5px;
+	padding-block: 2px;
+
+	backdrop-filter: blur(5px);
+}
+
+links div a svg {
+	padding-right: 3px;
+}
+
+:is(links a, links c):hover {
+	--col: rgb(0, 123, 255);
+	font-weight: bold;
+	cursor: pointer;
+	color: var(--col);
+	fill: var(--col);
+}
+
+links>p {
+	margin-left: .4em;
+
+	line-height: 1.7;
+	margin-bottom: 7px;
+	font-size: 0;
+
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+links>p * {
+	font-size: 0rem;
+}
+
+links uni {
+	white-space: nowrap;
+}
+
+links input {
+	width: 7ch;
+}
+
+sep {
+	/* display: inline; */
+	margin-inline: 8px;
+	border-left: black 3px solid;
+	border-block: black 3px solid;
+}
+
+b {
+	font-weight: bold;
+}
+
+nomob,
+[nomob] {
+	display: inline-block;
+}
+
+@media screen and (max-width: 420px) {
+
+	/* links div a {
+		font-size: 1em;
+		margin-left: 100%;
+	} */
+	links div a svg {
+		padding-right: 0;
+	}
+
+	nomob,
+	[nomob] {
+		display: none !important;
+	}
+
+	curtain>t {
+		transition: all 1s;
+		scale: .5;
+	}
+
+	/* links>div {
+		position: fixed;
+		top: 10px;
+	} */
+}
+
+@media (any-hover: none) {
+	links c {
+		--col: rgb(0, 123, 255);
+		font-weight: bold;
+		cursor: pointer;
+		color: var(--col);
+		fill: var(--col);
+	}
+}
+
+/* @keyframes rotate {
+			0% {
+				rotate: 0;
+			}
+			100% {
+				rotate: 360deg;
+			}
+		} */
