@@ -54,12 +54,12 @@ curtain>div[title]>p {
 	position: absolute;
 	--margin: 0.83em;
 	/* font-size: min(.43em, 1.35vw); */
-	font-size: max(6.5em, max(7vw, 7vh));
+	font-size: max(6.5em, 7vw);
 	color: firebrick;
 }
 
 curtain>div[title]>quote {
-	font-size: max(6.5em, max(7vw, 7vh));
+	font-size: max(6.5em, 7vw);
 	color: rgb(117, 25, 25);
 	animation: float 2.2s ease-in-out infinite alternate forwards;
 }
@@ -102,24 +102,24 @@ curtain>div[title]>p:last-of-type {
 }
 
 [head] {
-	--offSet: 110px;
+	--offSet: 105px;
 	max-width: 90%;
 	position: absolute;
-	top: calc(1em - var(--offSet));
+	top: calc(10px - var(--offSet));
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
 	transition: all 2s;
 }
 
-[head] > div[info] {
+[head]>div[info] {
 	/* max-width: 5em; */
 	background-color: #181818E0;
 	border-radius: .6em;
 	padding: 10px;
 	color: white;
 	margin: auto;
-} 
+}
 
 curtain div[spotify] {
 	/* width: 24em;
@@ -173,6 +173,26 @@ curtain div[spotify]>div {
 	white-space: nowrap;
 }
 
+curtain div[spotify]>div>div[info] {
+	position: relative;
+}
+
+curtain div[spotify]>div>div[info] span {
+	display: none;
+	/* top: 0; */
+	right: 0px;
+	position: absolute;
+	aspect-ratio: 1;
+	/* width: 14px; */
+	background: gray;
+	color: black;
+	font-weight: bold;
+	border-radius: 2px;
+	padding: 4px;
+	font-size: 19px;
+	padding-inline: 8px;
+}
+
 curtain div[spotify]>div>div[info]>t[anim] {
 	display: inline-block;
 	--end: 0px;
@@ -181,10 +201,12 @@ curtain div[spotify]>div>div[info]>t[anim] {
 
 	/* transform: translateX(-50%); */
 }
+
 @keyframes transl {
 	0% {
 		transform: translateX(0);
 	}
+
 	50% {
 		transform: translateX(var(--end));
 	}
