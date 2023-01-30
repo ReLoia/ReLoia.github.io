@@ -37,6 +37,7 @@
 					<div info>
 						<t>Loading...</t>
 						<p>loading</p>
+						<span>E</span>
 						<style>
 							curtain>div[spotify]>div>div[info]>t[anim] {
 								--end: 0px;
@@ -44,7 +45,7 @@
 						</style>
 					</div>
 	
-					<div buttons>
+					<!-- <div buttons>
 						<svg width="23px" height="23px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<g fill="none">
 								<g>
@@ -94,7 +95,7 @@
 								</g>
 							</g>
 						</svg>
-					</div>
+					</div> -->
 	
 					<div time>
 						<style barLen>
@@ -108,7 +109,7 @@
 					</div>
 				</div>
 	
-				<script async="true">
+				<script>
 					let paused = true;
 	
 					function formatMS(ms) {
@@ -123,22 +124,26 @@
 						barLen = spotifyElem.querySelector("div > div[time] bar"),
 						progEl = spotifyElem.querySelector("div > div[time] t:first-of-type"),
 						tmpEl = spotifyElem.querySelector("div > div[time] t:not(:first-of-type)"),
-						playEl = document.getElementById('play'),
-						stopEl = document.getElementById('stop'),
+						// playEl = document.getElementById('play'),
+						// stopEl = document.getElementById('stop'),
+						expEl = spotifyElem.querySelector("div > div[info] span"),
 						nomEl = spotifyElem.querySelector("div > div > t"),
 						autEl = spotifyElem.querySelector("div > div > p");
 	
 					function setInfo(data) {
 						if (data.playing) {
 							paused = false;
-							playEl.style.display = 'none';
-							stopEl.style.display = 'unset';
+							// playEl.style.display = 'none';
+							// stopEl.style.display = 'unset';
 						} else {
 							paused = true;
-							playEl.style.display = 'unset';
-							stopEl.style.display = 'none';
+							// playEl.style.display = 'unset';
+							// stopEl.style.display = 'none';
 						}
 	
+						if (data.explicit) expEl.style = 'display: unset';
+						else expEl.style = '';
+
 						if (data.name.length > 31) nomEl.setAttribute('anim', '');
 						else nomEl.removeAttribute('anim');
 	
@@ -159,6 +164,8 @@
 					}
 	
 					setInterval(async () => setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json()), 6000);
+
+					fetch('https://reloia-listen.glitch.me/api').then(r => r.json().then(setInfo))
 					setInterval(() => {
 						if (Number(progEl.getAttribute('ms')) && !paused && (Number(progEl.getAttribute('ms')) < Number(tmpEl.getAttribute('ms')))) {
 							const newNum = Number(progEl.getAttribute('ms')) + 1000;
@@ -171,7 +178,7 @@
 				</script>
 			</div>
 			<div info>
-				Bari, Italy - <t>10:40 PM</t>
+				Bari, Italy - <t>loading</t>
 			</div>
 		</div>
 		<style curt>
