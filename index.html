@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html translate="no">
 
 <head>
 	<meta charset="UTF-8">
@@ -31,7 +31,7 @@
 		<div head>
 			<div spotify>
 				<a target="_blank"></a>
-	
+
 				<img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png" alt="">
 				<div>
 					<div info>
@@ -44,7 +44,11 @@
 							}
 						</style>
 					</div>
-	
+
+					<div other>
+						<p>Click to open spotify</p>
+					</div>
+
 					<!-- <div buttons>
 						<svg width="23px" height="23px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<g fill="none">
@@ -96,7 +100,7 @@
 							</g>
 						</svg>
 					</div> -->
-	
+
 					<div time>
 						<style barLen>
 							curtain>div[spotify]>div>div[time] bar {
@@ -108,18 +112,18 @@
 						<t></t>
 					</div>
 				</div>
-	
+
 				<script>
 					let paused = true;
-	
+
 					function formatMS(ms) {
 						const tmp = new Date(ms);
 						const fixNum = (n) => String(n).length == 1 ? '0' + n : n;
-	
+
 						return `${tmp.getUTCHours() > 0 ? `${tmp.getUTCHours()}:` : ''}${tmp.getMinutes()}:${fixNum(tmp.getSeconds())}`;
 					}
 
-	
+
 					const spotifyElem = document.querySelector("div[spotify]"),
 						barLen = spotifyElem.querySelector("div > div[time] bar"),
 						progEl = spotifyElem.querySelector("div > div[time] t:first-of-type"),
@@ -129,7 +133,7 @@
 						expEl = spotifyElem.querySelector("div > div[info] span"),
 						nomEl = spotifyElem.querySelector("div > div > t"),
 						autEl = spotifyElem.querySelector("div > div > p");
-	
+
 					function setInfo(data) {
 						if (data.playing) {
 							paused = false;
@@ -140,13 +144,13 @@
 							// playEl.style.display = 'unset';
 							// stopEl.style.display = 'none';
 						}
-	
+
 						if (data.explicit) expEl.style = 'display: unset';
 						else expEl.style = '';
 
 						if (data.name.length > 31) nomEl.setAttribute('anim', '');
 						else nomEl.removeAttribute('anim');
-	
+
 						spotifyElem.querySelector("a").href = data.song_link;
 						nomEl.innerText = data.name;
 						autEl.innerText = data.author;
@@ -156,16 +160,32 @@
 						tmpEl.setAttribute('ms', data.duration);
 						spotifyElem.querySelector("div > img").src = data.album_image;
 						barLen.style = `--temp: ${100 * data.progress / data.duration}%`;
-	
+
 						if (nomEl.offsetWidth - autEl.offsetWidth > 0) nomEl.style = `--end: ${autEl.offsetWidth - nomEl.offsetWidth}px`;
 						else nomEl.style = '';
 
-						document.querySelector('[head]').style = `--offSet: 0px`
+						document.querySelector('[head]').style = `--offSet: 0px`;
 					}
-	
-					setInterval(async () => setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json()), 6000);
 
-					fetch('https://reloia-listen.glitch.me/api').then(r => r.json().then(setInfo))
+					async function fetchData() {
+						try {
+							setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json());
+						} catch (error) {
+							if (error.message == 'Failed to fetch') setInfo({
+								author: 'Unfixable error, click for info',
+								name: 'Your internet provider doesn\'t like `glitch.me`',
+								song_link: 'https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902',
+								duration: 2**52,
+								progress: 0,
+								explicit: true
+							})
+						}
+
+					}
+					fetchData();
+					setInterval(fetchData, 6000);
+
+					// fetch('https://reloia-listen.glitch.me/api').then(r => r.json().then(setInfo)).catch(err => console.log(err.message))
 					setInterval(() => {
 						if (Number(progEl.getAttribute('ms')) && !paused && (Number(progEl.getAttribute('ms')) < Number(tmpEl.getAttribute('ms')))) {
 							const newNum = Number(progEl.getAttribute('ms')) + 1000;
@@ -174,7 +194,7 @@
 							barLen.style = `--temp: ${100 * newNum / Number(tmpEl.getAttribute('ms'))}%`;
 						}
 					}, 1000);
-	
+
 				</script>
 			</div>
 			<div info>

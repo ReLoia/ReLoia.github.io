@@ -127,19 +127,19 @@ curtain div[spotify] {
 	max-width: 24em;
 	position: relative;
 
-	/* cursor: pointer; */
-
 	background-color: #181818E0;
 	border-radius: .6em;
 	padding: 10px;
 	color: white;
 	display: flex;
-
-	/* display: grid;
-	grid-template-columns: 2fr 1fr;
-	grid-template-areas:
-		"img info"
-		"duration"; */
+}
+curtain div[spotify] [other] p {
+	font-size: .9rem;
+	color: rgb(191, 180, 180);
+}
+curtain div[spotify]:hover [other] p {
+	color: rgb(237, 223, 223);
+	/* font-weight: bold; */
 }
 
 curtain div[spotify]>a {
@@ -149,6 +149,7 @@ curtain div[spotify]>a {
 	top: 0;
 	left: 0;
 	border-radius: .6em;
+	/* z-index: 10; */
 }
 
 curtain div[spotify]>img {
@@ -189,8 +190,8 @@ curtain div[spotify]>div>div[info] span {
 	font-weight: bold;
 	border-radius: 2px;
 	padding: 4px;
-	font-size: 19px;
-	padding-inline: 8px;
+	font-size: 15px;
+	padding-inline: 7px;
 }
 
 curtain div[spotify]>div>div[info]>t[anim] {
