@@ -20,14 +20,7 @@
 </head>
 
 <body>
-	<curtain>
-		<!-- <t></t> -->
-		<div title>
-			<quote>L</quote>
-			<p>Re</p>
-			<p>Loia</p>
-			<quote>L</quote>
-		</div>
+	<hover>
 		<div head>
 			<div spotify>
 				<a target="_blank"></a>
@@ -46,7 +39,7 @@
 					</div>
 
 					<div other>
-						<p>Click to open spotify</p>
+						<p>Click to open</p>
 					</div>
 
 					<!-- <div buttons>
@@ -171,14 +164,15 @@
 						try {
 							setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json());
 						} catch (error) {
-							if (error.message == 'Failed to fetch') setInfo({
-								author: 'Unfixable error, click for info',
-								name: 'Your internet provider doesn\'t like `glitch.me`',
-								song_link: 'https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902',
-								duration: 2**52,
-								progress: 0,
-								explicit: true
-							})
+							// if (error.message == 'Failed to fetch')
+								setInfo({
+									author: 'Unfixable error, click for info',
+									name: 'Your internet provider doesn\'t like `glitch.me`',
+									song_link: 'https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902',
+									duration: 2 ** 52,
+									progress: 0,
+									// explicit: true
+								});
 						}
 
 					}
@@ -200,6 +194,15 @@
 			<div info>
 				Bari, Italy - <t>loading</t>
 			</div>
+		</div>
+	</hover>
+	<curtain>
+		<!-- <t></t> -->
+		<div title>
+			<quote>L</quote>
+			<p>Re</p>
+			<p>Loia</p>
+			<quote>L</quote>
 		</div>
 		<style curt>
 			curtain {

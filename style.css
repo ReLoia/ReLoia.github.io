@@ -13,16 +13,16 @@
 html {
 	font-size: .9em;
 	font-family: 'Roboto', sans-serif;
+	background: rgb(45, 45, 45);
 }
 
 curtain {
 
 	/* background: linear-gradient(90deg, #fff8dc 50%, #6495ed 50%); */
-	background: rgb(45, 45, 45);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: fixed;
+	/* position: fixed; */
 	--ang: 90deg;
 	--posY: 0;
 	--posX: 0;
@@ -101,6 +101,17 @@ curtain>div[title]>p:last-of-type {
 	transform: rotate(90deg);
 }
 
+hover {
+	position: fixed;
+	z-index: 9999;
+
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 [head] {
 	--offSet: 105px;
 	max-width: 90%;
@@ -121,7 +132,7 @@ curtain>div[title]>p:last-of-type {
 	margin: auto;
 }
 
-curtain div[spotify] {
+[head]>div[spotify] {
 	/* width: 24em;
 	max-width: 100%; */
 	max-width: 24em;
@@ -133,16 +144,16 @@ curtain div[spotify] {
 	color: white;
 	display: flex;
 }
-curtain div[spotify] [other] p {
+[head]>div[spotify] [other] p {
 	font-size: .9rem;
 	color: rgb(191, 180, 180);
 }
-curtain div[spotify]:hover [other] p {
+[head]>div[spotify]:hover [other] p {
 	color: rgb(237, 223, 223);
 	/* font-weight: bold; */
 }
 
-curtain div[spotify]>a {
+[head]>div[spotify]>a {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -152,7 +163,7 @@ curtain div[spotify]>a {
 	/* z-index: 10; */
 }
 
-curtain div[spotify]>img {
+[head]>div[spotify]>img {
 	border-radius: .3em;
 	max-width: 24%;
 	min-width: max(24%, 5em);
@@ -161,7 +172,7 @@ curtain div[spotify]>img {
 	/* max-height: 20%; */
 }
 
-curtain div[spotify]>div {
+[head]>div[spotify]>div {
 	margin-left: .8em;
 	/* padding-left: 1em; */
 	font-size: 1.3rem;
@@ -174,11 +185,11 @@ curtain div[spotify]>div {
 	white-space: nowrap;
 }
 
-curtain div[spotify]>div>div[info] {
+[head]>div[spotify]>div>div[info] {
 	position: relative;
 }
 
-curtain div[spotify]>div>div[info] span {
+[head]>div[spotify]>div>div[info] span {
 	display: none;
 	/* top: 0; */
 	right: 0px;
@@ -194,7 +205,7 @@ curtain div[spotify]>div>div[info] span {
 	padding-inline: 7px;
 }
 
-curtain div[spotify]>div>div[info]>t[anim] {
+[head]>div[spotify]>div>div[info]>t[anim] {
 	display: inline-block;
 	--end: 0px;
 	animation: transl 10s ease-in-out infinite alternate forwards;
@@ -213,27 +224,27 @@ curtain div[spotify]>div>div[info]>t[anim] {
 	}
 }
 
-curtain div[spotify]>div>div[info]>p {
+[head]>div[spotify]>div>div[info]>p {
 	font-size: 1rem;
 	color: rgb(153, 151, 151);
 }
 
-curtain div[spotify]>div>div[buttons] {
+[head]>div[spotify]>div>div[buttons] {
 	display: flex;
 	justify-content: center;
 }
 
-curtain div[spotify]>div>div[time] {
+[head]>div[spotify]>div>div[time] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-curtain div[spotify]>div>div[time] t {
+[head]>div[spotify]>div>div[time] t {
 	font-size: .7em;
 }
 
-curtain div[spotify]>div>div[time] bar {
+[head]>div[spotify]>div>div[time] bar {
 	--temp: 0%;
 	--height: .6em;
 	--radius: 10px;
@@ -248,7 +259,7 @@ curtain div[spotify]>div>div[time] bar {
 	background-color: #2b2b2b;
 }
 
-curtain div[spotify]>div>div[time] bar::after {
+[head]>div[spotify]>div>div[time] bar::after {
 	content: "";
 	background-color: white;
 	position: absolute;
@@ -259,12 +270,12 @@ curtain div[spotify]>div>div[time] bar::after {
 	/* width: 50%; */
 }
 
-body>*:not(curtain) {
+body>*:not(curtain,hover) {
 	font-family: 'Courier New', Courier, monospace;
 }
 
 links {
-	position: absolute;
+	position: fixed;
 	right: 15px;
 	bottom: 20px;
 	text-align: end;
