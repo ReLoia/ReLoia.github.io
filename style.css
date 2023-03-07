@@ -1,102 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@keyframes close {
-	0% {
-		translate: calc(0);
-	}
-
-	100% {
-		translate: calc(50% * var(--tip));
-	}
-}
-
 html {
 	font-size: .9em;
 	font-family: 'Roboto', sans-serif;
-	background: rgb(45, 45, 45);
+	background: rgb(25, 14, 14);
+	color: white;
+	overflow-x: hidden;
+	/* animation: colorBg 3s ease-in-out infinite alternate forwards; */
+	/* rgb(45, 45, 45) -- */
+	/* rgb(27, 19, 19) -- */
+	/* rgb(21, 11, 11) */
 }
 
-curtain {
-
-	/* background: linear-gradient(90deg, #fff8dc 50%, #6495ed 50%); */
+page {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	/* position: fixed; */
-	--ang: 90deg;
-	--posY: 0;
-	--posX: 0;
-	transition: translate .1s;
-	/* animation: rotate 20s linear infinite; */
-
-	/* transform: scale(14) rotate(var(--ang)); */
-	translate: var(--posX) var(--posY);
-	/* scale: 16; */
-
-	/* cursor: n-resize; */
 
 	height: 100vh;
 	width: 100vw;
 
 	-webkit-user-select: none;
 	user-select: none;
-
-	will-change: transform;
 }
 
-div[title] {
+page>div[title] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
 
-curtain>div[title]>p {
+page>div[title]>p {
 	position: absolute;
 	--margin: 0.83em;
 	/* font-size: min(.43em, 1.35vw); */
-	font-size: max(6.5em, 7vw);
+	font-size: max(min(40vw, 8.5em), 7vw);
 	color: firebrick;
+	transition: all .3s;
+}
+page>div[title]:hover>:is(p, quote) {
+	/* text-shadow: 6px 0px rgba(171, 0, 0, 0.262); */
+	color: #a00e29;
+	opacity: 0.8;
 }
 
-curtain>div[title]>quote {
-	font-size: max(6.5em, 7vw);
+page>div[title]>quote {
+	font-size: max(min(40vw, 8.5em), 7vw);
 	color: rgb(117, 25, 25);
-	animation: float 2.2s ease-in-out infinite alternate forwards;
+	animation: float 2.2s ease-in-out infinite;
+	--sign: 1;
 }
 
-curtain>div[title]>quote:first-of-type {
+page>div[title]>quote:first-of-type {
 	margin-right: 1.2em;
 	margin-top: 2.2em;
 }
 
-curtain>div[title]>quote:not(:first-of-type) {
+page>div[title]>quote:not(:first-of-type) {
 	/* margin-right: 40%; */
+	--sign: -1;
 	margin-bottom: 2.3em;
 	transform: rotate(180deg);
 }
 
 @keyframes float {
 	0% {
-		padding-bottom: 0px;
+		/* padding-bottom: 0px; */
+		translate: 0px 0px;
 	}
 
 	50% {
-		padding-top: 30px;
+		/* padding-top: 30px; */
+		translate: 0px calc(30px * var(--sign));
 	}
 }
 
-curtain>div[title]>t:after {
+page>div[title]>t:after {
 	content: "0";
 	display: none;
 	/* font-size: min(1em, 4vw); */
 }
 
-curtain>div[title]>p:first-of-type {
+page>div[title]>p:first-of-type {
 	margin-right: var(--margin);
 	transform: rotate(270deg);
 }
 
-curtain>div[title]>p:last-of-type {
+page>div[title]>p:last-of-type {
 	margin-left: var(--margin);
 	transform: rotate(90deg);
 }
@@ -106,7 +98,7 @@ hover {
 	z-index: 9999;
 
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -144,10 +136,12 @@ hover {
 	color: white;
 	display: flex;
 }
+
 [head]>div[spotify] [other] p {
 	font-size: .9rem;
 	color: rgb(191, 180, 180);
 }
+
 [head]>div[spotify]:hover [other] p {
 	color: rgb(237, 223, 223);
 	/* font-weight: bold; */
@@ -205,7 +199,11 @@ hover {
 	padding-inline: 7px;
 }
 
-[head]>div[spotify]>div>div[info]>t[anim] {
+[head]>div[spotify]>div>div[info]>c {
+	display: block;
+}
+
+[head]>div[spotify]>div>div[info]>:is(t, p) {
 	display: inline-block;
 	--end: 0px;
 	animation: transl 10s ease-in-out infinite alternate forwards;
@@ -270,8 +268,23 @@ hover {
 	/* width: 50%; */
 }
 
-body>*:not(curtain,hover) {
+body>*:not(page, hover) {
 	font-family: 'Courier New', Courier, monospace;
+}
+
+content {
+	display: block;
+	width: 100vw;
+	margin-bottom: 10vw;
+}
+
+content favorite {
+	width: 100vw;
+	display: block;
+	padding-block: 1em;
+	font-size: 2em;
+	text-align: center;
+	background-color: red;
 }
 
 links {
@@ -304,12 +317,9 @@ links div a {
 	backdrop-filter: blur(5px);
 }
 
-links div a svg {
-	padding-right: 3px;
-}
-
 :is(links a, links c):hover {
-	--col: rgb(0, 123, 255);
+	--col: rgb(0, 170, 255);
+	/* --col: rgb(14, 162, 148); */
 	font-weight: bold;
 	cursor: pointer;
 	color: var(--col);
@@ -356,12 +366,8 @@ nomob,
 	display: inline-block;
 }
 
-@media screen and (max-width: 420px) {
-
-	/* links div a {
-		font-size: 1em;
-		margin-left: 100%;
-	} */
+/* Telefono */
+@media screen and (max-width: 420px) { 
 	links div a svg {
 		padding-right: 0;
 	}
@@ -371,15 +377,10 @@ nomob,
 		display: none !important;
 	}
 
-	curtain>t {
+	page>t {
 		transition: all 1s;
 		scale: .5;
 	}
-
-	/* links>div {
-		position: fixed;
-		top: 10px;
-	} */
 }
 
 @media (any-hover: none) {
@@ -391,12 +392,3 @@ nomob,
 		fill: var(--col);
 	}
 }
-
-/* @keyframes rotate {
-			0% {
-				rotate: 0;
-			}
-			100% {
-				rotate: 360deg;
-			}
-		} */

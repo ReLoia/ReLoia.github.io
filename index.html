@@ -23,12 +23,14 @@
 	<hover>
 		<div head>
 			<div spotify>
-				<a target="_blank"></a>
+				<!-- <a target="_blank"></a> -->
+				<a ></a>
 
 				<img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png" alt="">
 				<div>
 					<div info>
 						<t>Loading...</t>
+						<c></c>
 						<p>loading</p>
 						<span>E</span>
 						<style>
@@ -41,58 +43,6 @@
 					<div other>
 						<p>Click to open</p>
 					</div>
-
-					<!-- <div buttons>
-						<svg width="23px" height="23px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-							<g fill="none">
-								<g>
-									<path
-										d="M8.66288,12.4218 L18.2316,18.511 C18.5644,18.7228 19,18.4837 19,18.0892 L19,5.91084 C19,5.51629 18.5644,5.27718 18.2316,5.48901 L8.66288,11.5782 C8.35413,11.7746 8.35413,12.2254 8.66288,12.4218 Z"
-										stroke="#888" stroke-width="1" stroke-linecap="round">
-									</path>
-									<line x1="5" y1="5" x2="5" y2="19" stroke="#888" stroke-width="1"
-										stroke-linecap="round"></line>
-								</g>
-							</g>
-						</svg>
-	
-						<svg style="display:none" id="stop" width="23px" height="23px" viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg">
-							<g stroke="none" fill="none">
-								<g>
-									<rect id="Rectangle" stroke="#888" stroke-width="1" stroke-linecap="round" x="15" y="5"
-										width="3" height="14" rx="1.5"></rect>
-									<rect id="Rectangle" stroke="#888" stroke-width="1" stroke-linecap="round" x="6" y="5"
-										width="3" height="14" rx="1.5"></rect>
-								</g>
-							</g>
-						</svg>
-	
-						<svg style id="play" width="23px" height="23px" viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg">
-							<g fill="none">
-								<g>
-									<path
-										d="M17.3371,12.4218 L7.76844,18.511 C7.43558,18.7228 7,18.4837 7,18.0892 L7,5.91084 C7,5.51629 7.43558,5.27718 7.76844,5.48901 L17.3371,11.5782 C17.6459,11.7746 17.6459,12.2254 17.3371,12.4218 Z"
-										stroke="#888" stroke-width="1" stroke-linecap="round">
-									</path>
-								</g>
-							</g>
-						</svg>
-	
-						<svg width="23px" height="23px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-							<g fill="none">
-								<g>
-									<path
-										d="M15.3371,12.4218 L5.76844,18.511 C5.43558,18.7228 5,18.4837 5,18.0892 L5,5.91084 C5,5.51629 5.43558,5.27718 5.76844,5.48901 L15.3371,11.5782 C15.6459,11.7746 15.6459,12.2254 15.3371,12.4218 Z"
-										stroke="#888" stroke-width="1" stroke-linecap="round">
-									</path>
-									<line x1="19" y1="5" x2="19" y2="19" stroke="#888" stroke-width="1"
-										stroke-linecap="round"></line>
-								</g>
-							</g>
-						</svg>
-					</div> -->
 
 					<div time>
 						<style barLen>
@@ -125,7 +75,8 @@
 						// stopEl = document.getElementById('stop'),
 						expEl = spotifyElem.querySelector("div > div[info] span"),
 						nomEl = spotifyElem.querySelector("div > div > t"),
-						autEl = spotifyElem.querySelector("div > div > p");
+						autEl = spotifyElem.querySelector("div > div > p"),
+						canEl = spotifyElem.querySelector("div > div > c");
 
 					function setInfo(data) {
 						if (data.playing) {
@@ -154,25 +105,36 @@
 						spotifyElem.querySelector("div > img").src = data.album_image;
 						barLen.style = `--temp: ${100 * data.progress / data.duration}%`;
 
-						if (nomEl.offsetWidth - autEl.offsetWidth > 0) nomEl.style = `--end: ${autEl.offsetWidth - nomEl.offsetWidth}px`;
-						else nomEl.style = '';
+						// canEl width - el width < 0  |  el è più grande del massimo
+
+						function scrollEle(mento) {
+							if (canEl.offsetWidth - mento.offsetWidth < 0) mento.style = `--end: ${canEl.offsetWidth - mento.offsetWidth}px`;
+							else mento.style = '';
+
+						}
+						scrollEle(autEl);
+						scrollEle(nomEl);
 
 						document.querySelector('[head]').style = `--offSet: 0px`;
 					}
+
+					let errors = [];
 
 					async function fetchData() {
 						try {
 							setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json());
 						} catch (error) {
 							// if (error.message == 'Failed to fetch')
-								setInfo({
-									author: 'Unfixable error, click for info',
-									name: 'Your internet provider doesn\'t like `glitch.me`',
-									song_link: 'https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902',
-									duration: 2 ** 52,
-									progress: 0,
-									// explicit: true
-								});
+							errors.push(error.name + ' ' + error.message);
+							setInfo({
+								author: 'Unfixable error, click for info',
+								name: 'Your internet provider doesn\'t like `glitch.me`',
+								// song_link: 'https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902',
+								song_link: 'javascript:(() => { alert(errors) })()',
+								duration: 2 ** 52,
+								progress: 0,
+								// explicit: true
+							});
 						}
 
 					}
@@ -196,7 +158,7 @@
 			</div>
 		</div>
 	</hover>
-	<curtain>
+	<page>
 		<!-- <t></t> -->
 		<div title>
 			<quote>L</quote>
@@ -209,50 +171,44 @@
 				--ang: 90deg;
 			}
 		</style>
-	</curtain>
-	<content>
-
-	</content>
+	</page>
 	<footer>
 		<links>
 			<div>
-				<a href="https://github.com/ReLoia" target=”_blank”><svg xmlns="http://www.w3.org/2000/svg" width="30px"
-						height="30px" viewBox="0 0 24 24">
+				<a href="https://github.com/ReLoia" target=”_blank”><svg xmlns="http://www.w3.org/2000/svg" width="30"
+						height="30" viewBox="0 0 24 24">
 						<path
-							d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+							d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
 					</svg>
-					<nomob>ReLoia</nomob>
+					<!-- <nomob>GitHub</nomob> -->
 				</a>
-				<a href="https://discord.com/users/371027932082208768" target=”_blank”><svg width="33px" height="33px"
-						viewBox="0 -28.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg"
-						xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
-						<g>
-							<path
-								d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" />
-						</g>
+				<a href="https://discord.com/users/371027932082208768" target=”_blank”><svg width="33" height="33"
+						viewBox="0 -28.5 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+						<path
+							d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046-19.692-2.961-39.203-2.961-58.533 0-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632 108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237 136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848 21.142-6.58 42.646-16.637 64.815-33.213 5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2 0 14.375-10.148 26.18-23.015 26.18Z" />
 					</svg>
-					<nomob>Discord</nomob>
+					<!-- <nomob>Discord</nomob> -->
 				</a>
-				<a href="https://t.me/reloiaa" target=”_blank”><svg width="33px" height="33px" viewBox="0 0 28 28"
-						version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-						xml:space="preserve" xmlns:serif="http://www.serif.com/"
-						style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-						<path id="telegram-1"
-							d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.335,0.124 -0.553,0.446 -0.542,0.799c0.012,0.354 0.25,0.661 0.593,0.764c2.367,0.708 5.474,1.693 5.474,1.693c0,0 1.452,4.385 2.209,6.615c0.095,0.28 0.314,0.5 0.603,0.576c0.288,0.075 0.596,-0.004 0.811,-0.207c1.216,-1.148 3.096,-2.923 3.096,-2.923c0,0 3.572,2.619 5.598,4.062Zm-11.01,-8.677l1.679,5.538l0.373,-3.507c0,0 6.487,-5.851 10.185,-9.186c0.108,-0.098 0.123,-0.262 0.033,-0.377c-0.089,-0.115 -0.253,-0.142 -0.376,-0.064c-4.286,2.737 -11.894,7.596 -11.894,7.596Z" />
+				<a href="https://t.me/reloiaa" target=”_blank”><svg width="33" height="33" viewBox="0 0 28 28"
+						xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+						style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421">
+						<path
+							d="M18.384 22.779a1.19 1.19 0 0 0 1.107.145 1.16 1.16 0 0 0 .724-.84C21.084 18 23.192 7.663 23.983 3.948a.78.78 0 0 0-.26-.758.8.8 0 0 0-.797-.14C18.733 4.602 5.82 9.447.542 11.4a.827.827 0 0 0-.542.799c.012.354.25.661.593.764 2.367.708 5.474 1.693 5.474 1.693s1.452 4.385 2.209 6.615c.095.28.314.5.603.576a.866.866 0 0 0 .811-.207l3.096-2.923s3.572 2.619 5.598 4.062Zm-11.01-8.677 1.679 5.538.373-3.507 10.185-9.186a.277.277 0 0 0 .033-.377.284.284 0 0 0-.376-.064L7.374 14.102Z" />
 					</svg>
-					<nomob>ReLoia</nomob>
+					<!-- <nomob>ReLoia</nomob> -->
+				</a>
+				<a href="https://www.last.fm/it/user/ReLoia" target=”_blank”>
+					<svg height="30" width="30" xmlns="http://www.w3.org/2000/svg" viewBox="-271 324 256 154"
+						xml:space="preserve">
+						<g stroke-width="0" />
+						<g stroke-linecap="round" stroke-linejoin="round" />
+						<path
+							d="M-54.3 387.3c-2.2-.7-4.4-1.4-6.5-2.1-15.9-5-25.5-8-25.5-20.4 0-10.1 7.8-17.4 18.5-17.4 8.2 0 14.3 3.4 19.8 11.1.5.7 1.5 1 2.3.6l15.9-8.3c.4-.2.8-.6.9-1.1s.1-1-.2-1.4c-8.6-15.3-21-22.7-38-22.7-25.8 0-42.4 15.6-42.4 39.7 0 24.7 16.1 34.7 45.8 44.4 17.2 5.7 24.8 8.8 24.8 21 0 13.8-12.4 23.7-29.4 23.1-17.8-.6-23.2-10-29.9-25.4-11.5-26.1-24.5-56.6-24.6-56.9-13.1-30.2-39-47.5-71.2-47.5-42.5 0-77 34.5-77 77s34.5 77 77 77c23.2 0 44.9-10.3 59.5-28.2.4-.5.5-1.2.3-1.8l-9.7-22.4c-.3-.6-.9-1-1.6-1.1-.7 0-1.3.4-1.7 1-9.2 17.5-27.1 28.4-46.9 28.4-29.1 0-52.8-23.7-52.8-52.9 0-29.1 23.7-52.9 52.8-52.9 21.2 0 40.6 12.6 48.4 31.4l24 54.8 2.8 6.2c10.9 25.3 26.8 36.6 51.8 36.7 29.7 0 52.1-19.7 52.1-45.8.2-26.1-14.3-36-39.3-44.1z" />
+					</svg>
+					<!-- <nomob>Last.fm</nomob> -->
 				</a>
 			</div>
-			<p style="visibility:hidden; pointer-events:none;">
-				<nomob><b>scroll</b> and <b>drag</b> to make my work useful<sep></sep>
-				</nomob>
-				<c onclick="rotation.toggle();">pause</c>
-				<sep></sep>
-				<uni>time interval: <input type="number" value="15" onchange="rotation.changeInterval(this.value)">
-				</uni>
-				<sep></sep>
-				<uni>set value: <input type="number" value="0" onchange="rotation.set(this.value, true)"></uni>
-			</p>
+			<p></p>
 			Some <a href="https://www.svgrepo.com" target="_blank">Icons by svgrepo.com</a>
 		</links>
 	</footer>
