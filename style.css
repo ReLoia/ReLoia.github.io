@@ -12,6 +12,61 @@ html {
 	/* rgb(21, 11, 11) */
 }
 
+showcase {
+	display: none;
+
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 10000;
+
+	/* background-color: #000000B0; */
+	background-color: rgba(43, 24, 24, 0.979);
+	
+	/* display: flex; */
+	align-items: center;
+	justify-content: center;
+	/* flex-direction: column; */
+}
+showcase img {
+	width: max(min(60vh, 60vw), 300px);
+	height: max(min(60vh, 60vw), 300px);
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	border: none;
+	/* box-shadow: 10px 5px #323232; */
+	cursor: pointer;
+}
+showcase div {
+	box-shadow: 9px 5px #323232;
+	transition: box-shadow 1s ease;
+}
+showcase div:hover {
+	box-shadow: 15px 10px #222222;
+}
+showcase p {
+	font-size: 1.7em;
+	position: relative;
+	/* font-weight: bold; */
+	background-color: black;
+	width: calc(max(min(60vh, 60vw), 300px) - 14px);
+	text-align: center;
+	padding: 6px 8px;
+	transition: box-shadow 1s ease;
+	/* position: absolute; */
+}
+showcase p close {
+	position: absolute;
+	/* top: 6px; */
+	right: 8px;
+	background: #000;
+	cursor: pointer;
+}
+showcase p close:hover {
+	color: #6d0a1e;
+	font-weight: bold;
+}
+
 page {
 	display: flex;
 	align-items: center;
@@ -38,12 +93,10 @@ page>div[title]>p {
 	/* font-size: min(.43em, 1.35vw); */
 	font-size: max(min(40vw, 8.5em), 7vw);
 	color: firebrick;
-	transition: all .3s;
+	transition: text-shadow .5s ease;
 }
-page>div[title]:hover>:is(p, quote) {
-	/* text-shadow: 6px 0px rgba(171, 0, 0, 0.262); */
-	color: #a00e29;
-	opacity: 0.8;
+page>div[title]:hover>:is(p) {
+	text-shadow: #6d0a1e 0 0 55px;
 }
 
 page>div[title]>quote {
@@ -318,7 +371,8 @@ links div a {
 }
 
 :is(links a, links c):hover {
-	--col: rgb(0, 170, 255);
+	/* --col: rgb(0, 170, 255); */
+	--col: firebrick;
 	/* --col: rgb(14, 162, 148); */
 	font-weight: bold;
 	cursor: pointer;
