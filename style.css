@@ -28,28 +28,29 @@ showcase {
 	justify-content: center;
 	/* flex-direction: column; */
 }
-showcase img {
-	width: max(min(60vh, 60vw), 300px);
-	height: max(min(60vh, 60vw), 300px);
-	aspect-ratio: 1/1;
-	object-fit: cover;
-	border: none;
-	/* box-shadow: 10px 5px #323232; */
-	cursor: pointer;
-}
 showcase div {
+	--size: max(min(70vh, 70vw), min(300px, 95vw));
 	box-shadow: 9px 5px #323232;
 	transition: box-shadow 1s ease;
 }
 showcase div:hover {
 	box-shadow: 15px 10px #222222;
 }
+showcase img {
+	width: var(--size);
+	height: var(--size);
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	border: none;
+	/* box-shadow: 10px 5px #323232; */
+	cursor: pointer;
+}
 showcase p {
 	font-size: 1.7em;
 	position: relative;
 	/* font-weight: bold; */
 	background-color: black;
-	width: calc(max(min(60vh, 60vw), 300px) - 14px);
+	width: calc(var(--size) - 14px);
 	text-align: center;
 	padding: 6px 8px;
 	transition: box-shadow 1s ease;
@@ -61,6 +62,7 @@ showcase p close {
 	right: 8px;
 	background: #000;
 	cursor: pointer;
+	color: #751d2e;
 }
 showcase p close:hover {
 	color: #6d0a1e;
