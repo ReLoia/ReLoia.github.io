@@ -19,3 +19,24 @@ const queries = location.search.slice(1).split('&').map(el => /(.+)=(.+)/g.exec(
 setInterval(async ()=> {
 	timeCont.innerText = `${new Date().toLocaleString("en-US", {timeZone: "Europe/Rome", hour: "numeric", minute: "numeric"})}`
 }, 1000)
+
+// Premere qualasiasi tasto per continuare
+// Fare che non si può scrollare il body
+
+let pageActivated = false;
+document.onwheel = (e) => {
+	// console
+	if (!pageActivated) return e.preventDefault();
+	if (e.deltaY < 0 && window.scrollY == 0) {
+		pageActivated = false;
+		document.querySelector('body').style.transform = 'translateY(0)'
+	}
+}
+document.onkeydown = () => {
+	pageActivated = true;
+	document.querySelector('body').style.transform = 'translateY(-100vh)'
+}
+document.onmousedown = () => {
+	pageActivated = true;
+	document.querySelector('body').style.transform = 'translateY(-100vh)'
+}
