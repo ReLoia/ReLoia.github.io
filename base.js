@@ -25,21 +25,24 @@ let pageActivated = false
 let lastClientY = 0;
 let moving = false;
 const movingHandler = (e) => {
-	const delta = 'deltaY' in e ? e.deltaY : lastClientY - e.touches[0].clientY;
-	lastClientY = 'deltaY' in e ? 0 : e.touches[0].clientY;
+let goingUp = false;
+if ('deltaY' in e) goingUp = delta < 0;
+else {
+goingUp = e.touches[0].clientY < lastClientY;
+lastClientY = e.touches[0].clientY;
+}
 	moving = true;
 	setTimeout(() => moving = false, 1000);
-	if (delta < 0 && window.scrollY == 0) {
+	if (goingUp && window.scrollY == 0) {
 		pageActivated = false;
 		document.body.style.position = 'fixed';
 		document.querySelector('body').style.transform = 'translateY(0)'
-	} else if (delta > 0 && window.scrollY == 0) activatePage(e);
+	} else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
 }
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
 const activatePage = (e) => {
-	document.onkeydown = null;
-	document.onmousedown = null;
+	document.onkeydown = document.onmousedown = null;
 	if (moving) return moving = false;
 
 	if (e) {
@@ -53,6 +56,4 @@ const activatePage = (e) => {
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
 };
-document.onkeydown = activatePage;
-document.onmousedown = activatePage;
-document.ontouchend = activatePage;
+document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
