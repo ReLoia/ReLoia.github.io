@@ -8,7 +8,8 @@
 	<meta name="google-site-verification" content="h5e9b1b0SoiCSoN6FcJ4ZJZ1QJis6ElMUdIiFEawMkw" />
 	<title>ReLoia</title>
 	<meta name="title" content="ReLoia">
-	<meta name="description" content="Ciao! I'm Renato Loiacono, I love programming and creating websites. I'm currently studying in Italy and I'm 17">
+	<meta name="description"
+		content="Ciao! I'm Renato Loiacono, I love programming and creating websites. I'm currently studying in Italy and I'm 17">
 	<meta name="language" content="English">
 	<meta name="author" content="Renato Loiacono">
 	<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png" type="image/png">
@@ -51,7 +52,9 @@
 							}
 						</style>
 						<t></t>
-						<bar></bar>
+						<bar>
+							<t>Not playing</t>
+						</bar>
 						<t></t>
 					</div>
 				</div>
@@ -81,10 +84,12 @@
 					function setInfo(data) {
 						if (data.playing) {
 							paused = false;
+							barLen.firstElementChild.innerText = '';
 							// playEl.style.display = 'none';
 							// stopEl.style.display = 'unset';
 						} else {
 							paused = true;
+							barLen.firstElementChild.innerText = 'Not playing';
 							// playEl.style.display = 'unset';
 							// stopEl.style.display = 'none';
 						}
@@ -203,33 +208,51 @@
 		</links>
 	</fake-footer>
 	<content>
-		<div>
+		<div i>
+			<h1><ita>Ciao</ita>! I'm Renato Loiacono</h1>
+			<p>I'm a <age>17</age> years old student from <ita>Italy</ita>, I love programming and creating websites</p>
+			<p>My favourite language is JavaScript but I've experience in C++, C#, Java, Kotlin and Lua too.</p>
+			<p>I'm currently studying at <a norm href="https://www.iissvoltadegemmis.edu.it/" target="_blank">Volta de Gemmis</a> in the city of Bitonto</p>
+		</div>
+		<div p>
+			<h2>My Projects</h2>
 			<div>
-				<h1>Hi, I'm Renato Loiacono</h1>
-				<p>I'm a 17 years old student from Italy, I love programming and creating websites</p>
-				<p>I'm currently studying at <a href="https://www.itisbari.edu.it/" target="_blank">ITIS Bari</a></p>
-				<p>Here you can find some of my projects</p>
-			</div>
-			<div>
-				<h2>Projects</h2>
 				<div>
-					<div>
-						<h3>ReLoia</h3>
-						<p>This website</p>
-						<a href="https://stocazzo.it" target="_blank">stocazzo.it</a>
-					</div>
-					<div>
-						<h3>ReLoia Listen</h3>
-						<p>Listen to my Spotify</p>
-						<a href="https://reloia-listen.glitch.me" target="_blank">reloia-listen.glitch.me</a>
-					</div>
+					<h3>ReLoia.</h3>
+					<p>This website</p><br>
+					<a norm href="https://reloia.github.io" target="_blank">reloia.github.io</a>
 				</div>
+				<div>
+					<h3>ReLoia Listen</h3>
+					<p>Api endpoint to see what I'm listening to</p><br>
+					<a norm href="https://reloia-listen.glitch.me" target="_blank">reloia-listen.glitch.me</a> - <a norm href="https://github.com/ReLoia/reloia_listen" target="_blank">GitHub</a> page
+				</div>
+				<div>
+					<h3>ArgoScuolaNext-NodeJS</h3>
+					<p>A NodeJS library that allows you to interact with ArgoScuolaNext API</p><br>
+					<a norm href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS" target="_blank">ReLoia/ArgoScuolaNext-NodeJS</a> - <a norm href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS/blob/main/README.md">Readme</a>.md
+				</div>
+				<div>
+					<h3>SmartWheelChair</h3>
+					<p>Application created for the Welcome to Automation contest with a friend of mine</p><br>
+					<a norm href="https://github.com/gabdevele/SmartWheelChair">gabdevele/SmartWheelChair</a> - <a norm href="https://github.com/gabdevele/SmartWheelChair/blob/master/README.md">Readme</a>.md
+				</div>
+				See my Github Profile for more <a norm href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
+			</div>
+		</div>
+		<div b>
+			<h2>Favourite artists</h2>
+			<div>
+				<div>TODO</div>
 			</div>
 		</div>
 	</content>
 	<showcase>
 		<div>
-			<p><t>X</t><close onclick="(() => document.querySelector('showcase').style.display = 'none')()">X</close></p>
+			<p>
+				<t>X</t>
+				<close onclick="(() => document.querySelector('showcase').style.display = 'none')()">X</close>
+			</p>
 			<img src="" alt="">
 		</div>
 	</showcase>

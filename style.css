@@ -10,11 +10,23 @@ html {
 
 body {
   transition: transform 1s ease;
+  height: 100vh;
 }
 
 /* debug */
-* {
+/* * {
 	outline: yellow 1px solid;
+} */
+body {
+  transform: translateY(-100vh);
+}
+
+a[norm] {
+  color: #a76b6b;
+  text-decoration: underline;
+}
+a[norm]:hover {
+  color: rgb(252, 168, 0);
 }
 
 showcase {
@@ -90,6 +102,7 @@ page > p {
   margin-top: 1em;
   font-size: 1.5em;
   color: #682d2d;
+  text-shadow: #d071174e 0 0 10px;
 }
 
 page > div[title] {
@@ -316,15 +329,22 @@ hover {
   /* width: 80%; */
   flex: auto;
   margin-inline: 8px;
-  border-radius: var(--radius);
+  border-radius: var(--radius);  
 
   background-color: #2b2b2b;
+}
+[head] > div[spotify] > div > div[time] bar > t {
+  display: block;
+  font-size: 10px;
+  margin-inline: auto;
+  width: fit-content;
 }
 
 [head] > div[spotify] > div > div[time] bar::after {
   content: "";
   background-color: white;
   position: absolute;
+  top: 0;
   display: inline-block;
   border-radius: var(--radius);
   height: var(--height);
@@ -335,21 +355,6 @@ hover {
 body > *:not(page, hover) {
   font-family: "Courier New", Courier, monospace;
 }
-
-content {
-  display: block;
-  /* width: 100vw; */
-  margin-bottom: 10vw;
-}
-
-/* content favorite {
-  width: 100vw;
-  display: block;
-  padding-block: 1em;
-  font-size: 2em;
-  text-align: center;
-  background-color: red;
-} */
 
 links {
   position: fixed;
@@ -430,6 +435,56 @@ nomob,
 [nomob] {
   display: inline-block;
 }
+ita {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(0,254,27,1) 0%, rgba(255,255,255,1) 50%, rgba(255,0,0,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Content */
+
+content {
+  display: block;
+  /* margin-bottom: 10vw; */
+  padding: 2vh;
+}
+
+content > div[i] > h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+content > div[i] > p {
+  font-size: 1.5em;
+  margin-bottom: 0.3em;
+}
+
+content > div > h2 {
+  font-size: 2em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+content > div[p] > div > div {
+  margin-bottom: 1em;
+}
+content > div[p] > div > div > h3 {
+  font-size: 1.5em;
+  display: inline-block;
+}
+content > div[p] > div > div > p {
+  color: #afa0a0;
+  display: inline-block;
+}
+
+/* content favorite {
+  width: 100vw;
+  display: block;
+  padding-block: 1em;
+  font-size: 2em;
+  text-align: center;
+  background-color: red;
+} */
 
 /* Telefono */
 @media screen and (max-width: 420px) {
