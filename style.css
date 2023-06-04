@@ -17,9 +17,9 @@ body {
 /* * {
 	outline: yellow 1px solid;
 } */
-body {
+/* body {
   transform: translateY(-100vh);
-}
+} */
 
 a[norm] {
   color: #a76b6b;
