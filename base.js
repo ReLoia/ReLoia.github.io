@@ -8,7 +8,8 @@ etaEl.innerText = Math.floor((new Date() - new Date('2006-02-13')) / 31104000000
 
 // Main 1s async interval
 setInterval(async () => {
-	timeCont.innerText = `${new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" })}`
+	const newTime = `${new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" })}`;
+	if (timeCont.innerText != newTime) timeCont.innerText = newTime;
 }, 1000)
 
 const queries = location.search.slice(1).split('&').map(el => /(.+)=(.+)/g.exec(el));
@@ -40,7 +41,7 @@ const movingHandler = (e) => {
 
 	console.log(window.scrollY)
 	
-	if (pageActivated && goingUp && window.scrollY <= 10) { // Disattiva la pagina
+	if (pageActivated && goingUp && window.scrollY < 20) { // Disattiva la pagina
 		if (moving) return;
 		pageActivated = false;
 		document.body.style.position = 'fixed';
@@ -52,7 +53,6 @@ const movingHandler = (e) => {
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
 /**
- * 
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
  */
 const activatePage = (e) => {
@@ -67,7 +67,7 @@ const activatePage = (e) => {
 	pageActivated = true;
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
-	window.scrollTo(0, 10)
+	window.scrollTo(0, 25)
 	moving = true;
 	setTimeout(() => moving = false, 1000);
 };

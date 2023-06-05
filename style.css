@@ -356,6 +356,11 @@ body > *:not(page, hover) {
   font-family: "Courier New", Courier, monospace;
 }
 
+fake-footer {
+  position: absolute;
+  top: 0;
+}
+
 links {
   position: fixed;
   right: 15px;
@@ -448,6 +453,7 @@ content {
   display: block;
   margin-bottom: 100px;
   padding: 2vh;
+  margin-top: 25px;
 }
 
 content > div[i] > h1 {
