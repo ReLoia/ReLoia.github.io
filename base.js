@@ -43,12 +43,18 @@ const movingHandler = (e) => {
 		pageActivated = false;
 		document.body.style.position = 'fixed';
 		document.querySelector('body').style.transform = 'translateY(0)'
+		moving = true;
+		setTimeout(() => moving = false, 1000);
 	} else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
 }
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
+/**
+ * 
+ * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
+ * @returns 
+ */
 const activatePage = (e) => {
-	document.onkeydown = document.onmousedown = null;
 	if (moving || pageActivated) return;
 	if (e) {
 		if ('key' in e) {
