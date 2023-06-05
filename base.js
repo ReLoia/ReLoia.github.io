@@ -33,12 +33,14 @@ const movingHandler = (e) => {
 	if ('deltaY' in e) goingUp = e.deltaY < 0
 	else {
 		if (lastClientY == 0) lastClientY = e.touches[0].clientY;
-		if (Math.abs(e.touches[0].clientY - lastClientY) < 20) return;
+		if (Math.abs(e.touches[0].clientY - lastClientY) < 10) return;
 		goingUp = e.touches[0].clientY > lastClientY;
 		lastClientY = e.touches[0].clientY;
 	}
+
+	console.log(window.scrollY)
 	
-	if (pageActivated && goingUp && window.scrollY == 0) { // Disattiva la pagina
+	if (pageActivated && goingUp && window.scrollY <= 10) { // Disattiva la pagina
 		if (moving) return;
 		pageActivated = false;
 		document.body.style.position = 'fixed';
@@ -52,7 +54,6 @@ document.body.style.position = 'fixed';
 /**
  * 
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
- * @returns 
  */
 const activatePage = (e) => {
 	if (moving || pageActivated) return;
@@ -66,6 +67,7 @@ const activatePage = (e) => {
 	pageActivated = true;
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
+	window.scrollTo(0, 10)
 	moving = true;
 	setTimeout(() => moving = false, 1000);
 };
