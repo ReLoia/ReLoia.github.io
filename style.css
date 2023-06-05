@@ -477,6 +477,11 @@ content > div[p] > div > div > p {
   display: inline-block;
 }
 
+content grade[bronze]::after {
+  color: #945b1a;
+  content: "Bronze";
+}
+
 /* content favorite {
   width: 100vw;
   display: block;
