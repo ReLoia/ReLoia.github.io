@@ -24,16 +24,22 @@ const queries = location.search.slice(1).split('&').map(el => /(.+)=(.+)/g.exec(
 let pageActivated = false
 let lastClientY = 0;
 let moving = false;
+/**
+ * 
+ * @param {TouchEvent | WheelEvent} e 
+ */
 const movingHandler = (e) => {
-let goingUp = false;
-if ('deltaY' in e) goingUp = delta < 0;
-else {
-goingUp = e.touches[0].clientY < lastClientY;
-lastClientY = e.touches[0].clientY;
-}
-	moving = true;
-	setTimeout(() => moving = false, 1000);
-	if (goingUp && window.scrollY == 0) {
+	let goingUp = false;
+	if ('deltaY' in e) goingUp = e.deltaY < 0
+	else {
+		if (lastClientY == 0) lastClientY = e.touches[0].clientY;
+		if (Math.abs(e.touches[0].clientY - lastClientY) < 20) return;
+		goingUp = e.touches[0].clientY > lastClientY;
+		lastClientY = e.touches[0].clientY;
+	}
+	
+	if (pageActivated && goingUp && window.scrollY == 0) { // Disattiva la pagina
+		if (moving) return;
 		pageActivated = false;
 		document.body.style.position = 'fixed';
 		document.querySelector('body').style.transform = 'translateY(0)'
@@ -43,8 +49,7 @@ document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
 const activatePage = (e) => {
 	document.onkeydown = document.onmousedown = null;
-	if (moving) return moving = false;
-
+	if (moving || pageActivated) return;
 	if (e) {
 		if ('key' in e) {
 			if (e.key == 'Tab' || e.key == 'Alt') return;
@@ -55,5 +60,7 @@ const activatePage = (e) => {
 	pageActivated = true;
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
+	moving = true;
+	setTimeout(() => moving = false, 1000);
 };
 document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
