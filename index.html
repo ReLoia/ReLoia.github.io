@@ -26,6 +26,11 @@
 		<div head>
 			<div spotify>
 				<a target="_blank"></a>
+				<style>
+					body {
+						color: #c49922;
+					}
+				</style>
 
 				<img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png" alt="">
 				<div>
@@ -34,11 +39,6 @@
 						<c></c>
 						<p>loading</p>
 						<span>E</span>
-						<style>
-							curtain>div[spotify]>div>div[info]>t[anim] {
-								--end: 0px;
-							}
-						</style>
 					</div>
 
 					<div other>
@@ -80,7 +80,20 @@
 						nomEl = spotifyElem.querySelector("div > div > t"),
 						autEl = spotifyElem.querySelector("div > div > p"),
 						canEl = spotifyElem.querySelector("div > div > c");
+						styEl = spotifyElem.querySelector("div style");
 
+					/**
+					 * @param {{
+					 * 	name: string,
+					 * 	playing: boolean,
+					 * 	explicit: boolean,
+					 * 	author: string,
+					 * 	progress: number,
+					 * 	duration: number,
+					 * 	song_link: string,
+					 * 	album_image: string
+					 * }} data
+					*/
 					function setInfo(data) {
 						if (data.playing) {
 							paused = false;
@@ -93,6 +106,15 @@
 							// playEl.style.display = 'unset';
 							// stopEl.style.display = 'none';
 						}
+
+						styEl.innerText = `div[f] div[${data.author.toLowerCase().slice(0, 4)}] {
+								outline: 2px solid #c49922;
+								z-index: 1;
+							}
+							curtain>div[spotify]>div>div[time] bar {
+								--temp: ${100 * data.progress / data.duration}% !important;
+							}
+							`;
 
 						if (data.explicit) expEl.style = 'display: unset';
 						else expEl.style = '';
@@ -108,7 +130,6 @@
 						tmpEl.innerText = formatMS(data.duration);
 						tmpEl.setAttribute('ms', data.duration);
 						spotifyElem.querySelector("div > img").src = data.album_image;
-						barLen.style = `--temp: ${100 * data.progress / data.duration}%`;
 
 						// canEl width - el width < 0  |  el è più grande del massimo
 
@@ -240,10 +261,42 @@
 				See my Github Profile for more <a norm href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
 			</div>
 		</div>
-		<div b>
+		<div f>
 			<h2>Favourite artists</h2>
 			<div>
-				<div>TODO</div>
+				<div slip>
+					<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/e0dc831e6e48605a852a3a26c9423501.jpg" alt="">
+					<span>Slipknot</span>
+				</div>
+				<div syst style="--offset: .5em;" >
+					<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/c2428255383f4cc7525b661c4fdf6d48.jpg" alt="">
+					<span>System of a Down</span>
+				</div>
+				<div deft style="--offset: 1em;" >
+					<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/05d78b59cf1242f09fab2176c8bf07df.jpg" alt="">
+					<span>Deftones</span>
+				</div>
+				<div radi style="--offset: .5em;">
+					<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/582e918114eb83dd0061b6ba87fa25f6.jpg" alt="">
+					<span>Radiohead</span>
+				</div>
+				<div arti >
+					<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/bcc5bfe70c101882ff81021a5039f14e.jpg" alt="">
+					<span>Artic Monkeys</span>
+				</div>
+			</div>
+			<a href="https://www.last.fm/it/user/ReLoia" target="_blank">and much more...</a>
+		</div>
+		<div c>
+			<h2>Contact me</h2>
+			<div>
+				<div>You can contact me by:</div><br>
+				<ul style="margin-left: 1em;">
+					<li>Github - <a norm href="https://github.com/ReLoia">ReLoia</a></li>
+					<li>Discord - <a norm href="https://discord.com/users/371027932082208768">Re.</a></li>
+					<li>eMail - <a norm href="mailto:zrennyz@gmail.com">GMail</a></li>
+					<li>Telegram - <a norm href="https://t.me/reloiaa">ReLoia</a></li>
+				</ul>
 			</div>
 		</div>
 	</content>

@@ -17,9 +17,9 @@ body {
 /* * {
 	outline: yellow 1px solid;
 } */
-/* body {
+body {
   transform: translateY(-100vh);
-} */
+}
 
 a[norm] {
   color: #a76b6b;
@@ -475,6 +475,33 @@ content > div[p] > div > div > h3 {
 content > div[p] > div > div > p {
   color: #afa0a0;
   display: inline-block;
+}
+content > div[f] > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+content > div[f] > div > div {
+  --offset: 0px;
+  position: relative;
+  max-width: 300px;
+  width: min(300px,max(18vw, 140px));
+  margin-bottom: var(--offset);
+}
+content > div[f] > div > div > img {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+content > div[f] > div > div > span {
+  position: absolute;
+  width: fit-content;
+  bottom: 5px;
+  left: 5px;
+  z-index: 100;
+  font-size: 1.1em;
+  mix-blend-mode: difference;
 }
 
 content grade[bronze]::after {
