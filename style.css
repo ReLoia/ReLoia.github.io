@@ -446,7 +446,7 @@ ita {
 
 content {
   display: block;
-  /* margin-bottom: 10vw; */
+  margin-bottom: 100px;
   padding: 2vh;
 }
 
@@ -535,9 +535,12 @@ content grade[bronze]::after {
     transition: all 1s;
     scale: 0.5;
   }
+  content > div[f] > div > div {
+    width: min(max(48%, 130px), min(300px,max(18vw, 140px)));
+  }
 }
 
-@media screen and (max-width: 732px) {
+@media screen and (max-width: 756px) {
   content > div[f] > div > div {
     margin-bottom: 0!important;
   }
