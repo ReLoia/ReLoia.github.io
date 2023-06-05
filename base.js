@@ -50,7 +50,7 @@ const movingHandler = (e) => {
 	} else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
 }
 document.onwheel = document.ontouchmove = movingHandler;
-// document.body.style.position = 'fixed';
+document.body.style.position = 'fixed';
 /**
  * 
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 

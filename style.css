@@ -17,9 +17,9 @@ body {
 /* * {
 	outline: yellow 1px solid;
 } */
-body {
+/* body {
   transform: translateY(-100vh);
-}
+} */
 
 a[norm] {
   color: #a76b6b;
@@ -523,7 +523,9 @@ content grade[bronze]::after {
   links div a svg {
     padding-right: 0;
   }
-
+  content > div[f] > div > div {
+    margin-bottom: 0!important;
+  }
   nomob,
   [nomob] {
     display: none !important;
@@ -532,6 +534,12 @@ content grade[bronze]::after {
   page > t {
     transition: all 1s;
     scale: 0.5;
+  }
+}
+
+@media screen and (max-width: 732px) {
+  content > div[f] > div > div {
+    margin-bottom: 0!important;
   }
 }
 
