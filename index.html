@@ -143,7 +143,7 @@
 
 					async function fetchData() {
 						try {
-							setInfo(await (await fetch('https://reloia-listen.glitch.me/api')).json());
+							setInfo(await (await fetch('https://glitch-proxy.now.sh/reloia-listen/api')).json());
 						} catch (error) {
 							// if (error.message == 'Failed to fetch')
 							setInfo({
