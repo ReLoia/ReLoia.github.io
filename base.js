@@ -6,12 +6,6 @@ const etaEl = document.querySelector('age');
 // Setup stuff
 etaEl.innerText = Math.floor((new Date() - new Date('2006-02-13')) / 31104000000);
 
-// Main 1s async interval
-setInterval(async () => {
-	const newTime = `${new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" })}`;
-	if (timeCont.innerText != newTime) timeCont.innerText = newTime;
-}, 1000)
-
 const queries = location.search.slice(1).split('&').map(el => /(.+)=(.+)/g.exec(el));
 ((url, info) => {
 	if (!url) return;
@@ -41,17 +35,22 @@ const movingHandler = (e) => {
 
 	console.log(window.scrollY)
 	
-	if (pageActivated && goingUp && window.scrollY < 20) { // Disattiva la pagina
-		if (moving) return;
-		pageActivated = false;
-		document.body.style.position = 'fixed';
-		document.querySelector('body').style.transform = 'translateY(0)'
-		moving = true;
-		setTimeout(() => moving = false, 1000);
-	} else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
+	if (pageActivated && goingUp && window.scrollY < 20)  // Disattiva la pagina
+		deactivatePage(); 
+	else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
 }
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
+
+const deactivatePage = () => {
+	if (moving) return;
+	pageActivated = false;
+	document.body.style.position = 'fixed';
+	document.querySelector('body').style.transform = 'translateY(0)'
+	moving = true;
+	setTimeout(() => moving = false, 1000);
+}
+
 /**
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
  */
@@ -60,6 +59,8 @@ const activatePage = (e) => {
 	if (e) {
 		if ('key' in e) {
 			if (e.key == 'Tab' || e.key == 'Alt') return;
+		} else if ('touches' in e) {
+			lastClientY = 0
 		} else {
 			if (['A', 'SVG'].includes(e.target.nodeName)) return;
 		}
@@ -72,3 +73,10 @@ const activatePage = (e) => {
 	setTimeout(() => moving = false, 1000);
 };
 document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
+
+// Main 1s async interval
+setInterval(async () => {
+	const newTime = `${new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" })}`;
+	if (timeCont.innerText != newTime) timeCont.innerText = newTime;
+	if (pageActivated && window.scrollY < 20) deactivatePage();
+}, 1000)
