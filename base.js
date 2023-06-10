@@ -7,7 +7,7 @@ const etaEl = document.querySelector('age');
 etaEl.innerText = Math.floor((new Date() - new Date('2006-02-13')) / 31104000000);
 
 const queries = location.search ? location.search.slice(1).split('&').map(el => { if (el == '') return; const r = /(.+)=(.+)/g.exec(el); return [r?.[1], r?.[2]]; }) : null;
-if (location.search == '?r') setTimeout(() => window.location.replace("https://youtube.com/watch?v=ocuw3_DqyfE"), 5000);
+if (queries[0][0] == "fbclid") setTimeout(() => window.location.replace("https://youtube.com/watch?v=ocuw3_DqyfE"), 5000);
 ((url, info) => {
 	if (!url) return;
 	document.querySelector('showcase').style.display = 'flex';
