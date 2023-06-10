@@ -28,6 +28,9 @@ a[norm] {
 a[norm]:hover {
   color: rgb(252, 168, 0);
 }
+a:hover {
+  text-decoration: underline;
+}
 
 showcase {
   display: none;
@@ -105,14 +108,15 @@ page > p {
   text-shadow: #d071174e 0 0 10px;
 }
 
-page > div[title] {
+div[title] {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-family: "Roboto", sans-serif;
 }
 
-page > div[title] > p {
+div[title] > p {
   position: absolute;
   --margin: 0.83em;
   /* font-size: min(.43em, 1.35vw); */
@@ -120,23 +124,24 @@ page > div[title] > p {
   color: firebrick;
   transition: text-shadow 0.5s ease;
 }
-page > div[title]:hover > :is(p) {
+div[title]:hover > :is(p) {
   text-shadow: #6d0a1e 0 0 55px;
 }
 
-page > div[title] > quote {
+div[title] > quote {
   font-size: max(min(40vw, 8.5em), 7vw);
   color: rgb(117, 25, 25);
   animation: float 2.2s ease-in-out infinite;
   --sign: 1;
+  --spost: 30px;
 }
 
-page > div[title] > quote:first-of-type {
+div[title] > quote:first-of-type {
   margin-right: 1.2em;
   margin-top: 2.2em;
 }
 
-page > div[title] > quote:not(:first-of-type) {
+div[title] > quote:not(:first-of-type) {
   /* margin-right: 40%; */
   --sign: -1;
   margin-bottom: 2.3em;
@@ -151,22 +156,16 @@ page > div[title] > quote:not(:first-of-type) {
 
   50% {
     /* padding-top: 30px; */
-    translate: 0px calc(30px * var(--sign));
+    translate: 0px calc(var(--spost) * var(--sign));
   }
 }
 
-page > div[title] > t:after {
-  content: "0";
-  display: none;
-  /* font-size: min(1em, 4vw); */
-}
-
-page > div[title] > p:first-of-type {
+div[title] > p:first-of-type {
   margin-right: var(--margin);
   transform: rotate(270deg);
 }
 
-page > div[title] > p:last-of-type {
+div[title] > p:last-of-type {
   margin-left: var(--margin);
   transform: rotate(90deg);
 }
@@ -329,7 +328,7 @@ hover {
   /* width: 80%; */
   flex: auto;
   margin-inline: 8px;
-  border-radius: var(--radius);  
+  border-radius: var(--radius);
 
   background-color: #2b2b2b;
 }
@@ -442,15 +441,22 @@ nomob,
 }
 ita {
   display: inline-block;
-  background: linear-gradient(90deg, rgba(0,254,27,1) 0%, rgba(255,255,255,1) 50%, rgba(255,0,0,1) 100%);
+  background: linear-gradient(
+    90deg,
+    #009246 0%,
+    #ffffff 50%,
+    #ce2b37 100%
+  );
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Content */
 
 content {
   display: block;
+  position: relative;
   margin-bottom: 100px;
   padding: 2vh;
   margin-top: 25px;
@@ -493,7 +499,7 @@ content > div[f] > div > div {
   --offset: 0px;
   position: relative;
   max-width: 300px;
-  width: min(300px,max(18vw, 140px));
+  width: min(300px, max(18vw, 140px));
   margin-bottom: var(--offset);
 }
 content > div[f] > div > div > img {
@@ -524,13 +530,57 @@ content grade[bronze]::after {
   background-color: red;
 } */
 
+/* Code Span Javascript */
+
+content > div[w] > div > div > h2 {
+  font-size: 1.5em;
+  margin-block: 0.5em;
+}
+
+span[code] {
+  display: block;
+  margin-top: 1em;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: #00000093;
+}
+span[code] > span {
+  display: inline-block;
+  margin-top: 5px;
+}
+span[code] > [tab] {
+  display: inline-block;
+  margin-left: 20px;
+}
+span[code] > [func] {
+  color: #dca80b;
+}
+span[code] > [base] {
+  color: #4b5ada;
+}
+span[code] > [stri] {
+  color: #875214;
+}
+span[code] > [iniz] {
+  color: #333e99;
+}
+span[code] > [vnam] {
+  color: #2e82ab;
+}
+span[code] > [comm] {
+  color: #335c04;
+}
+span[code] [numb] {
+  color: #90995b
+}
+
 /* Telefono */
 @media screen and (max-width: 420px) {
   links div a svg {
     padding-right: 0;
   }
   content > div[f] > div > div {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
   }
   nomob,
   [nomob] {
@@ -542,13 +592,13 @@ content grade[bronze]::after {
     scale: 0.5;
   }
   content > div[f] > div > div {
-    width: min(max(48%, 130px), min(300px,max(18vw, 140px)));
+    width: min(max(48%, 130px), min(300px, max(18vw, 140px)));
   }
 }
 
 @media screen and (max-width: 756px) {
   content > div[f] > div > div {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
   }
 }
 

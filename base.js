@@ -33,24 +33,23 @@ const movingHandler = (e) => {
 		lastClientY = e.touches[0].clientY;
 	}
 
-	console.log(window.scrollY)
-	
 	if (pageActivated && goingUp && window.scrollY < 20)  // Disattiva la pagina
-		deactivatePage(); 
+		deactivatePage();
 	else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
 }
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
 
+const contentTitle = document.querySelector('hover > div[title]');
 const deactivatePage = () => {
 	if (moving) return;
+	contentTitle.style.display = 'none';
 	pageActivated = false;
 	document.body.style.position = 'fixed';
 	document.querySelector('body').style.transform = 'translateY(0)'
 	moving = true;
 	setTimeout(() => moving = false, 1000);
 }
-
 /**
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
  */
@@ -65,6 +64,7 @@ const activatePage = (e) => {
 			if (['A', 'SVG'].includes(e.target.nodeName)) return;
 		}
 	}
+	contentTitle.style.display = 'flex';
 	pageActivated = true;
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
@@ -73,6 +73,42 @@ const activatePage = (e) => {
 	setTimeout(() => moving = false, 1000);
 };
 document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
+
+const cWC = (str, type, noBlock) => {
+	if (type == 'color') return `<span style="color: ${str}">${str}</span>`;
+	return `<span ${type} ${noBlock ? 'nB' : ''}>` + str + '</span>';
+}
+
+document.querySelectorAll('span[code]').forEach(el => {
+	let newText = el.innerHTML
+		.replace(/\n/g, '') // tutto su una sola linea
+		.replace(/(\/\*.*?\*\/)/g, cWC('$1', 'comm')); // commenti
+
+	const lang = el.getAttribute('code');
+
+	switch (el.getAttribute('code')) {
+		case 'js':
+			newText = newText
+				.replace(/(['].*?['])/g, cWC('$1', 'stri')) // stringhe
+				.replace(/(const|var|let) (.*?) =/g, `${cWC('$1', "iniz")} ${cWC('$2', 'vnam')} =`) // variabili
+				.replace(/(await|async)/g, cWC('$1', 'base')) // await e async e altre parole chiave
+				.replace(/([^\s=]+)\s*\((.*?)\)/g, `${cWC('$1', 'func')}($2)`); // funzioni
+			break;
+		case 'css':
+			newText = newText
+				.replace(/([^\s=]+) {/g, `${cWC('$1 {', 'func')}`).replace(/}/g, cWC('}', 'func')) // element tags
+				.replace(/([^\s=]+): (.*?);/g, `${cWC('$1', 'base')}: ${cWC('$2', 'vnam', true)};`) // proprieta
+				.replace(/(#[\dA-z]{3,6})/g, cWC('$1', 'color'))
+			break;
+	}
+	el.innerHTML = newText
+		.replace(/(\d*?(deg|em|rem|%|))([,)])/g, `${cWC('$1', 'numb')}$3`) // numeri
+		.replace(/\\nl/g, '<br>') // a capo
+		.replace(/\\ta/g, cWC('', 'tab')) // tab
+		;
+})
+
+document.querySelector('page > p > msg').innerText = 'ontouchstart' in window ? 'Touch anywhere' : 'Prss any key';
 
 // Main 1s async interval
 setInterval(async () => {
