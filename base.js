@@ -40,10 +40,8 @@ const movingHandler = (e) => {
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = 'fixed';
 
-const contentTitle = document.querySelector('hover > div[title]');
 const deactivatePage = () => {
 	if (moving) return;
-	contentTitle.style.display = 'none';
 	pageActivated = false;
 	document.body.style.position = 'fixed';
 	document.querySelector('body').style.transform = 'translateY(0)'
@@ -64,7 +62,6 @@ const activatePage = (e) => {
 			if (['A', 'SVG'].includes(e.target.nodeName)) return;
 		}
 	}
-	contentTitle.style.display = 'flex';
 	pageActivated = true;
 	document.body.style.position = 'unset';
 	document.querySelector('body').style.transform = 'translateY(-100vh)'
