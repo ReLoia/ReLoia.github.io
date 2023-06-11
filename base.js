@@ -44,10 +44,8 @@ document.body.style.position = 'fixed';
 const deactivatePage = () => {
 	if (moving) return;
 	pageActivated = false;
-	document.body.style.position = 'fixed';
-	document.querySelector('body').style.transform = 'translateY(0)'
-	moving = true;
-	setTimeout(() => moving = false, 1000);
+	document.body.style.position = 'fixed'; document.querySelector('body').style.transform = 'translateY(0)';
+	moving = true; setTimeout(() => moving = false, 1000);
 }
 /**
  * @param {MouseEvent | KeyboardEvent | TouchEvent} e 
@@ -64,11 +62,8 @@ const activatePage = (e) => {
 		}
 	}
 	pageActivated = true;
-	document.body.style.position = 'unset';
-	document.querySelector('body').style.transform = 'translateY(-100vh)'
-	window.scrollTo(0, 25)
-	moving = true;
-	setTimeout(() => moving = false, 1000);
+	document.body.style.position = 'unset'; document.querySelector('body').style.transform = 'translateY(-100vh)'; window.scrollTo(0, 25);
+	moving = true; setTimeout(() => moving = false, 1000);
 };
 document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
 
@@ -96,7 +91,7 @@ document.querySelectorAll('span[code]').forEach(el => {
 			newText = newText
 				.replace(/([^\s=]+) {/g, `${cWC('$1 {', 'func')}`).replace(/}/g, cWC('}', 'func')) // element tags
 				.replace(/([^\s=]+): (.*?);/g, `${cWC('$1', 'base')}: ${cWC('$2', 'vnam', true)};`) // proprieta
-				.replace(/(#[\dA-z]{3,6})/g, cWC('$1', 'color'))
+				.replace(/(#[\dA-z]{3,6})/g, cWC('$1', 'color')) // colori
 			break;
 	}
 	el.innerHTML = newText
@@ -106,11 +101,11 @@ document.querySelectorAll('span[code]').forEach(el => {
 		;
 })
 
-document.querySelector('page > p > msg').innerText = 'ontouchstart' in window ? 'Touch anywhere' : 'Prss any key';
+document.querySelector('page > p > msg').innerText = 'ontouchstart' in window ? 'Touch anywhere' : 'Press any key';
 
 // Main 1s async interval
 setInterval(async () => {
-	const newTime = `${new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" })}`;
+	const newTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Rome", hour: "numeric", minute: "numeric" });
 	if (timeCont.innerText != newTime) timeCont.innerText = newTime;
 	if (pageActivated && window.scrollY < 20) deactivatePage();
 }, 1000)
