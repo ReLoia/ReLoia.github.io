@@ -7,16 +7,16 @@ const etaEl = document.querySelector('age');
 etaEl.innerText = Math.floor((new Date() - new Date('2006-02-13')) / 31104000000);
 
 const queries = location.search ? location.search.slice(1).split('&').map(el => { if (el == '') return; const r = /(.+)=(.+)/g.exec(el); return [r?.[1], r?.[2]]; }) : null;
-if (queries[0][0] == "fbclid") setTimeout(() => window.location.href = "https://youtube.com/watch?v=ocuw3_DqyfE", 7777);
+if (queries && queries[0][0] == "fbclid") setTimeout(() => window.location.href = "https://youtube.com/watch?v=ocuw3_DqyfE", 7777);
+
 ((url, info) => {
 	if (!url) return;
 	document.querySelector('showcase').style.display = 'flex';
 	document.querySelector('showcase img').src = `https://i.imgur.com/${url}`;
 	document.querySelector('showcase p t').innerText = (info ?? '').replace(/%20/g, ' ');
-})((queries.length ? queries.find(el => el?.[0] == 'image') : null)?.[1], (queries.length ? queries.find(el => el?.[0] == 'info') : null)?.[1])
+})((queries ? queries.find(el => el?.[0] == 'image') : null)?.[1], (queries ? queries.find(el => el?.[0] == 'info') : null)?.[1])
 
 // Premere qualasiasi tasto per continuare
-// Fare che non si può scrollare il body
 let pageActivated = false
 let lastClientY = 0;
 let moving = false;
