@@ -356,12 +356,13 @@ body > *:not(page, hover) {
 }
 
 fake-footer {
-  position: absolute;
-  top: 0;
+  /* position: absolute; */
+  /* position: relative; */
+  /* top: 0; */
 }
 
 links {
-  position: fixed;
+  position: absolute;
   right: 15px;
   bottom: 20px;
   text-align: end;
