@@ -366,9 +366,8 @@ body>*:not(page, hover) {
 }
 
 fake-footer {
-  /* position: absolute; */
-  /* position: relative; */
-  /* top: 0; */
+  display: block;
+  position: relative;
 }
 
 links {
