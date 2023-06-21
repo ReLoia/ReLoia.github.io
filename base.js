@@ -9,13 +9,13 @@ etaEl.innerText = Math.floor(
 
 const queries = location.search
     ? location.search
-          .slice(1)
-          .split("&")
-          .map(el => {
-              if (el == "") return;
-              const r = /(.+)=(.+)/g.exec(el);
-              return [r?.[1], r?.[2]];
-          })
+        .slice(1)
+        .split("&")
+        .map(el => {
+            if (el == "") return;
+            const r = /(.+)=(.+)/g.exec(el);
+            return [r?.[1], r?.[2]];
+        })
     : null;
 if (queries && queries[0][0] == "fbclid")
     setTimeout(
@@ -150,26 +150,50 @@ setInterval(async () => {
 
 // songs of the day handler
 (async () => {
-    await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // wake up please :(
+    await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // wake up the api
 
     const sotdEl = document.getElementById("sotd");
-    const sotdResponse = await fetch(
-        "https://glitch-proxy.vercel.app/reloia-listen/sotd?limit=4"
-    );
-    const sotd = await sotdResponse.json();
+    let sotdResponse;
+    try {
+        sotdResponse = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd")
+        throw sotdResponse;
+    } catch (e) { if (e.status != 200) return sotdEl.innerText = "Work in progress..."; else if (e instanceof Error) console.error(e); }
 
-    sotd.forEach(song => {
+    const sotd = await sotdResponse.json() || [];
+
+    if (sotd.message || sotd.length == 0) return sotdEl.innerText = "Work in progress...";
+
+    sotdEl.innerHTML = "";
+    if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerText = "Song(s) of the day";
+    sotd.forEach((song, i) => {
         const songEl = document.createElement("div");
-        if (song.length > 1)
-            songEl.parentElement.querySelector("h2").innerText =
-                "Song(s) of the day";
-
-        songEl.innerHTML = `<img src="${song.albumImage}" alt="Album cover di ${song.name}">
-			<div>
-				<t>${song.name}</t>
-				<p>${song.author}</p>
-				<c>${song.submitDate}</c>
-			</div>`;
+        if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#debe6414";
+        songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
+		<div>
+			<t>${song.name}</t>
+			<p>${song.author}</p>
+			<c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
+		</div>`;
         sotdEl.appendChild(songEl);
     });
 })();
+
+// Debug
+function addSOTDElement(name, author, date, album) {
+    const sotdEl = document.getElementById("sotd");
+    const sotd = [{ name, author, date, album }];
+    if (sotd.length > 1)
+        songEl.parentElement.querySelector("h2").innerText =
+            "Song(s) of the day";
+    sotd.forEach((song, i) => {
+        const songEl = document.createElement("div");
+        if (i == 0) songEl.style.backgroundColor = "#bf99301f";
+        songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
+		<div>
+			<t>${song.name}</t>
+			<p>${song.author}</p>
+			<c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
+		</div>`;
+        sotdEl.appendChild(songEl);
+    });
+}

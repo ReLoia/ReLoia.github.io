@@ -109,7 +109,7 @@ page {
   user-select: none;
 }
 
-page>p {
+page > p {
   margin-top: 1em;
   font-size: 1.5em;
   color: #682d2d;
@@ -124,7 +124,7 @@ div[title] {
   font-family: "Roboto", sans-serif;
 }
 
-div[title]>p {
+div[title] > p {
   position: absolute;
   --margin: 0.83em;
   /* font-size: min(.43em, 1.35vw); */
@@ -133,11 +133,11 @@ div[title]>p {
   transition: text-shadow 0.5s ease;
 }
 
-div[title]:hover> :is(p) {
+div[title]:hover > :is(p) {
   text-shadow: #6d0a1e 0 0 55px;
 }
 
-div[title]>quote {
+div[title] > quote {
   font-size: max(min(40vw, 8.5em), 7vw);
   color: rgb(117, 25, 25);
   animation: float 2.2s ease-in-out infinite;
@@ -145,12 +145,12 @@ div[title]>quote {
   --spost: 30px;
 }
 
-div[title]>quote:first-of-type {
+div[title] > quote:first-of-type {
   margin-right: 1.2em;
   margin-top: 2.2em;
 }
 
-div[title]>quote:not(:first-of-type) {
+div[title] > quote:not(:first-of-type) {
   /* margin-right: 40%; */
   --sign: -1;
   margin-bottom: 2.3em;
@@ -169,12 +169,12 @@ div[title]>quote:not(:first-of-type) {
   }
 }
 
-div[title]>p:first-of-type {
+div[title] > p:first-of-type {
   margin-right: var(--margin);
   transform: rotate(270deg);
 }
 
-div[title]>p:last-of-type {
+div[title] > p:last-of-type {
   margin-left: var(--margin);
   transform: rotate(90deg);
 }
@@ -201,7 +201,7 @@ hover {
   transition: all 2s;
 }
 
-[head]>div[info] {
+[head] > div[info] {
   /* max-width: 5em; */
   background-color: #181818e0;
   border-radius: 0.6em;
@@ -210,7 +210,7 @@ hover {
   margin: auto;
 }
 
-[head]>div[spotify] {
+[head] > div[spotify] {
   /* width: 24em;
 	max-width: 100%; */
   max-width: 24em;
@@ -223,17 +223,17 @@ hover {
   display: flex;
 }
 
-[head]>div[spotify] [other] p {
+[head] > div[spotify] [other] p {
   font-size: 0.9rem;
   color: rgb(191, 180, 180);
 }
 
-[head]>div[spotify]:hover [other] p {
+[head] > div[spotify]:hover [other] p {
   color: rgb(237, 223, 223);
   /* font-weight: bold; */
 }
 
-[head]>div[spotify]>a {
+[head] > div[spotify] > a {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -243,7 +243,7 @@ hover {
   /* z-index: 10; */
 }
 
-[head]>div[spotify]>img {
+[head] > div[spotify] > img {
   border-radius: 0.3em;
   max-width: 24%;
   min-width: max(24%, 5em);
@@ -252,7 +252,7 @@ hover {
   /* max-height: 20%; */
 }
 
-[head]>div[spotify]>div {
+[head] > div[spotify] > div {
   margin-left: 0.8em;
   /* padding-left: 1em; */
   font-size: 1.3rem;
@@ -265,11 +265,11 @@ hover {
   white-space: nowrap;
 }
 
-[head]>div[spotify]>div>div[info] {
+[head] > div[spotify] > div > div[info] {
   position: relative;
 }
 
-[head]>div[spotify]>div>div[info] span {
+[head] > div[spotify] > div > div[info] span {
   display: none;
   /* top: 0; */
   right: 0px;
@@ -285,11 +285,11 @@ hover {
   padding-inline: 7px;
 }
 
-[head]>div[spotify]>div>div[info]>c {
+[head] > div[spotify] > div > div[info] > c {
   display: block;
 }
 
-[head]>div[spotify]>div>div[info]> :is(t, p) {
+[head] > div[spotify] > div > div[info] > :is(t, p) {
   display: inline-block;
   --end: 0px;
   animation: transl 10s ease-in-out infinite alternate forwards;
@@ -307,27 +307,27 @@ hover {
   }
 }
 
-[head]>div[spotify]>div>div[info]>p {
+[head] > div[spotify] > div > div[info] > p {
   font-size: 1rem;
   color: rgb(153, 151, 151);
 }
 
-[head]>div[spotify]>div>div[buttons] {
+[head] > div[spotify] > div > div[buttons] {
   display: flex;
   justify-content: center;
 }
 
-[head]>div[spotify]>div>div[time] {
+[head] > div[spotify] > div > div[time] {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-[head]>div[spotify]>div>div[time] t {
+[head] > div[spotify] > div > div[time] t {
   font-size: 0.7em;
 }
 
-[head]>div[spotify]>div>div[time] bar {
+[head] > div[spotify] > div > div[time] bar {
   --temp: 0%;
   --height: 0.6em;
   --radius: 10px;
@@ -342,14 +342,14 @@ hover {
   background-color: #2b2b2b;
 }
 
-[head]>div[spotify]>div>div[time] bar>t {
+[head] > div[spotify] > div > div[time] bar > t {
   display: block;
   font-size: 10px;
   margin-inline: auto;
   width: fit-content;
 }
 
-[head]>div[spotify]>div>div[time] bar::after {
+[head] > div[spotify] > div > div[time] bar::after {
   content: "";
   background-color: white;
   position: absolute;
@@ -361,7 +361,7 @@ hover {
   /* width: 50%; */
 }
 
-body>*:not(page, hover) {
+body > *:not(page, hover) {
   font-family: "Courier New", Courier, monospace;
 }
 
@@ -373,12 +373,12 @@ fake-footer {
 links {
   position: absolute;
   right: 15px;
-  bottom: 20px;
+  bottom: 50px;
   text-align: end;
   color: white;
 }
 
-links>div {
+links > div {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
@@ -410,7 +410,7 @@ links div a {
   fill: var(--col);
 }
 
-links>p {
+links > p {
   margin-left: 0.4em;
 
   line-height: 1.7;
@@ -422,7 +422,7 @@ links>p {
   user-select: none;
 }
 
-links>p * {
+links > p * {
   font-size: 0rem;
 }
 
@@ -452,10 +452,7 @@ nomob,
 
 ita {
   display: inline-block;
-  background: linear-gradient(90deg,
-      #009246 0%,
-      #ffffff 50%,
-      #ce2b37 100%);
+  background: linear-gradient(90deg, #009246 0%, #ffffff 50%, #ce2b37 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -471,37 +468,37 @@ content {
   margin-top: 25px;
 }
 
-content>div[i]>h1 {
+content > div[i] > h1 {
   font-size: 2.5em;
   margin-bottom: 0.5em;
 }
 
-content>div[i]>p {
+content > div[i] > p {
   font-size: 1.5em;
   margin-bottom: 0.3em;
 }
 
-content>div>h2 {
+content > div > h2 {
   font-size: 2em;
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
-content>div[p]>div>div {
+content > div[p] > div > div {
   margin-bottom: 1em;
 }
 
-content>div[p]>div>div>h3 {
+content > div[p] > div > div > h3 {
   font-size: 1.5em;
   display: inline-block;
 }
 
-content>div[p]>div>div>p {
+content > div[p] > div > div > p {
   color: #afa0a0;
   display: inline-block;
 }
 
-content>div[f]>div {
+content > div[f] > div {
   display: flex;
   flex-wrap: wrap;
   align-items: end;
@@ -509,7 +506,7 @@ content>div[f]>div {
   margin-bottom: 1em;
 }
 
-content>div[f]>div>div {
+content > div[f] > div > div {
   --offset: 0px;
   position: relative;
   max-width: 300px;
@@ -517,12 +514,12 @@ content>div[f]>div>div {
   margin-bottom: var(--offset);
 }
 
-content>div[f]>div>div>img {
+content > div[f] > div > div > img {
   width: 100%;
   aspect-ratio: 1/1;
 }
 
-content>div[f]>div>div>span {
+content > div[f] > div > div > span {
   position: absolute;
   width: fit-content;
   bottom: 5px;
@@ -548,35 +545,50 @@ content grade[bronze]::after {
 
 /* Code Span Javascript */
 
-content>div[w]>div>div>h2 {
+content > div[w] > div > div > h2 {
   font-size: 1.5em;
   margin-block: 0.5em;
 }
 
-content>div[s]>div{
+content > div[s] > div {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
 }
-content>div[s]>div>div {
-  padding-inline: 10px;
-  display: flex;
-  gap: 1em;
-}
-content>div[s]>div img {
+content > div[s] > div img {
   width: 50px;
   height: 50px;
 }
-content>div[s]>div t {
-  font-size: 1.3em;
+content > div[s] > div > div {
+  background-color: #00000093;
+  border-radius: 7px;
+  padding-block: 7px;
+  padding-inline: 16px;
+  display: flex;
+  gap: 1em;
+}
+content > div[s] > div t {
+  /* Title */
+  display: inline-block;
+  font-size: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
   font-weight: bold;
 }
-content>div[s]>div p {
-  font-size: 1.05em;
+content > div[s] > div p {
+  /* Author */
+  font-size: 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
 }
-content>div[s]>div c {
+content > div[s] > div c {
+  /* Infos */
   /* font-size: 1.1em; */
-  display: block;
+  display: inline-block;
   margin-top: 5px;
   color: #8b8d8b;
 }
@@ -589,42 +601,42 @@ span[code] {
   background-color: #00000093;
 }
 
-span[code]>span {
+span[code] > span {
   display: inline-block;
   margin-top: 5px;
 }
 
-span[code]>[tab] {
-  display: inline-block;
+span[code] > [tab] {
+  display: inline;
   margin-left: 20px;
 }
 
-span[code]>[func] {
+span[code] > [func] {
   color: #dca80b;
 }
 
-span[code]>[base] {
+span[code] > [base] {
   color: #4b5ada;
 }
 
-span[code]>[stri] {
+span[code] > [stri] {
   color: #875214;
 }
 
-span[code]>[iniz] {
+span[code] > [iniz] {
   color: #333e99;
 }
 
-span[code]>[vnam] {
+span[code] > [vnam] {
   color: #2e82ab;
 }
 
-span[code]>[comm] {
+span[code] > [comm] {
   color: #335c04;
 }
 
 span[code] [numb] {
-  color: #90995b
+  color: #90995b;
 }
 
 /* Telefono */
@@ -633,7 +645,7 @@ span[code] [numb] {
     padding-right: 0;
   }
 
-  content>div[f]>div>div {
+  content > div[f] > div > div {
     margin-bottom: 0 !important;
   }
 
@@ -642,18 +654,18 @@ span[code] [numb] {
     display: none !important;
   }
 
-  page>t {
+  page > t {
     transition: all 1s;
     scale: 0.5;
   }
 
-  content>div[f]>div>div {
+  content > div[f] > div > div {
     width: min(max(48%, 130px), min(300px, max(18vw, 140px)));
   }
 }
 
 @media screen and (max-width: 756px) {
-  content>div[f]>div>div {
+  content > div[f] > div > div {
     margin-bottom: 0 !important;
   }
 }
