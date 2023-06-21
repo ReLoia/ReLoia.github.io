@@ -595,6 +595,7 @@ content > div[s] > div c {
 
 span[code] {
   display: block;
+  max-width: fit-content;
   margin-top: 1em;
   padding: 10px;
   border-radius: 7px;
