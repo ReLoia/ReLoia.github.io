@@ -373,7 +373,7 @@ fake-footer {
 links {
   position: absolute;
   right: 15px;
-  bottom: 50px;
+  bottom: 20px;
   text-align: end;
   color: white;
 }
@@ -671,6 +671,7 @@ span[code] [numb] {
   }
 }
 
+/* No mouse */
 @media (any-hover: none) {
   links c {
     --col: rgb(0, 123, 255);
@@ -678,5 +679,9 @@ span[code] [numb] {
     cursor: pointer;
     color: var(--col);
     fill: var(--col);
+  }
+
+  links {
+    bottom: 40px;
   }
 }
