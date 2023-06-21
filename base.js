@@ -167,7 +167,7 @@ setInterval(async () => {
     if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerText = "Song(s) of the day";
     sotd.forEach((song, i) => {
         const songEl = document.createElement("div");
-        if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#debe6414";
+        if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";
         songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
 		<div>
 			<t>${song.name}</t>

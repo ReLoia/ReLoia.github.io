@@ -556,21 +556,21 @@ content > div[s] > div {
   gap: 1em;
 }
 content > div[s] > div img {
-  width: 50px;
-  height: 50px;
+  height: 51px;
+  width: 51px;
+  border-radius: 5px;
 }
 content > div[s] > div > div {
   background-color: #00000093;
   border-radius: 7px;
-  padding-block: 7px;
-  padding-inline: 16px;
+  padding: 7px;
   display: flex;
   gap: 1em;
 }
 content > div[s] > div t {
   /* Title */
   display: inline-block;
-  font-size: 1.2em;
+  font-size: 1.1em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -587,9 +587,9 @@ content > div[s] > div p {
 }
 content > div[s] > div c {
   /* Infos */
-  /* font-size: 1.1em; */
+  font-size: 0.8em;
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 7px;
   color: #8b8d8b;
 }
 
