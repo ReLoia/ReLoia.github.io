@@ -79,24 +79,31 @@ time,
 mark,
 audio,
 video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
+
+b {
+  font-weight: bold;
 }
 
 a {
-	color: inherit;
-	font-weight: bold;
-	text-decoration: inherit;
+  color: inherit;
+  font-weight: bold;
+  text-decoration: inherit;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 body {
-	line-height: 1;
+  line-height: 1;
 }
 
 ol,
 ul {
-	list-style: none;
+  list-style: none;
 }

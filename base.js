@@ -155,7 +155,7 @@ setInterval(async () => {
 
 // songs of the day handler
 (async () => {
-    await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // wake up the api
+    await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
 
     const sotdEl = document.getElementById("sotd");
     let sotdResponse;

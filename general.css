@@ -1,0 +1,108 @@
+/* Separator */
+seph {
+  display: block;
+  margin-inline: 8px;
+  border-left: #00000080 1px solid;
+  border-block: #00000080 1px solid;
+}
+sepv {
+  display: block;
+  margin-block: 8px;
+}
+
+/* Hide eleemnt in mobile */
+nomob,
+[nomob] {
+  display: inline-block;
+}
+@media screen and (max-width: 420px) {
+  nomob,
+  [nomob] {
+    display: none !important;
+  }
+}
+
+/* A element with regular style */
+a[regu] {
+    color: #a76b6b;
+    text-decoration: underline;
+  }
+  a[regu]:hover {
+    color: rgb(252, 168, 0);
+  }
+
+/* Italian flag text */
+ita {
+  display: inline-block;
+  background: linear-gradient(90deg, #009246 0%, #ffffff 50%, #ce2b37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Code element */
+content > div[w] > div > div > h2 {
+  font-size: 1.5em;
+  margin-block: 0.5em;
+}
+
+span[code] {
+  display: block;
+  max-width: fit-content;
+  margin-top: 1em;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: #00000093;
+}
+
+span[code] > span {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* tab */
+span[code] > [tab] {
+  display: inline;
+  margin-left: 20px;
+}
+
+/* function */
+span[code] > [func] {
+  color: #dca80b;
+}
+
+/* general items like variables */
+span[code] > [base] {
+  color: #4b5ada;
+}
+
+/* strings */
+span[code] > [stri] {
+  color: #875214;
+}
+
+/* variable inizialization like const,let,var */
+span[code] > [iniz] {
+  color: #333e99;
+}
+
+/* proprietà di css */
+span[code] > [vnam] {
+  color: #2e82ab;
+}
+
+/* comments */
+span[code] > [comm] {
+  color: #335c04;
+}
+
+/* number */
+span[code] [numb] {
+  color: #90995b;
+}
+
+/* Badges */
+content grade[bronze]::after {
+  color: #945b1a;
+  content: "Bronze";
+}

@@ -14,6 +14,10 @@ body {
   font-size: 14px;
 }
 
+body > *:not(page, hover) {
+  font-family: "Courier New", Courier, monospace;
+}
+
 /* debug */
 /* * {
 	outline: yellow 1px solid;
@@ -22,18 +26,6 @@ body {
   transform: translateY(-100vh);
 } */
 
-a[norm] {
-  color: #a76b6b;
-  text-decoration: underline;
-}
-
-a[norm]:hover {
-  color: rgb(252, 168, 0);
-}
-
-a:hover {
-  text-decoration: underline;
-}
 
 showcase {
   display: none;
@@ -66,25 +58,21 @@ showcase img {
   aspect-ratio: 1/1;
   object-fit: cover;
   border: none;
-  /* box-shadow: 10px 5px #323232; */
   cursor: pointer;
 }
 
 showcase p {
   font-size: 1.7em;
   position: relative;
-  /* font-weight: bold; */
   background-color: black;
   width: calc(var(--size) - 14px);
   text-align: center;
   padding: 6px 8px;
   transition: box-shadow 1s ease;
-  /* position: absolute; */
 }
 
 showcase p close {
   position: absolute;
-  /* top: 6px; */
   right: 8px;
   background: #000;
   cursor: pointer;
@@ -101,7 +89,6 @@ page {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /* position: fixed; */
 
   height: 100vh;
   width: 100vw;
@@ -117,7 +104,7 @@ page > p {
   text-shadow: #d071174e 0 0 10px;
 }
 
-div[title] {
+div[logo] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,7 +112,7 @@ div[title] {
   font-family: "Roboto", sans-serif;
 }
 
-div[title] > p {
+div[logo] > p {
   position: absolute;
   --margin: 0.83em;
   /* font-size: min(.43em, 1.35vw); */
@@ -134,11 +121,11 @@ div[title] > p {
   transition: text-shadow 0.5s ease;
 }
 
-div[title]:hover > :is(p) {
+div[logo]:hover > p {
   text-shadow: #6d0a1e 0 0 55px;
 }
 
-div[title] > quote {
+div[logo] > quote {
   font-size: max(min(40vw, 8.5em), 7vw);
   color: rgb(117, 25, 25);
   animation: float 2.2s ease-in-out infinite;
@@ -146,12 +133,12 @@ div[title] > quote {
   --spost: 30px;
 }
 
-div[title] > quote:first-of-type {
+div[logo] > quote:first-of-type {
   margin-right: 1.2em;
   margin-top: 2.2em;
 }
 
-div[title] > quote:not(:first-of-type) {
+div[logo] > quote:last-of-type {
   /* margin-right: 40%; */
   --sign: -1;
   margin-bottom: 2.3em;
@@ -160,22 +147,20 @@ div[title] > quote:not(:first-of-type) {
 
 @keyframes float {
   0% {
-    /* padding-bottom: 0px; */
     translate: 0px 0px;
   }
 
   50% {
-    /* padding-top: 30px; */
     translate: 0px calc(var(--spost) * var(--sign));
   }
 }
 
-div[title] > p:first-of-type {
+div[logo] > p:first-of-type {
   margin-right: var(--margin);
   transform: rotate(270deg);
 }
 
-div[title] > p:last-of-type {
+div[logo] > p:last-of-type {
   margin-left: var(--margin);
   transform: rotate(90deg);
 }
@@ -185,7 +170,6 @@ hover {
   z-index: 9999;
 
   width: 100%;
-  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,18 +186,8 @@ hover {
   transition: all 2s;
 }
 
-[head] > div[info] {
-  /* max-width: 5em; */
-  background-color: #181818e0;
-  border-radius: 0.6em;
-  padding: 10px;
-  color: white;
-  margin: auto;
-}
-
 [head] > div[spotify] {
-  /* width: 24em;
-	max-width: 100%; */
+  /* Spotify container */
   max-width: 24em;
   position: relative;
 
@@ -224,38 +198,28 @@ hover {
   display: flex;
 }
 
-[head] > div[spotify] [other] p {
-  font-size: 0.9rem;
-  color: rgb(191, 180, 180);
-}
-
-[head] > div[spotify]:hover [other] p {
-  color: rgb(237, 223, 223);
-  /* font-weight: bold; */
-}
-
 [head] > div[spotify] > a {
+  /* Song link */
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   border-radius: 0.6em;
-  /* z-index: 10; */
 }
 
 [head] > div[spotify] > img {
+  /* Song album image */
   border-radius: 0.3em;
   max-width: 24%;
   min-width: max(24%, 5em);
   aspect-ratio: 1;
   z-index: 99;
-  /* max-height: 20%; */
 }
 
 [head] > div[spotify] > div {
+  /* Song information container */
   margin-left: 0.8em;
-  /* padding-left: 1em; */
   font-size: 1.3rem;
   display: flex;
   flex: auto;
@@ -267,10 +231,12 @@ hover {
 }
 
 [head] > div[spotify] > div > div[info] {
+  /* Infos about the song */
   position: relative;
 }
 
 [head] > div[spotify] > div > div[info] span {
+  /* Explicit button */
   display: none;
   /* top: 0; */
   right: 0px;
@@ -286,18 +252,12 @@ hover {
   padding-inline: 7px;
 }
 
-[head] > div[spotify] > div > div[info] > c {
-  display: block;
-}
-
 [head] > div[spotify] > div > div[info] > :is(t, p) {
+  /* Artist and Title of song animation */
   display: inline-block;
   --end: 0px;
   animation: transl 10s ease-in-out infinite alternate forwards;
-
-  /* transform: translateX(-50%); */
 }
-
 @keyframes transl {
   0% {
     transform: translateX(0);
@@ -308,27 +268,41 @@ hover {
   }
 }
 
+[head] > div[spotify] > div > div[info] > c {
+  /* Divider between artist and title of song */
+  display: block;
+}
+
 [head] > div[spotify] > div > div[info] > p {
+  /* Spotify artist */
   font-size: 1rem;
   color: rgb(153, 151, 151);
 }
 
-[head] > div[spotify] > div > div[buttons] {
-  display: flex;
-  justify-content: center;
+[head] > div[spotify] [other] p {
+  /* Other stuff */
+  font-size: 0.9rem;
+  color: rgb(191, 180, 180);
+}
+[head] > div[spotify]:hover [other] p {
+  color: rgb(237, 223, 223);
+  /* font-weight: bold; */
 }
 
 [head] > div[spotify] > div > div[time] {
+  /* Spotify time container */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 [head] > div[spotify] > div > div[time] t {
+  /* Spotify time texts */
   font-size: 0.7em;
 }
 
 [head] > div[spotify] > div > div[time] bar {
+  /* Spotify time bar */
   --temp: 0%;
   --height: 0.6em;
   --radius: 10px;
@@ -343,14 +317,8 @@ hover {
   background-color: #2b2b2b;
 }
 
-[head] > div[spotify] > div > div[time] bar > t {
-  display: block;
-  font-size: 10px;
-  margin-inline: auto;
-  width: fit-content;
-}
-
 [head] > div[spotify] > div > div[time] bar::after {
+  /* Spotify progress bar */
   content: "";
   background-color: white;
   position: absolute;
@@ -359,19 +327,31 @@ hover {
   border-radius: var(--radius);
   height: var(--height);
   width: var(--temp);
-  /* width: 50%; */
 }
 
-body > *:not(page, hover) {
-  font-family: "Courier New", Courier, monospace;
+[head] > div[spotify] > div > div[time] bar > t {
+  /* Spotify bar "Not playing" text */
+  display: block;
+  font-size: 10px;
+  margin-inline: auto;
+  width: fit-content;
+}
+
+[head] > div[info] {
+  /* max-width: 5em; */
+  background-color: #181818e0;
+  border-radius: 0.6em;
+  padding: 10px;
+  color: white;
+  margin: auto;
 }
 
 fake-footer {
   display: block;
   position: relative;
 }
-
 links {
+  /* top page links container */
   position: absolute;
   right: 15px;
   bottom: 20px;
@@ -380,6 +360,7 @@ links {
 }
 
 links > div {
+  /* links boxes container */
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
@@ -387,6 +368,7 @@ links > div {
 }
 
 links div a {
+  /* links boxe */
   display: flex;
   align-items: center;
   font-size: 1.3em;
@@ -400,8 +382,7 @@ links div a {
 
   backdrop-filter: blur(5px);
 }
-
-:is(links a, links c):hover {
+links a:hover {
   /* --col: rgb(0, 170, 255); */
   --col: firebrick;
   /* --col: rgb(14, 162, 148); */
@@ -409,54 +390,6 @@ links div a {
   cursor: pointer;
   color: var(--col);
   fill: var(--col);
-}
-
-links > p {
-  margin-left: 0.4em;
-
-  line-height: 1.7;
-  margin-bottom: 7px;
-  font-size: 0;
-
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-links > p * {
-  font-size: 0rem;
-}
-
-links uni {
-  white-space: nowrap;
-}
-
-links input {
-  width: 7ch;
-}
-
-sep {
-  /* display: inline; */
-  margin-inline: 8px;
-  border-left: black 3px solid;
-  border-block: black 3px solid;
-}
-
-b {
-  font-weight: bold;
-}
-
-nomob,
-[nomob] {
-  display: inline-block;
-}
-
-ita {
-  display: inline-block;
-  background: linear-gradient(90deg, #009246 0%, #ffffff 50%, #ce2b37 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* Content */
@@ -467,40 +400,61 @@ content {
   margin-bottom: 100px;
   padding: 2vh;
   margin-top: 25px;
+
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+content > div > h2 {
+  /* Title of Content sub category */
+  font-size: 2em;
+  --margin: 1.4em;
+  margin-top: var(--margin);
+  margin-bottom: calc(var(--margin) / 2);
 }
 
 content > div[i] > h1 {
+  /* Bio bigger text */
   font-size: 2.5em;
   margin-bottom: 0.5em;
 }
 
 content > div[i] > p {
+  /* Text line of bio */
   font-size: 1.5em;
   margin-bottom: 0.3em;
 }
 
-content > div > h2 {
-  font-size: 2em;
-  --margin: 1.4em; 
-  margin-top: var(--margin);
-  margin-bottom: calc(var(--margin) / 2);
-}
+/* Project list */
 
 content > div[p] > div > div {
+  /* Project container */
   margin-bottom: 1em;
 }
 
 content > div[p] > div > div > h3 {
+  /* Title */
   font-size: 1.5em;
   display: inline-block;
 }
 
 content > div[p] > div > div > p {
+  /* Description */
   color: #afa0a0;
   display: inline-block;
 }
 
+/* Favourite artists */
+
+content > div[f] > c {
+  /* Last.fm images text */
+  margin-top: -1em;
+  display: block;
+  margin-bottom: 1em;
+}
+
 content > div[f] > div {
+  /* Arists divs container */
   display: flex;
   flex-wrap: wrap;
   align-items: end;
@@ -509,6 +463,7 @@ content > div[f] > div {
 }
 
 content > div[f] > div > div {
+  /* Artist div */
   --offset: 0px;
   position: relative;
   max-width: 200px;
@@ -517,11 +472,13 @@ content > div[f] > div > div {
 }
 
 content > div[f] > div > div > img {
+  /* Image of the artist */
   width: 100%;
   aspect-ratio: 1/1;
 }
 
 content > div[f] > div > div > span {
+  /* Name of the artist */
   position: absolute;
   width: fit-content;
   bottom: 5px;
@@ -531,39 +488,14 @@ content > div[f] > div > div > span {
   mix-blend-mode: difference;
 }
 
-content > div[f] > c {
-  margin-top: -1em;
-  display: block;
-  margin-bottom: 1em;
+/* Song of the Day */
 
-}
-
-content grade[bronze]::after {
-  color: #945b1a;
-  content: "Bronze";
-}
-
-/* content favorite {
-  width: 100vw;
-  display: block;
-  padding-block: 1em;
-  font-size: 2em;
-  text-align: center;
-  background-color: red;
-} */
-
-/* Code Span Javascript */
-
-content > div[w] > div > div > h2 {
-  font-size: 1.5em;
-  margin-block: 0.5em;
-}
-
-content > div[s] > div {
+content > div[s] > div#sotd {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
 }
+
 content > div[s] > div img {
   height: 51px;
   width: 51px;
@@ -602,53 +534,6 @@ content > div[s] > div c {
   color: #8b8d8b;
 }
 
-span[code] {
-  display: block;
-  max-width: fit-content;
-  margin-top: 1em;
-  padding: 10px;
-  border-radius: 7px;
-  background-color: #00000093;
-}
-
-span[code] > span {
-  display: inline-block;
-  margin-top: 5px;
-}
-
-span[code] > [tab] {
-  display: inline;
-  margin-left: 20px;
-}
-
-span[code] > [func] {
-  color: #dca80b;
-}
-
-span[code] > [base] {
-  color: #4b5ada;
-}
-
-span[code] > [stri] {
-  color: #875214;
-}
-
-span[code] > [iniz] {
-  color: #333e99;
-}
-
-span[code] > [vnam] {
-  color: #2e82ab;
-}
-
-span[code] > [comm] {
-  color: #335c04;
-}
-
-span[code] [numb] {
-  color: #90995b;
-}
-
 /* Telefono */
 @media screen and (max-width: 420px) {
   links div a svg {
@@ -657,11 +542,6 @@ span[code] [numb] {
 
   content > div[f] > div > div {
     margin-bottom: 0 !important;
-  }
-
-  nomob,
-  [nomob] {
-    display: none !important;
   }
 
   page > t {
