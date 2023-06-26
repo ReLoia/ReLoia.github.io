@@ -1,3 +1,7 @@
+console.log('%cReLoia\n%cHi! I hope you like the website. I have put a lot of effort into it. If you wish to contact me, my contact information can be found below.',
+'color: firebrick; font-size: clamp(5em, 15vw, 15em)', 'color: white; font-size: 2em')
+
+
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");
 const etaEl = document.querySelector("age");
@@ -77,11 +81,12 @@ const deactivatePage = () => {
 const activatePage = e => {
     if (moving || pageActivated) return;
     if (e) {
-        if ("key" in e) {
+        if ("key" in e) { // tastiera
             if (e.key == "Tab" || e.key == "Alt") return;
-        } else if ("touches" in e) {
+        } else if ("touches" in e) { // touchpad
             lastClientY = 0;
-        } else {
+        } else { // mouse
+            if (e.button == 2) return;
             if (["A", "SVG"].includes(e.target.nodeName)) return;
         }
     }
@@ -164,7 +169,7 @@ setInterval(async () => {
     if (sotd.message || sotd.length == 0) return sotdEl.innerText = "Work in progress...";
 
     sotdEl.innerHTML = "";
-    if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerText = "Song(s) of the day";
+    if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerHTML = "Song<sub>s</sub> of the day";
     sotd.forEach((song, i) => {
         const songEl = document.createElement("div");
         if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";

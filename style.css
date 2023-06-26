@@ -11,6 +11,7 @@ html {
 body {
   transition: transform 1s ease;
   height: 100vh;
+  font-size: 14px;
 }
 
 /* debug */
@@ -480,8 +481,9 @@ content > div[i] > p {
 
 content > div > h2 {
   font-size: 2em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  --margin: 1.4em; 
+  margin-top: var(--margin);
+  margin-bottom: calc(var(--margin) / 2);
 }
 
 content > div[p] > div > div {
@@ -509,8 +511,8 @@ content > div[f] > div {
 content > div[f] > div > div {
   --offset: 0px;
   position: relative;
-  max-width: 300px;
-  width: min(300px, max(18vw, 140px));
+  max-width: 200px;
+  width: min(200px, max(16vw, 140px));
   margin-bottom: var(--offset);
 }
 
@@ -527,6 +529,13 @@ content > div[f] > div > div > span {
   z-index: 100;
   font-size: 1.1em;
   mix-blend-mode: difference;
+}
+
+content > div[f] > c {
+  margin-top: -1em;
+  display: block;
+  margin-bottom: 1em;
+
 }
 
 content grade[bronze]::after {

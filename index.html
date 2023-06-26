@@ -88,7 +88,7 @@
 								barLen.firstElementChild.innerText = 'Not playing';
 							}
 
-							styEl.innerText = `div[f] div[${data.author.toLowerCase().slice(0, 5)}] { outline: 2px solid #c49922; z-index: 1; } curtain>div[spotify]>div>div[time] bar { --temp: ${100 * data.progress / data.duration}% !important; }`;
+							styEl.innerText = `div[f] div[artist="${data.author.toLowerCase()}"] { outline: 2px solid #c49922; z-index: 1; } curtain>div[spotify]>div>div[time] bar { --temp: ${100 * data.progress / data.duration}% !important; }`;
 
 							if (data.explicit) expEl.style = 'display: unset';
 							else expEl.style = '';
@@ -201,12 +201,6 @@
 				<p>My favourite programming language is JavaScript but I've also got experience in C++, C#, Java, Kotlin and Lua.</p>
 				<p>I'm currently a student at <a norm href="https://www.iissvoltadegemmis.edu.it/" target="_blank">Volta de Gemmis</a>.</p>
 			</div>
-			<div s>
-				<h2>Song of the day</h2>
-				<div id="sotd">
-					Loading...
-				</div>
-			</div>
 			<div p>
 				<h2>My Projects</h2>
 				<div>
@@ -237,29 +231,36 @@
 			</div>
 			<div f>
 				<h2>Favourite artists</h2>
+				<c>Images from Last.fm</c>
 				<div>
-					<div billy>
+					<div artist="billy talent">
 						<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/38fb4b148e12e8b4b5f0f9deb8e45a2a.jpg" alt="">
 						<span>Billy Talent</span>
 					</div>
-					<div defto style="--offset: .5em;">
+					<div artist="deftones" style="--offset: .5em;">
 						<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/c2428255383f4cc7525b661c4fdf6d48.jpg" alt="">
 						<span>Deftones</span>
 					</div>
-					<div syste style="--offset: 1em;">
+					<div artist="system of a down" style="--offset: 1em;">
 						<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/05d78b59cf1242f09fab2176c8bf07df.jpg" alt="">
 						<span>System of a Down</span>
 					</div>
-					<div radio style="--offset: .5em;">
+					<div artist="radiohead" style="--offset: .5em;">
 						<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/582e918114eb83dd0061b6ba87fa25f6.jpg" alt="">
 						<span>Radiohead</span>
 					</div>
-					<div arcti>
+					<div artist="arctic monkeys">
 						<img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/bcc5bfe70c101882ff81021a5039f14e.jpg" alt="">
 						<span>Arctic Monkeys</span>
 					</div>
 				</div>
-				<a href="https://www.last.fm/it/user/ReLoia" target="_blank">and much more...</a> (such as Crosses)<br>Images from Last.fm
+				<a href="https://www.last.fm/it/user/ReLoia" target="_blank">and much more...</a> (such as Crosses)<br>
+			</div>
+			<div s>
+				<h2>Song of the day</h2>
+				<div id="sotd">
+					Loading...
+				</div>
 			</div>
 			<div w>
 				<h2>How does this webpage work?</h2>
