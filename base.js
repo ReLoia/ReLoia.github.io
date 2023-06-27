@@ -233,14 +233,14 @@ const addSong = async (container, song, i) => {
 
 const deleteSong = async (container) => {
     password = password || window.prompt("Type the API password", "");
-    const result = fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/remove", {
+    const result = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/remove", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": password
         },
         body: JSON.stringify({
-            index: Array.from(container.parentElement.children).indexOf(container)
+            index: window.sotd.length - Array.from(container.parentElement.children).indexOf(container)
         })
     })
     if (result.status == 200) {
