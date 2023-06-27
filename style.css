@@ -206,6 +206,7 @@ hover {
   top: 0;
   left: 0;
   border-radius: 0.6em;
+  cursor: alias;
 }
 
 [head] > div[spotify] > img {
@@ -235,23 +236,6 @@ hover {
   position: relative;
 }
 
-[head] > div[spotify] > div > div[info] span {
-  /* Explicit button */
-  display: none;
-  /* top: 0; */
-  right: 0px;
-  position: absolute;
-  aspect-ratio: 1;
-  /* width: 14px; */
-  background: gray;
-  color: black;
-  font-weight: bold;
-  border-radius: 2px;
-  padding: 4px;
-  font-size: 15px;
-  padding-inline: 7px;
-}
-
 [head] > div[spotify] > div > div[info] > :is(t, p) {
   /* Artist and Title of song animation */
   display: inline-block;
@@ -279,6 +263,12 @@ hover {
   color: rgb(153, 151, 151);
 }
 
+[head] > div[spotify] [other] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 [head] > div[spotify] [other] p {
   /* Other stuff */
   font-size: 0.9rem;
@@ -287,6 +277,41 @@ hover {
 [head] > div[spotify]:hover [other] p {
   color: rgb(237, 223, 223);
   /* font-weight: bold; */
+}
+
+[head] > div[spotify] [other] [icons] {
+  z-index: 99999;
+  max-height: fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+[head] > div[spotify] div[icons] > span {
+  /* Explicit icon */
+  display: none;
+  aspect-ratio: 1;
+  background: gray;
+  color: black;
+  font-weight: bold;
+  font-size: .8rem;
+  padding-block: 2px;
+  padding-inline: 3.5px;
+}
+
+
+[other] [icons] > a {
+  cursor: copy;
+}
+a.added:hover > svg > path, [other] [icons] > a > svg > path {
+  fill: #800;
+  d: path("M12 26.031c0.156 0 0.344-0.031 0.469-0.125 0.344-0.219 8.094-5.156 10.75-10 1.125-2.063 1-4.844-0.281-7-1.125-1.906-3-2.969-5.25-2.969-3.094 0-4.781 1.656-5.688 3.063-0.906-1.406-2.625-3.063-5.688-3.063-2.281 0-4.125 1.063-5.281 2.969-1.281 2.156-1.375 4.938-0.25 7 2.625 4.844 10.406 9.781 10.719 10 0.156 0.094 0.313 0.125 0.5 0.125zM6.313 7.813c3.688 0 4.625 3.063 4.75 3.656 0.125 0.406 0.5 0.75 0.938 0.75 0.406 0 0.813-0.344 0.906-0.75 0.156-0.594 1.094-3.656 4.781-3.656 2.031 0 3.125 1.094 3.656 2.063 0.938 1.531 1.031 3.688 0.25 5.125-2.094 3.75-7.875 7.813-9.594 9-1.75-1.188-7.531-5.25-9.594-9-0.781-1.438-0.688-3.594 0.25-5.125 0.531-0.969 1.625-2.063 3.656-2.063z")
+}
+a.added > svg > path, [other] [icons] > a:hover > svg > path {
+  fill: #A00;
+  d: path("M18.188 6.094c5.188 0 6.906 6 5.094 9.281-2.781 5.094-11.281 10.5-11.281 10.5s-8.531-5.406-11.281-10.5c-1.813-3.281-0.125-9.281 5.094-9.281 4.813 0 6.031 4.156 6.188 4.781 0.156-0.625 1.375-4.781 6.188-4.781z");
 }
 
 [head] > div[spotify] > div > div[time] {
@@ -496,17 +521,17 @@ content > div[s] > div#sotd {
   gap: 1em;
 }
 
-content > div[s] > div img {
-  height: 51px;
-  width: 51px;
-  border-radius: 5px;
-}
 content > div[s] > div > div {
   background-color: #00000093;
   border-radius: 7px;
   padding: 7px;
   display: flex;
   gap: 1em;
+}
+content > div[s] > div > div > img {
+  height: 51px;
+  width: 51px;
+  border-radius: 5px;
 }
 content > div[s] > div t {
   /* Title */

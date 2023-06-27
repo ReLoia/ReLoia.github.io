@@ -22,14 +22,14 @@ nomob,
   }
 }
 
-/* A element with regular style */
+/* anchor element with regular style */
 a[regu] {
-    color: #a76b6b;
-    text-decoration: underline;
-  }
-  a[regu]:hover {
-    color: rgb(252, 168, 0);
-  }
+  color: #a76b6b;
+  text-decoration: underline;
+}
+a[regu]:hover {
+  color: rgb(252, 168, 0);
+}
 
 /* Italian flag text */
 ita {

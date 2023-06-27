@@ -34,11 +34,18 @@
 							<t>Loading...</t>
 							<c></c>
 							<p>loading</p>
-							<span>E</span>
 						</div>
 
 						<div other>
 							<p>Click to open</p>
+							<div icons>
+								<span>E</span>
+								<a title="Add song to SotD" sotd>
+									<svg height="1.3rem" viewBox="-4 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+										<path d=""></path>
+									</svg>
+								</a>
+							</div>
 						</div>
 
 						<div time translate="no">
@@ -62,11 +69,11 @@
 							barLen = spotifyElem.querySelector("div > div[time] bar"),
 							progEl = spotifyElem.querySelector("div > div[time] t:first-of-type"),
 							tmpEl = spotifyElem.querySelector("div > div[time] t:not(:first-of-type)"),
-							expEl = spotifyElem.querySelector("div > div[info] span"),
+							expEl = spotifyElem.querySelector("div > div[icons] > span"),
 							nomEl = spotifyElem.querySelector("div > div > t"),
 							autEl = spotifyElem.querySelector("div > div > p"),
-							canEl = spotifyElem.querySelector("div > div > c");
-						styEl = spotifyElem.querySelector("div style");
+							canEl = spotifyElem.querySelector("div > div > c"),
+							styEl = spotifyElem.querySelector("div style");
 
 						/**
 						 * @param {{
@@ -89,6 +96,9 @@
 								barLen.firstElementChild.innerText = 'Not playing';
 							}
 
+							if (window.sotd && window.sotd.length && window.sotd.filter(el => el.name == data.name).length) spotifyElem.querySelector("a[sotd]").classList.add('active')
+							else spotifyElem.querySelector("a[sotd]").classList.remove('active');
+							
 							styEl.innerText = `div[f] div[artist="${data.author.toLowerCase()}"] { outline: 2px solid #c49922; z-index: 1; } curtain>div[spotify]>div>div[time] bar { --temp: ${100 * data.progress / data.duration}% !important; }`;
 
 							if (data.explicit) expEl.style = 'display: unset';
@@ -108,8 +118,7 @@
 							};
 							spotifyElem.querySelector("div > img").src = data.album_image;
 
-							// canEl width - el width < 0  |  el è più grande del massimo
-
+							// (canEl width - el width) < 0  |  el è più grande del massimo
 							function scrollEle(mento) {
 								if (canEl.offsetWidth - mento.offsetWidth < 0) mento.style = `--end: ${canEl.offsetWidth - mento.offsetWidth}px`;
 								else mento.style = '';
@@ -121,20 +130,29 @@
 							document.querySelector('[head]').style = `--offSet: 0px`;
 						}
 
-						let errors = [];
-
+						let waiting = false;
 						async function fetchData() {
+							if (waiting) return;
 							try {
-								setMusicPlayerInfo(await (await fetch('https://glitch-proxy.vercel.app/reloia-listen/api')).json());
+								const response = await fetch('https://glitch-proxy.vercel.app/reloia-listen/api');
+								if (response.status != 200) {
+									if (response.status == 403) {
+										waiting = true;
+										setTimeout(() => {
+											waiting = false;
+										}, 18000)
+									} else throw new Error(response);
+								}
+								setMusicPlayerInfo(await response.json());
 							} catch (error) {
 								setMusicPlayerInfo({
 									author: 'An error occurred',
 									name: 'There war an error',
 									song_link: '',
-									duration: 2 ** 69,
+									duration: 2 ** 52,
 									progress: 0,
 								});
-								throw error;
+								console.warn(error)
 							}
 
 						}
@@ -212,7 +230,7 @@
 					</div>
 					<div>
 						<h3>ReLoia Listen</h3>
-						<p>Api endpoint to see what I'm listening to</p><br>
+						<p>Api endpoint to see what I'm listening to and other spotify-related stuff</p><br>
 						<a regu href="https://reloia-listen.glitch.me" target="_blank">reloia-listen.glitch.me</a> - <a regu href="https://github.com/ReLoia/reloia_listen" target="_blank">GitHub</a> page
 					</div>
 					<div>

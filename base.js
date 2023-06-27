@@ -1,6 +1,9 @@
 console.log('%cReLoia\n%cHi! I hope you like the website. I have put a lot of effort into it. If you wish to contact me, my contact information can be found below.',
-'color: firebrick; font-size: clamp(5em, 15vw, 15em)', 'color: white; font-size: 2em')
+    'color: firebrick; font-size: clamp(5em, 15vw, 15em)', 'color: white; font-size: 2em')
 
+/**
+ * This javascript file is executed after the html is loaded
+ */
 
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");
@@ -87,7 +90,8 @@ const activatePage = e => {
             lastClientY = 0;
         } else { // mouse
             if (e.button == 2) return;
-            if (["A", "SVG"].includes(e.target.nodeName)) return;
+            if (["a", "svg", "path"].includes(e.target.nodeName.toLowerCase())) return;
+            console.log(e.target.nodeName)
         }
     }
     pageActivated = true;
@@ -103,7 +107,6 @@ const cWC = (str, type, noBlock) => {
     if (type == "color") return `<span style="color: ${str}">${str}</span>`;
     return `<span ${type} ${noBlock ? "nB" : ""}>` + str + "</span>";
 };
-
 document.querySelectorAll("span[code]").forEach(el => {
     let newText = el.innerHTML
         .replace(/\n/g, "") // tutto su una sola linea
@@ -154,8 +157,33 @@ setInterval(async () => {
 }, 1000);
 
 // songs of the day handler
-(async () => {
+let password = "";
+
+window.sotd = [];
+;(async () => {
     await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
+
+    const addSotD = document.querySelector("a[sotd]")
+    if (!addSotD) return;
+    addSotD.addEventListener("click", async () => {
+        if (addSotD.classList.contains("added")) return;
+
+        password = password || window.prompt("Type the API password", "");
+        await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/url", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": password
+            },
+            body: JSON.stringify({
+                url: document.querySelector("div[spotify] > a").attributes.href.value
+            })
+        });
+        if (result.status == 401) return password = ""
+        else if (result.status != 200) return console.error(result)
+
+        addSotD.classList.add("added");
+    })
 
     const sotdEl = document.getElementById("sotd");
     let sotdResponse;
@@ -165,6 +193,7 @@ setInterval(async () => {
     } catch (e) { if (e.status != 200) return sotdEl.innerText = "Work in progress..."; else if (e instanceof Error) console.error(e); }
 
     const sotd = await sotdResponse.json() || [];
+    window.sotd = sotd;
 
     if (sotd.message || sotd.length == 0) return sotdEl.innerText = "Work in progress...";
 
@@ -172,33 +201,41 @@ setInterval(async () => {
     if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerHTML = "Song<sub>s</sub> of the day";
     sotd.forEach((song, i) => {
         const songEl = document.createElement("div");
+        songEl.setAttribute("sotd", `${song.name.toLowerCase()}-${song.author.toLowerCase()}`);
         if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";
         songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
 		<div>
 			<t>${song.name}</t>
 			<p>${song.author}</p>
 			<c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
-		</div>`;
+		</div>
+        <div>
+            <a class="added" id="sotd-${i}" title="Remove song from SotD" >
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32" version="1.1">
+                    <path></path>
+            </svg>
+            </a>
+        </div>`;
         sotdEl.appendChild(songEl);
+
+        document.querySelector(`#sotd a#sotd-${i}`)?.addEventListener("click", () => deleteSong(songEl));
     });
 })();
 
-// Debug
-function addSOTDElement(name, author, date, album) {
-    const sotdEl = document.getElementById("sotd");
-    const sotd = [{ name, author, date, album }];
-    if (sotd.length > 1)
-        songEl.parentElement.querySelector("h2").innerText =
-            "Song(s) of the day";
-    sotd.forEach((song, i) => {
-        const songEl = document.createElement("div");
-        if (i == 0) songEl.style.backgroundColor = "#bf99301f";
-        songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
-		<div>
-			<t>${song.name}</t>
-			<p>${song.author}</p>
-			<c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
-		</div>`;
-        sotdEl.appendChild(songEl);
-    });
+const deleteSong = async (container) => {
+    password = password || window.prompt("Type the API password", "");
+    const result = fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/remove", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": password
+        },
+        body: JSON.stringify({
+            index: Array.from(container.parentElement.children).indexOf(container)
+        })
+    })
+    if (result.status == 200) {
+        container.remove();
+    } else if (result.status == 401) password = ""
+    else console.error(result)
 }
