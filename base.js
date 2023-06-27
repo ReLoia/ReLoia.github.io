@@ -160,7 +160,7 @@ setInterval(async () => {
 let password = "";
 
 window.sotd = [];
-;(async () => {
+; (async () => {
     await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
 
     const addSotD = document.querySelector("a[sotd]")
@@ -169,7 +169,7 @@ window.sotd = [];
         if (addSotD.classList.contains("added")) return;
 
         password = password || window.prompt("Type the API password", "");
-        await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/url", {
+        const result = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/url", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -182,6 +182,14 @@ window.sotd = [];
         if (result.status == 401) return password = ""
         else if (result.status != 200) return console.error(result)
 
+        if (!spotifyElem) return;
+        addSong(document.getElementById("sotd"), {
+            name: nomEl.innerText,
+            author: autEl.innerText,
+            // date formatted in dd/mm/yyyy
+            date: new Date(),
+            album: spotifyElem.querySelector("div > img").src
+        }, 0);
         addSotD.classList.add("added");
     })
 
@@ -199,28 +207,29 @@ window.sotd = [];
 
     sotdEl.innerHTML = "";
     if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerHTML = "Song<sub>s</sub> of the day";
-    sotd.forEach((song, i) => {
-        const songEl = document.createElement("div");
-        songEl.setAttribute("sotd", `${song.name.toLowerCase()}-${song.author.toLowerCase()}`);
-        if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";
-        songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
-		<div>
-			<t>${song.name}</t>
-			<p>${song.author}</p>
-			<c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
-		</div>
-        <div>
-            <a class="added" id="sotd-${i}" title="Remove song from SotD" >
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32" version="1.1">
-                    <path></path>
-            </svg>
-            </a>
-        </div>`;
-        sotdEl.appendChild(songEl);
-
-        document.querySelector(`#sotd a#sotd-${i}`)?.addEventListener("click", () => deleteSong(songEl));
-    });
+    sotd.forEach((song, i) => addSong(sotdEl, song, i));
 })();
+
+const addSong = async (container, song, i) => {
+    const songEl = document.createElement("div");
+    songEl.setAttribute("sotd", `${song.name.toLowerCase()}-${song.author.toLowerCase()}`);
+    if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";
+    songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
+    <div>
+        <t>${song.name}</t>
+        <p>${song.author}</p>
+        <c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
+    </div>
+    <div>
+        <a class="added" id="sotd-${i}" title="Remove song from SotD" >
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32" version="1.1">
+                <path></path>
+        </svg>
+        </a>
+    </div>`;
+    container.appendChild(songEl);
+    document.querySelector(`#sotd a#sotd-${i}`)?.addEventListener("click", () => deleteSong(songEl));
+}
 
 const deleteSong = async (container) => {
     password = password || window.prompt("Type the API password", "");
