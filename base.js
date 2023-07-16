@@ -1,5 +1,8 @@
-console.log('%cReLoia\n%cHi! I hope you like the website. I have put a lot of effort into it. If you wish to contact me, my contact information can be found below.',
-    'color: firebrick; font-size: clamp(5em, 15vw, 15em)', 'color: white; font-size: 2em')
+console.log(
+    "%cReLoia\n%cHi! I hope you like the website. I have put a lot of effort into it. If you wish to contact me, my contact information can be found below.",
+    "color: firebrick; font-size: clamp(5em, 15vw, 15em)",
+    "color: white; font-size: 2em"
+);
 
 /**
  * This javascript file is executed after the html is loaded
@@ -16,13 +19,13 @@ etaEl.innerText = Math.floor(
 
 const queries = location.search
     ? location.search
-        .slice(1)
-        .split("&")
-        .map(el => {
-            if (el == "") return;
-            const r = /(.+)=(.+)/g.exec(el);
-            return [r?.[1], r?.[2]];
-        })
+          .slice(1)
+          .split("&")
+          .map(el => {
+              if (el == "") return;
+              const r = /(.+)=(.+)/g.exec(el);
+              return [r?.[1], r?.[2]];
+          })
     : null;
 if (queries && queries[0][0] == "fbclid")
     setTimeout(
@@ -84,14 +87,18 @@ const deactivatePage = () => {
 const activatePage = e => {
     if (moving || pageActivated) return;
     if (e) {
-        if ("key" in e) { // tastiera
+        if ("key" in e) {
+            // tastiera
             if (e.key == "Tab" || e.key == "Alt") return;
-        } else if ("touches" in e) { // touchpad
+        } else if ("touches" in e) {
+            // touchpad
             lastClientY = 0;
-        } else { // mouse
+        } else {
+            // mouse
             if (e.button == 2) return;
-            if (["a", "svg", "path"].includes(e.target.nodeName.toLowerCase())) return;
-            console.log(e.target.nodeName)
+            if (["a", "svg", "path"].includes(e.target.nodeName.toLowerCase()))
+                return;
+            console.log(e.target.nodeName);
         }
     }
     pageActivated = true;
@@ -160,65 +167,90 @@ setInterval(async () => {
 let password = "";
 
 window.sotd = [];
-; (async () => {
+(async () => {
     await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
 
-    const addSotD = document.querySelector("a[sotd]")
+    const addSotD = document.querySelector("a[sotd]");
     if (!addSotD) return;
     addSotD.addEventListener("click", async () => {
         if (addSotD.classList.contains("added")) return;
 
         password = password || window.prompt("Type the API password", "");
-        const result = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/url", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": password
-            },
-            body: JSON.stringify({
-                url: document.querySelector("div[spotify] > a").attributes.href.value
-            })
-        });
-        if (result.status == 401) return password = ""
-        else if (result.status != 200) return console.error(result)
+        const result = await fetch(
+            "https://glitch-proxy.vercel.app/reloia-listen/sotd/url",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: password,
+                },
+                body: JSON.stringify({
+                    url: document.querySelector("div[spotify] > a").attributes
+                        .href.value,
+                }),
+            }
+        );
+        if (result.status == 401) return (password = "");
+        else if (result.status != 200) return console.error(result);
 
         if (!spotifyElem) return;
-        addSong(document.getElementById("sotd"), {
-            name: nomEl.innerText,
-            author: autEl.innerText,
-            // date formatted in dd/mm/yyyy
-            date: new Date(),
-            album: spotifyElem.querySelector("div > img").src
-        }, 0);
+        addSong(
+            document.getElementById("sotd"),
+            {
+                name: nomEl.innerText,
+                author: autEl.innerText,
+                // date formatted in dd/mm/yyyy hh:mm:ss
+                date: new Date().toLocaleString("it", { day: "numeric", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+                album: spotifyElem.querySelector("div > img").src,
+            },
+            0,
+            true
+        );
         addSotD.classList.add("added");
-    })
+    });
 
     const sotdEl = document.getElementById("sotd");
     let sotdResponse;
     try {
-        sotdResponse = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd")
+        sotdResponse = await fetch(
+            "https://glitch-proxy.vercel.app/reloia-listen/sotd"
+        );
         throw sotdResponse;
-    } catch (e) { if (e.status != 200) return sotdEl.innerText = "Work in progress..."; else if (e instanceof Error) console.error(e); }
+    } catch (e) {
+        if (e.status != 200) return (sotdEl.innerText = "Work in progress...");
+        else if (e instanceof Error) console.error(e);
+    }
 
-    const sotd = await sotdResponse.json() || [];
+    const sotd = (await sotdResponse.json()) || [];
     window.sotd = sotd;
 
-    if (sotd.message || sotd.length == 0) return sotdEl.innerText = "Work in progress...";
+    if (sotd.message || sotd.length == 0)
+        return (sotdEl.innerText = "Work in progress...");
 
     sotdEl.innerHTML = "";
-    if (sotd.length > 1) sotdEl.parentElement.querySelector("h2").innerHTML = "Song<sub>s</sub> of the day";
+    if (sotd.length > 1)
+        sotdEl.parentElement.querySelector("h2").innerHTML =
+            "Song<sub>s</sub> of the day";
     sotd.forEach((song, i) => addSong(sotdEl, song, i));
 })();
 
-const addSong = async (container, song, i) => {
+const addSong = async (container, song, i, position = false) => {
     const songEl = document.createElement("div");
-    songEl.setAttribute("sotd", `${song.name.toLowerCase()}-${song.author.toLowerCase()}`);
-    if (i == 0 && sameDay(song.date, Date.now())) songEl.style.backgroundColor = "#e0c0670f";
+    songEl.setAttribute(
+        "sotd",
+        `${song.name.toLowerCase()}-${song.author.toLowerCase()}`
+    );
+    if (i == 0 && sameDay(song.date, Date.now()))
+        songEl.style.backgroundColor = "#e0c0670f";
     songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
     <div>
         <t>${song.name}</t>
         <p>${song.author}</p>
-        <c>${typeof song.date == "number" ? handleTime(new Date(song.date)) : song.date}</c>
+        <c>${
+            typeof song.date == "number"
+                ? handleTime(new Date(song.date))
+                : song.date
+        }</c>
     </div>
     <div>
         <a class="added" id="sotd-${i}" title="Remove song from SotD" >
@@ -227,24 +259,34 @@ const addSong = async (container, song, i) => {
         </svg>
         </a>
     </div>`;
-    container.appendChild(songEl);
-    document.querySelector(`#sotd a#sotd-${i}`)?.addEventListener("click", () => deleteSong(songEl));
-}
+    if (position) container.prepend(songEl);
+    else container.appendChild(songEl);
+    document
+        .querySelector(`#sotd a#sotd-${i}`)
+        ?.addEventListener("click", () => deleteSong(songEl));
+};
 
-const deleteSong = async (container) => {
+const deleteSong = async container => {
     password = password || window.prompt("Type the API password", "");
-    const result = await fetch("https://glitch-proxy.vercel.app/reloia-listen/sotd/remove", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": password
-        },
-        body: JSON.stringify({
-            index: window.sotd.length - Array.from(container.parentElement.children).indexOf(container)
-        })
-    })
+    const result = await fetch(
+        "https://glitch-proxy.vercel.app/reloia-listen/sotd/remove",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: password,
+            },
+            body: JSON.stringify({
+                index:
+                    window.sotd.length -
+                    Array.from(container.parentElement.children).indexOf(
+                        container
+                    ),
+            }),
+        }
+    );
     if (result.status == 200) {
         container.remove();
-    } else if (result.status == 401) password = ""
-    else console.error(result)
-}
+    } else if (result.status == 401) password = "";
+    else console.error(result);
+};
