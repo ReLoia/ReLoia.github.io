@@ -230,7 +230,17 @@ window.sotd = [];
     sotdEl.innerHTML = "";
     if (sotd.length > 1)
         sotdEl.parentElement.querySelector("h2").innerHTML =
-            "Song<sub>s</sub> of the day";
+            "Song<sub>s</sub> of the day<a regu>See more</a>";
+    (sotdMore = sotdEl.parentElement.querySelector("h2>a")).onclick = () => {
+        if (sotdEl.style.maxHeight == "unset") {
+            sotdEl.style.maxHeight = "143px";
+            sotdMore.innerText = "See more";
+        }
+        else {
+            sotdEl.style.maxHeight = "unset"
+            sotdMore.innerText = "See less";
+        }
+    };
     sotd.forEach((song, i) => addSong(sotdEl, song, i));
 })();
 
@@ -244,8 +254,8 @@ const addSong = async (container, song, i, position = false) => {
         songEl.style.backgroundColor = "#e0c0670f";
     songEl.innerHTML = `<img src="${song.album}" alt="Cover not found">
     <div>
-        <t>${song.name}</t>
-        <p>${song.author}</p>
+        <t title="${song.name}">${song.name}</t>
+        <p title="${song.author}">${song.author}</p>
         <c>${
             typeof song.date == "number"
                 ? handleTime(new Date(song.date))
