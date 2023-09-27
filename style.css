@@ -509,6 +509,7 @@ content>div[f]>div>div>img {
   /* Image of the artist */
   width: 100%;
   aspect-ratio: 1/1;
+  object-fit: cover;
 }
 
 content>div[f]>div>div>span {
