@@ -90,8 +90,8 @@ page {
   justify-content: center;
   flex-direction: column;
 
-  height: 100svh;
-  width: 100svw;
+  height: 100dvh;
+  width: 100dvw;
 
   -webkit-user-select: none;
   user-select: none;
