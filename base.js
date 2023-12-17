@@ -10,6 +10,7 @@ console.log(
 
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");
+const onlineCont = document.querySelector("[head] > div[online] t");
 const etaEl = document.querySelector("age");
 
 // Setup stuff
@@ -37,7 +38,7 @@ if (queries && queries[0][0] == "fbclid")
 ((url, info) => {
     if (!url) return;
     document.querySelector("showcase").style.display = "flex";
-    document.querySelector("showcase img").src = `https://i.imgur.com/${url}`;
+    document.querySelector("showcase img").src = url.startsWith("http") ? url : `https://i.imgur.com/${url}`;
     document.querySelector("showcase p t").innerText = (info ?? "").replace(
         /%20/g,
         " "
@@ -97,7 +98,7 @@ const activatePage = e => {
             if (e.button == 2) return;
             if (e.target._prevent) return;
             if (e.target.path.some(
-                el => el == document.querySelector("div[spotify]") || el == document.querySelector("links")
+                el => el == document.querySelector("div[spotify]") || el == document.querySelector("links") || el == document.querySelector("showcase")
             )) return e.target._prevent = true;
         }
     }
@@ -112,7 +113,7 @@ document.onkeydown = document.onmousedown = document.ontouchend = activatePage;
 
 const cWC = (str, type, noBlock) => {
     if (type == "color") return `<span style="color: ${str}">${str}</span>`;
-    return `<span ${type} ${noBlock ? "nB" : ""}>` + str + "</span>";
+    return `<span ${type} ${noBlock ? "nB" : ""}>${str}</span>`;
 };
 document.querySelectorAll("span[code]").forEach(el => {
     let newText = el.innerHTML
@@ -199,7 +200,6 @@ window.sotd = [];
             {
                 name: nomEl.innerText,
                 author: autEl.innerText,
-                // date formatted in dd/mm/yyyy hh:mm:ss
                 date: new Date().toLocaleString("it", { day: "numeric", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }),
                 album: spotifyElem.querySelector("div > img").src,
             },

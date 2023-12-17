@@ -370,7 +370,7 @@ a.added[title][sotd]>svg>path,
   width: fit-content;
 }
 
-[head]>div[info] {
+[head]>div[info], [head]>div[online] {
   /* max-width: 5em; */
   background-color: #181818e0;
   border-radius: 0.6em;

@@ -86,6 +86,9 @@
                          * }} data
                          */
                         function setMusicPlayerInfo(data) {
+                            // Shows the number of people connected to the websocket
+                            if (data.clients) onlineCont.innerText = data.clients;
+
                             if (data.playing) {
                                 paused = false;
                                 barLen.firstElementChild.innerText = "";
@@ -127,27 +130,12 @@
                             document.querySelector("[head]").style = `--offSet: 0px`;
                         }
 
-                        // The proxy doesn't support websockets
-                        const wss = new WebSocket("wss://reloia-listen.glitch.me");
-
-                        if (wss.readyState != 3) {
-                            wss.onmessage = (event) => {
-                                try {
-                                    setMusicPlayerInfo(JSON.parse(event.data));
-                                } catch (error) {
-                                    setMusicPlayerInfo({
-                                        author: "An error occurred",
-                                        name: "There was an error",
-                                        song_link: "",
-                                        duration: 2 ** 52,
-                                        progress: 0,
-                                    });
-                                    console.warn(error);
-                                }
-                            };
-                        } else {
-                            // Some italian operators block glitch.me so I need a proxy
+                        function wssFallback() {
+                            console.log("Websocket not available");
+                            // Some italian IPS block glitch.me so I need use this proxy
                             let waiting = false;
+                            // Delete the online counter if the websocket is not available
+                            onlineCont.parentElement.remove();
 
                             async function fetchData() {
                                 if (waiting) return;
@@ -177,6 +165,50 @@
                             setInterval(fetchData, 6000);
                         }
 
+                        let usingProxy = false;
+
+                        let wss, retries;
+                        (async () => {
+                            console.log("Connecting to websocket...");
+                            wss = await new Promise((resolve, reject) => {
+                                const ws = new WebSocket("wss://reloia-listen.glitch.me");
+                                ws.onopen = () => resolve(ws);
+                                ws.onerror = () => resolve(ws);
+                            });
+                            retries = 0;
+
+                            console.log(wss);
+
+                            if (wss.readyState != 3) {
+                                wss.onmessage = (event) => {
+                                    try {
+                                        setMusicPlayerInfo(JSON.parse(event.data));
+                                    } catch (error) {
+                                        setMusicPlayerInfo({
+                                            author: "An error occurred",
+                                            name: "There was an error",
+                                            song_link: "",
+                                            duration: 2 ** 52,
+                                            progress: 0,
+                                        });
+                                        console.warn(error);
+                                    }
+                                };
+                                wss.onclose = () => {
+                                    if (retries < 3) {
+                                        console.log("Websocket closed, retrying...");
+                                        if (usingProxy) return (retries = 3);
+                                        retries++;
+                                        setTimeout(() => {
+                                            wss = new WebSocket("wss://reloia-listen.glitch.me");
+                                        }, 1000);
+                                    } else {
+                                        wssFallback();
+                                    }
+                                };
+                            } else wssFallback();
+                        })();
+
                         setInterval(() => {
                             if (Number(progEl.getAttribute("ms")) && !paused && Number(progEl.getAttribute("ms")) < Number(tmpEl.getAttribute("ms"))) {
                                 const newNum = Number(progEl.getAttribute("ms")) + 1000;
@@ -188,6 +220,7 @@
                     </script>
                 </div>
                 <div info translate="no">Bari, Italy - <t>loading</t></div>
+                <div online translate="no">Online: <t>loading</t></div>
             </div>
         </hover>
         <page>
