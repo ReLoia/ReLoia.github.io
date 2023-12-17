@@ -167,6 +167,37 @@
 
                         let usingProxy = false;
 
+                        // WSS handlers
+                        const wssHandlers = {
+                            onmessage: (event) => {
+                                try {
+                                    setMusicPlayerInfo(JSON.parse(event.data));
+                                } catch (error) {
+                                    setMusicPlayerInfo({
+                                        author: "An error occurred",
+                                        name: "There was an error",
+                                        song_link: "",
+                                        duration: 2 ** 52,
+                                        progress: 0,
+                                    });
+                                    console.warn(error);
+                                }
+                            },
+                            onclose: () => {
+                                if (this.retries < 3) {
+                                    console.log("Websocket closed, retrying...");
+                                    if (usingProxy) return (this.retries = 3);
+                                    this.retries++;
+                                    setTimeout(() => {
+                                        wss = new WebSocket("wss://reloia-listen.glitch.me");
+                                        wss.onmessage = wssHandlers.onmessage;
+                                        wss.onclose = wssHandlers.onclose;
+                                    }, 1000);
+                                } else wssFallback();
+                            },
+                            retries: 0,
+                        };
+
                         let wss, retries;
                         (async () => {
                             console.log("Connecting to websocket...");
@@ -177,35 +208,9 @@
                             });
                             retries = 0;
 
-                            console.log(wss);
-
                             if (wss.readyState != 3) {
-                                wss.onmessage = (event) => {
-                                    try {
-                                        setMusicPlayerInfo(JSON.parse(event.data));
-                                    } catch (error) {
-                                        setMusicPlayerInfo({
-                                            author: "An error occurred",
-                                            name: "There was an error",
-                                            song_link: "",
-                                            duration: 2 ** 52,
-                                            progress: 0,
-                                        });
-                                        console.warn(error);
-                                    }
-                                };
-                                wss.onclose = () => {
-                                    if (retries < 3) {
-                                        console.log("Websocket closed, retrying...");
-                                        if (usingProxy) return (retries = 3);
-                                        retries++;
-                                        setTimeout(() => {
-                                            wss = new WebSocket("wss://reloia-listen.glitch.me");
-                                        }, 1000);
-                                    } else {
-                                        wssFallback();
-                                    }
-                                };
+                                wss.onmessage = wssHandlers.onmessage;
+                                wss.onclose = wssHandlers.onclose;
                             } else wssFallback();
                         })();
 
