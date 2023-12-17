@@ -9,4 +9,18 @@ function handleTime(date) {
 }
 function sameDay(date, date1) {
     return new Date(date).toDateString() == new Date(date1).toDateString();
-} 
+}
+Object.defineProperty(Element.prototype, 'path', {
+    get() {
+        if (this == document.body) return [this];
+        if (this.__path) return this.__path;
+        const path = [];
+        let node = this;
+        while (node != document.body) {
+            path.push(node);
+            node = node.parentNode;
+        }
+        this.__path = path;
+        return path;
+    }
+});

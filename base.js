@@ -14,7 +14,7 @@ const etaEl = document.querySelector("age");
 
 // Setup stuff
 etaEl.innerText = Math.floor(
-    (new Date() - new Date("2006-02-13")) / 31104000000
+    (new Date() - new Date("2006-02-13")) / 31536000000
 );
 
 const queries = location.search
@@ -88,17 +88,17 @@ const activatePage = e => {
     if (moving || pageActivated) return;
     if (e) {
         if ("key" in e) {
-            // tastiera
-            if (e.key == "Tab" || e.key == "Alt") return;
+            if (
+                ["Tab", "Shift", "Control", "Alt", "Meta"].includes(e.key)
+            ) return;
         } else if ("touches" in e) {
-            // touchpad
             lastClientY = 0;
         } else {
-            // mouse
             if (e.button == 2) return;
-            if (["a", "svg", "path"].includes(e.target.nodeName.toLowerCase()))
-                return;
-            console.log(e.target.nodeName);
+            if (e.target._prevent) return;
+            if (e.target.path.some(
+                el => el == document.querySelector("div[spotify]") || el == document.querySelector("links")
+            )) return e.target._prevent = true;
         }
     }
     pageActivated = true;
