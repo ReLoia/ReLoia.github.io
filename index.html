@@ -179,6 +179,7 @@
                                         song_link: "",
                                         duration: 2 ** 52,
                                         progress: 0,
+                                        album_image: "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png"
                                     });
                                     console.warn(error);
                                 }
@@ -186,14 +187,23 @@
                             onclose: () => {
                                 if (this.retries < 3) {
                                     console.log("Websocket closed, retrying...");
-                                    if (usingProxy) return (this.retries = 3);
+                                    if (usingProxy) {
+                                        console.log("Websocket has died, switching to proxy...");
+                                        this.retries = 3;
+                                        return;
+                                    }
                                     this.retries++;
                                     setTimeout(() => {
                                         wss = new WebSocket("wss://reloia-listen.glitch.me");
                                         wss.onmessage = wssHandlers.onmessage;
                                         wss.onclose = wssHandlers.onclose;
-                                    }, 1000);
+                                        wss.onerror = wssHandlers.onerror;
+                                    }, 4000 * this.retries);
                                 } else wssFallback();
+                            },
+                            onerror: (...e) => {
+                                console.warn("Websocket error:");
+                                console.error(e);
                             },
                             retries: 0,
                         };
