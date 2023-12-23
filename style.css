@@ -10,8 +10,8 @@ html {
 
 body {
   transition: transform 1s ease;
-  height: 100svh;
-  font-size: 16px;
+  height: 100dvh;
+  /* font-size: 14px; */
 }
 
 body>*:not(page, hover) {
@@ -90,7 +90,7 @@ page {
   justify-content: center;
   flex-direction: column;
 
-  height: 100svh;
+  height: 100dvh;
   width: 100dvw;
 
   -webkit-user-select: none;

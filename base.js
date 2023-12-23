@@ -104,7 +104,7 @@ const activatePage = e => {
     }
     pageActivated = true;
     document.body.style.position = "unset";
-    document.querySelector("body").style.transform = "translateY(-100vh)";
+    document.querySelector("body").style.transform = "translateY(-100dvh)";
     window.scrollTo(0, 25);
     moving = true;
     setTimeout(() => (moving = false), 1000);
