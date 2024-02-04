@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -39,7 +39,7 @@
                             <div icons>
                                 <span>E</span>
                                 <a title="Add song to SotD" sotd>
-                                    <svg height="1.3rem" viewBox="-4 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <svg height="1.3rem" viewBox="-4 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                         <path d=""></path>
                                     </svg>
                                 </a>
@@ -112,7 +112,7 @@
                             nomEl.innerText = data.name;
                             autEl.innerText = data.author;
                             progEl.innerText = formatMS(data.progress);
-                            progEl.setAttribute("ms", data.progress);
+                            progEl.setAttribute("ms", String(data.progress));
                             if (tmpEl.innerText != formatMS(data.duration)) {
                                 tmpEl.innerText = formatMS(data.duration);
                                 tmpEl.setAttribute("ms", data.duration);
@@ -211,7 +211,7 @@
                         let wss, retries;
                         (async () => {
                             console.log("Connecting to websocket...");
-                            wss = await new Promise((resolve, reject) => {
+                            wss = await new Promise(resolve => {
                                 const ws = new WebSocket("wss://reloia-listen.glitch.me");
                                 ws.onopen = () => resolve(ws);
                                 ws.onerror = () => resolve(ws);
@@ -281,7 +281,7 @@
             <div i>
                 <h1><ita>Ciao</ita>! I'm Renato Loiacono</h1>
                 <p>I'm a <age>17</age> years old student from <ita>Italy</ita>, I love programming and creating websites.</p>
-                <p>My favourite programming language is JavaScript but I've also got experience in C++, C#, Java, Kotlin and Lua.</p>
+                <p>My favourite programming language is Kotlin, but I'm more experienced in JavaScript and I've also got experience in C++, C#, Java, Kotlin and Lua.</p>
                 <p>I'm currently a student at <a regu href="https://www.iissvoltadegemmis.edu.it/" target="_blank">Volta de Gemmis</a>.</p>
             </div>
             <div p>
@@ -318,7 +318,7 @@
                         <br />
                         <a regu href="https://meyou.site/" target="_blank">MeYou - the social for two</a>
                     </div>
-                    See my Github Profile for more <a regu href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
+                    See my GitHub Profile for more <a regu href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
                 </div>
             </div>
             <div f>
@@ -364,7 +364,7 @@
                         <h2>
                             <ita>Italian text</ita>
                         </h2>
-                        <p>Its just a simple CSS hack.</p>
+                        <p>It's just a simple CSS hack.</p>
                         <span code="css">/* I made a custom tag called ita */\nl ita {\nl \ta /* I set the display to inline-block to make it work in text fields */\nl \ta display: inline-block;\nl \ta /* Then I used the property background to make a gradient */\nl \ta background: linear-gradient (90deg, #009246 0%, #ffffff 50%, #ce2b37 100%);\nl \ta /* I used the property color to make the text transparent */\nl \ta color: transparent;\nl \ta /* And finally I used the property -webkit-background-clip to make the background visible only in the text */\nl \ta -webkit-background-clip: text;\nl } </span>
                     </div>
                 </div>
