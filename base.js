@@ -263,7 +263,7 @@ const addSong = async (container, song, i, position = false) => {
         }</c>
     </div>
     <div>
-        <a class="added" id="sotd-${i}" title="Remove song from SotD" >
+        <a class="added mouse-hover" id="sotd-${i}" title="Remove song from SotD" data-hoveranimationicon="unlike" >
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32" version="1.1">
                 <path></path>
         </svg>
@@ -273,7 +273,10 @@ const addSong = async (container, song, i, position = false) => {
     else container.appendChild(songEl);
     document
         .querySelector(`#sotd a#sotd-${i}`)
-        ?.addEventListener("click", () => deleteSong(songEl));
+        ?.addEventListener("click", () => {
+            deleteSong(songEl);
+        });
+    mouseHoverHandler(document.querySelector(`#sotd a#sotd-${i}`));
 };
 
 const deleteSong = async container => {
@@ -300,3 +303,29 @@ const deleteSong = async container => {
     } else if (result.status == 401) password = "";
     else console.error(result);
 };
+
+// Canvas
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+const resizeCanvas = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+};
+window.onresize = resizeCanvas;
+resizeCanvas();
+
+// Array of Functions that will be executed in the animation loop
+const canvasRenderers = [];
+function addCanvasRenderer(func) {
+    canvasRenderers.push(func);
+}
+function baseCanvasRender() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvasRenderers.forEach(func => func());
+    requestAnimationFrame(baseCanvasRender);
+}
+baseCanvasRender();
+
+// End Canvas

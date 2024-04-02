@@ -18,13 +18,14 @@
 
         <script src="utils.js"></script>
         <script defer src="base.js"></script>
+        <script defer src="canvas/mouse-anim.js"></script>
     </head>
 
     <body>
         <hover>
             <div head>
-                <div spotify>
-                    <a target="_blank"></a>
+                <div spotify >
+                    <a target="_blank" class="mouse-hover"></a>
 
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png" alt="" />
                     <div>
@@ -38,9 +39,9 @@
                             <p>Click to open</p>
                             <div icons>
                                 <span>E</span>
-                                <a title="Add song to SotD" sotd>
+                                <a title="Add song to SotD" sotd class="mouse-hover" data-hoveranimationicon="like">
                                     <svg height="1.3rem" viewBox="-4 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                        <path d=""></path>
+                                        <path d="M18.188 6.094c5.188 0 6.906 6 5.094 9.281-2.781 5.094-11.281 10.5-11.281 10.5s-8.531-5.406-11.281-10.5c-1.813-3.281-0.125-9.281 5.094-9.281 4.813 0 6.031 4.156 6.188 4.781 0.156-0.625 1.375-4.781 6.188-4.781z"></path>
                                     </svg>
                                 </a>
                             </div>
@@ -238,8 +239,23 @@
                 <div online translate="no">Online: <t>loading</t></div>
             </div>
         </hover>
+        <div mouse>
+            <!-- Icons for the custom icon hoveranimationicon -->
+
+            <svg xmlns="http://www.w3.org/2000/svg" id="like-icon" viewBox="0 0 34 34" width="28" height="28">
+                <path d="M18.188 6.094c5.188 0 6.906 6 5.094 9.281-2.781 5.094-11.281 10.5-11.281 10.5s-8.531-5.406-11.281-10.5c-1.813-3.281-0.125-9.281 5.094-9.281 4.813 0 6.031 4.156 6.188 4.781 0.156-0.625 1.375-4.781 6.188-4.781z"></path>
+            </svg>
+<!--            star-icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" id="star-icon" viewBox="0 0 74 74">
+                <path d="M26.285,2.486l5.407,10.956c0.376,0.762,1.103,1.29,1.944,1.412l12.091,1.757  c2.118,0.308,2.963,2.91,1.431,4.403l-8.749,8.528c-0.608,0.593-0.886,1.448-0.742,2.285l2.065,12.042  c0.362,2.109-1.852,3.717-3.746,2.722l-10.814-5.685c-0.752-0.395-1.651-0.395-2.403,0l-10.814,5.685  c-1.894,0.996-4.108-0.613-3.746-2.722l2.065-12.042c0.144-0.837-0.134-1.692-0.742-2.285l-8.749-8.528  c-1.532-1.494-0.687-4.096,1.431-4.403l12.091-1.757c0.841-0.122,1.568-0.65,1.944-1.412l5.407-10.956  C22.602,0.567,25.338,0.567,26.285,2.486z"/>
+            </svg>
+<!--            arrow-down-icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" id="arrow-down-icon" viewBox="0 0 44 44">
+                <path xmlns="http://www.w3.org/2000/svg" style="fill:#030104;" d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32    L32,16.016z"/>
+            </svg>
+        </div>
         <page>
-            <div logo translate="no">
+            <div logo translate="no" class="mouse-hover" data-hoveranimationicon="arrow-down">
                 <quote>L</quote>
                 <p>Re</p>
                 <p>Loia</p>
@@ -250,22 +266,22 @@
         <fake-footer>
             <links>
                 <div>
-                    <a href="https://github.com/ReLoia" target="”_blank”"
+                    <a href="https://github.com/ReLoia" target="_blank"
                         ><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
                             <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                         </svg>
                     </a>
-                    <a href="https://discord.com/users/371027932082208768" target="”_blank”"
+                    <a href="https://discord.com/users/371027932082208768" target="_blank"
                         ><svg width="33" height="33" viewBox="0 -28.5 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                             <path d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046-19.692-2.961-39.203-2.961-58.533 0-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632 108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237 136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848 21.142-6.58 42.646-16.637 64.815-33.213 5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2 0 14.375-10.148 26.18-23.015 26.18Z" />
                         </svg>
                     </a>
-                    <a href="https://t.me/reloiaa" target="”_blank”"
+                    <a href="https://t.me/reloiaa" target="_blank"
                         ><svg width="33" height="33" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 1.41421">
                             <path d="M18.384 22.779a1.19 1.19 0 0 0 1.107.145 1.16 1.16 0 0 0 .724-.84C21.084 18 23.192 7.663 23.983 3.948a.78.78 0 0 0-.26-.758.8.8 0 0 0-.797-.14C18.733 4.602 5.82 9.447.542 11.4a.827.827 0 0 0-.542.799c.012.354.25.661.593.764 2.367.708 5.474 1.693 5.474 1.693s1.452 4.385 2.209 6.615c.095.28.314.5.603.576a.866.866 0 0 0 .811-.207l3.096-2.923s3.572 2.619 5.598 4.062Zm-11.01-8.677 1.679 5.538.373-3.507 10.185-9.186a.277.277 0 0 0 .033-.377.284.284 0 0 0-.376-.064L7.374 14.102Z" />
                         </svg>
                     </a>
-                    <a href="https://www.last.fm/it/user/ReLoia" target="”_blank”">
+                    <a href="https://www.last.fm/it/user/ReLoia" target="_blank">
                         <svg height="30" width="30" xmlns="http://www.w3.org/2000/svg" viewBox="-271 324 256 154" xml:space="preserve">
                             <g stroke-width="0" />
                             <g stroke-linecap="round" stroke-linejoin="round" />
@@ -303,14 +319,14 @@
                         <h3>ArgoScuolaNext-NodeJS</h3>
                         <p>A NodeJS library that allows you to interact with ArgoScuolaNext API</p>
                         <br />
-                        <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS" target="_blank">ReLoia/ArgoScuolaNext-NodeJS</a> - <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS/blob/main/README.md">Readme</a>.md
+                        <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS" target="_blank" target="_blank">ReLoia/ArgoScuolaNext-NodeJS</a> - <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS/blob/main/README.md" target="_blank">Readme</a>.md
                     </div>
                     <div>
                         <h3>SmartWheelChair</h3>
                         - <grade bronze></grade>
                         <p>Android application created for the "Welcome to Automation" contest with a friend of mine where we placed third. For more information about the project read the ReadMe.</p>
                         <br />
-                        <a regu href="https://github.com/gabdevele/SmartWheelChair">gabdevele/SmartWheelChair</a> - <a regu href="https://github.com/gabdevele/SmartWheelChair/blob/master/README.md">Readme</a>.md
+                        <a regu href="https://github.com/gabdevele/SmartWheelChair" target="_blank">gabdevele/SmartWheelChair</a> - <a regu href="https://github.com/gabdevele/SmartWheelChair/blob/master/README.md" target="_blank">Readme</a>.md
                     </div>
                     <div>
                         <h3>MeYou - the social for two</h3>
@@ -325,23 +341,23 @@
                 <h2>Favourite artists</h2>
                 <c>Images from Last.fm</c>
                 <div>
-                    <div artist="caparezza">
+                    <div artist="caparezza" class="mouse-hover" data-hoveranimationicon="star">
                         <img src="https://static.sky.it/images/skytg24/it/spettacolo/musica/2022/05/15/caparezza-exuvia-tour/caparezza.jpg.transform/hero-desktop/4b31e9dbb14c7bf400aed4ea6e4f53a5eaee4e07/img.jpg" alt="" />
                         <span>Caparezza</span>
                     </div>
-                    <div artist="deftones" style="--offset: 0.5em">
+                    <div artist="deftones" style="--offset: 0.5em" class="mouse-hover" data-hoveranimationicon="star">
                         <img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/c2428255383f4cc7525b661c4fdf6d48.jpg" alt="" />
                         <span>Deftones</span>
                     </div>
-                    <div artist="system of a down" style="--offset: 1em">
+                    <div artist="system of a down" style="--offset: 1em" class="mouse-hover" data-hoveranimationicon="star">
                         <img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/05d78b59cf1242f09fab2176c8bf07df.jpg" alt="" />
                         <span>System of a Down</span>
                     </div>
-                    <div artist="radiohead" style="--offset: 0.5em">
+                    <div artist="radiohead" style="--offset: 0.5em" class="mouse-hover" data-hoveranimationicon="star">
                         <img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/582e918114eb83dd0061b6ba87fa25f6.jpg" alt="" />
                         <span>Radiohead</span>
                     </div>
-                    <div artist="arctic monkeys">
+                    <div artist="arctic monkeys" class="mouse-hover" data-hoveranimationicon="star">
                         <img src="https://lastfm.freetls.fastly.net/i/u/avatar300s/bcc5bfe70c101882ff81021a5039f14e.jpg" alt="" />
                         <span>Arctic Monkeys</span>
                     </div>
@@ -357,7 +373,7 @@
                 <div>
                     <div>
                         <h2>Music Player</h2>
-                        <p>It fetches my currently or last played song from my <a regu href="https://github.com/ReLoia/reloia_listen">API hosted on Glitch.com</a> and loads it.</p>
+                        <p>It fetches my currently or last played song from my <a regu href="https://github.com/ReLoia/reloia_listen" target="_blank">API hosted on Glitch.com</a> and loads it.</p>
                         <span code="js">/* I make a GET request to my backend server to get my currently or last played song */\nl const response = await fetch('https://glitch-proxy.vercel.app/reloia-listen/api');\nl /* Next, I convert the response to JSON */\nl const json = await response.json();\nl /* And I pass that to my <a href="https://github.com/ReLoia/ReLoia.github.io/blob/master/index.html#L78-L129">function that handles all the changes to the player</a> */\nl setInfo(json); </span>
                     </div>
                     <div>
@@ -375,10 +391,10 @@
                     <div>You can contact me by:</div>
                     <br />
                     <ul style="margin-left: 1em">
-                        <li>Github - <a regu href="https://github.com/ReLoia">ReLoia</a></li>
-                        <li>Discord - <a regu href="https://discord.com/users/371027932082208768">Re.</a></li>
+                        <li>Github - <a regu href="https://github.com/ReLoia" target="_blank">ReLoia</a></li>
+                        <li>Discord - <a regu href="https://discord.com/users/371027932082208768" target="_blank">Re.</a></li>
                         <li>eMail - <a regu href="mailto:zrennyz@gmail.com?subject=Hi, I would like to ask you ...">GMail</a></li>
-                        <li>Telegram - <a regu href="https://t.me/reloiaa">ReLoia</a></li>
+                        <li>Telegram - <a regu href="https://t.me/reloiaa" target="_blank">ReLoia</a></li>
                     </ul>
                 </div>
             </div>
@@ -389,5 +405,6 @@
                 <img src="" alt="" />
             </div>
         </showcase>
+        <canvas id="canvas"></canvas>
     </body>
 </html>
