@@ -27,9 +27,12 @@ const mouse = {
     hover: false,
     hoverEl: null,
     hoverElCenterReached: false,
-    // hoverAnimation: 'default' | 'icon'
-    // default: the mouse will outline the element
-    // icon: the mouse will be an icon depending on the element | e.g. on the Love button it will be a heart ; on the 'alias' it will be an arrow
+    /**
+     * default: the mouse will outline the element<br>
+     * arrow-down: the mouse will be an arrow pointing down<br>
+     * like: the mouse will be a heart
+     * @type {"default" | "arrow-down" | "like" }
+     */
     hoverAnimation: 'default',
 
     // Direction of the mouse in Radians
@@ -66,20 +69,23 @@ const mouseHoverHandler = (el) => {
         }
     })
     el.addEventListener('mouseout', ev => {
-        if (ev.relatedTarget.dataset.hoveranimationicon) return
+        if (
+            el.dataset.hoveranimationicon &&
+            (ev.relatedTarget.dataset.hoveranimationicon == el.dataset.hoveranimationicon)
+        ) return
 
         mouse.hover = false
         mouse.hoverEl = null
         // mouseEl.classList.remove('hovering')
         mouse.hoverElCenterReached = false
-        mouseEl.className = ''
+        mouseEl.className = 'nomobile'
+        if (mouse.hoverAnimation == "default") {
+            const rect = el.getBoundingClientRect()
+            mouse.x = rect.left
+            mouse.y = rect.top + Math.abs(document.body.getBoundingClientRect().top)
+        }
+
         mouse.hoverAnimation = 'default'
-
-        const rect = el.getBoundingClientRect()
-        mouse.x = rect.left
-        mouse.y = rect.top
-
-        console.log(ev)
     })
 }
 document.querySelectorAll('.mouse-hover, [target="_blank"], [regu]').forEach(mouseHoverHandler)
@@ -90,20 +96,22 @@ function lerp(a, b, t) {
 
 let t = 0.02
 /**
- * Every frame it interpolates the mouse size
+ * Every frame it interpolates the mouse position
  */
-function mouseSizeInterpolation() {
+function mousePositionInterpolation() {
+    const mouseActualPosition = Math.abs(document.body.getBoundingClientRect().top) + mouse.currentY
+
     if (
-        Math.abs(mouse.x - mouse.currentX) < 1 && Math.abs(mouse.y - mouse.currentY) < 1
+        Math.abs(mouse.x - mouse.currentX) < 1 && Math.abs(mouse.y - mouseActualPosition) < 1
     ) return
     mouse.direction = Math.atan2(mouse.y - mouse.y, mouse.x - mouse.x)
     mouse.speed = Math.hypot(mouse.x - mouse.x, mouse.y - mouse.y)
 
     mouse.x = lerp(mouse.x, mouse.currentX, t)
-    mouse.y = lerp(mouse.y, mouse.currentY, t)
+    mouse.y = lerp(mouse.y, mouseActualPosition, t)
 }
 
-addCanvasRenderer(mouseSizeInterpolation)
+addCanvasRenderer(mousePositionInterpolation)
 
 const mouseEl = document.querySelector('[mouse]')
 mouse.transformBaseCSS = getComputedStyle(mouseEl).transform
@@ -139,10 +147,9 @@ function customMouseIcon() {
     }
     mouseEl.style.left = `${mouse.x}px`
 
-    const bodyTop = document.body.getBoundingClientRect().top
 
     mouseEl.style.top = `${
-        Math.abs(bodyTop) + mouse.y
+        mouse.y
     }px`
 }
 addCanvasRenderer(customMouseIcon)

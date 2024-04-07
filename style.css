@@ -722,7 +722,6 @@ content > div[s] > div c {
     }
 }
 
-/* No mouse */
 @media (any-hover: none) {
     links c {
         --col: rgb(0, 123, 255);
@@ -734,5 +733,9 @@ content > div[s] > div c {
 
     links {
         bottom: 40px;
+    }
+
+    .nomobile {
+        display: none!important;
     }
 }
