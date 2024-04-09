@@ -28,6 +28,7 @@ const queries = location.search
               return [r?.[1], r?.[2]];
           })
     : null;
+// Redirect to "First Day of having a Chicken" if user comes from Instagram
 if (queries && queries[0][0] == "fbclid")
     setTimeout(
         () =>
@@ -321,11 +322,57 @@ const canvasRenderers = [];
 function addCanvasRenderer(func) {
     canvasRenderers.push(func);
 }
+let lastMouseX = 0;
+let lastMouseY = 0;
+let lastTime = Date.now();
+let userIsAFK = false;
 function baseCanvasRender() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvasRenderers.forEach(func => func());
     requestAnimationFrame(baseCanvasRender);
+
+
+    // Check if user is AFK (has not moved the mouse in 1 minute)
+    if (Date.now() - lastTime > 60_000) {
+        if (!userIsAFK) {
+            userIsAFK = true;
+        }
+    } else if (userIsAFK) {
+        userIsAFK = false;
+    }
+
+    // Update last mouse position
+    if (typeof mouse !== "undefined") {
+        lastMouseX = mouse.x;
+        lastMouseY = mouse.y;
+
+        // Update last time
+        if (lastMouseX != mouse.x || lastMouseY != mouse.y) lastTime = Date.now();
+    }
 }
 baseCanvasRender();
 
 // End Canvas
+
+let tabbingDelay = null;
+
+// Check if tabbed element is out of view and if so, scroll to it (activate page or deactivate page)
+window.addEventListener("keydown", async e => {
+        if (e.key == "Tab") {
+            const tabbed = document.activeElement;
+            if (tabbed == document.body) return;
+
+            if (tabbingDelay != null) clearTimeout(tabbingDelay);
+            tabbingDelay = setTimeout(() => {
+                if (
+                    tabbed.getBoundingClientRect().top < 0 ||
+                    tabbed.getBoundingClientRect().bottom > window.innerHeight - 20
+                ) {
+                    if (pageActivated) deactivatePage();
+                    else activatePage();
+                }
+            }, 250);
+        }
+    }
+)
+

@@ -71,7 +71,7 @@ const mouseHoverHandler = (el) => {
     el.addEventListener('mouseout', ev => {
         if (
             el.dataset.hoveranimationicon &&
-            (ev.relatedTarget.dataset.hoveranimationicon == el.dataset.hoveranimationicon)
+            (ev?.relatedTarget?.dataset?.hoveranimationicon == el.dataset.hoveranimationicon)
         ) return
 
         mouse.hover = false
@@ -115,6 +115,7 @@ addCanvasRenderer(mousePositionInterpolation)
 
 const mouseEl = document.querySelector('[mouse]')
 mouse.transformBaseCSS = getComputedStyle(mouseEl).transform
+
 // Custom Mouse Icon - NOT USING CANVAS
 // This is the Canvas Renderers array only to load it every frame
 function customMouseIcon() {
@@ -145,16 +146,24 @@ function customMouseIcon() {
         mouseEl.style.transform = `${mouse.transformBaseCSS} rotate(${mouse.direction}rad)`
         mouseEl.style.height = `${(1 / (mouse.speed / 15 + 1)) * 20}px`
     }
-    mouseEl.style.left = `${mouse.x}px`
 
 
-    mouseEl.style.top = `${
-        mouse.y
-    }px`
+    // if user is AFK, apply a cos and sin function to the mouse
+    if (userIsAFK) {
+        mouseEl.style.left = `${
+            mouse.x + Math.cos(Date.now() / 500) * 75
+        }px`
+
+        mouseEl.style.top = `${
+            mouse.y - Math.sin(Date.now() / 500) * 15
+        }px`
+    } else {
+        mouseEl.style.left = `${mouse.x}px`
+
+        mouseEl.style.top = `${
+            mouse.y
+        }px`
+    }
+
 }
 addCanvasRenderer(customMouseIcon)
-
-
-// Test
-// log canvasRenderers
-console.log(canvasRenderers)
