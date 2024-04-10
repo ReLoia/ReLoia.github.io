@@ -54,7 +54,7 @@ window.addEventListener('mousedown', () => {
 window.addEventListener('mouseup', () => {
     mouse.click = false
 })
-// This needs to be a variable because it will be used in SOTD as well
+// This needs to be a variable because it is used in SOTD as well
 const mouseHoverHandler = (el) => {
     el.addEventListener('mouseover', () => {
         mouse.hover = true
@@ -151,11 +151,11 @@ function customMouseIcon() {
     // if user is AFK, apply a cos and sin function to the mouse
     if (userIsAFK) {
         mouseEl.style.left = `${
-            mouse.x + Math.cos(Date.now() / 500) * 75
+            mouse.x + Math.cos(Date.now() / 500) * 25
         }px`
 
         mouseEl.style.top = `${
-            mouse.y - Math.sin(Date.now() / 500) * 15
+            mouse.y - Math.sin(Date.now() / 500) * 25
         }px`
     } else {
         mouseEl.style.left = `${mouse.x}px`
