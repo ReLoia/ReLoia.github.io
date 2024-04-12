@@ -330,8 +330,8 @@ function baseCanvasRender() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvasRenderers.forEach(func => func());
 
-    // Check if user is AFK (has not moved the mouse in 1 minute)
-    if ((Date.now() - lastTime) > 60_000) {
+    // Check if user is AFK (has not moved the mouse in 15 seconds)
+    if ((Date.now() - lastTime) > 15_000) {
         if (!userIsAFK) {
             userIsAFK = true;
         }
