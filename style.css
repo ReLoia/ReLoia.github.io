@@ -263,6 +263,18 @@ hover {
     transition: opacity 0.4s .15s;
 }
 
+/* Fast mouse that follows every user movement */
+[mouse]:not(.hovering, .hoverIcon) > [data-type="fast"] {
+    position: absolute;
+    pointer-events: none;
+    transform: translate(50%, 50%);
+
+    width: 5px;
+    height: 5px;
+
+    background-color: rgb(252, 168, 0);
+}
+
 [target="_blank"] > * {
     pointer-events: none;
 }

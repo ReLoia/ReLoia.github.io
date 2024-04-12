@@ -114,6 +114,7 @@ function mousePositionInterpolation() {
 addCanvasRenderer(mousePositionInterpolation)
 
 const mouseEl = document.querySelector('[mouse]')
+const fastMouseEl = mouseEl.querySelector("[data-type=\"fast\"]")
 mouse.transformBaseCSS = getComputedStyle(mouseEl).transform
 
 // Custom Mouse Icon - NOT USING CANVAS
@@ -165,5 +166,10 @@ function customMouseIcon() {
         }px`
     }
 
+    let fastMouseX = mouse.currentX - mouse.x;
+    let fastMouseY = Math.abs(document.body.getBoundingClientRect().top) + mouse.currentY - mouse.y;
+
+    fastMouseEl.style.top = `${fastMouseY}px`
+    fastMouseEl.style.left = `${fastMouseX}px`
 }
 addCanvasRenderer(customMouseIcon)
