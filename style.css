@@ -190,17 +190,22 @@ hover {
     position: absolute;
     border-radius: 50%;
     /*background-color: firebrick;*/
-    outline: 2px solid firebrick;
+    outline: 3px solid #cb1919;
     pointer-events: none;
     transform: translate(-50%, -50%);
+
+    opacity: 1;
 
     filter: blur(8px);
 
 }
+[mouse].hidden {
+    opacity: 0!important;
+}
 [mouse]:not(.hovering) {
     width: 20px !important;
     height: 20px;
-    transition: outline 0.4s, height .4s, width .4s,  border-radius 0.4s;
+    transition: outline 0.4s, height .4s, width .4s,  border-radius 0.4s, opacity .6s;
 }
 [mouse] > svg {
     /*display: none;*/
@@ -211,7 +216,7 @@ hover {
     background-color: rgb(252, 168, 0);
     /*outline: 2px solid rgb(252, 168, 0);*/
     border-radius: 0;
-    transition: outline 0.4s, height 0.4s, width 0.4s, border-radius 0.4s;
+    transition: outline 0.4s, height 0.4s, width 0.4s, border-radius 0.4s, opacity .6s;
 }
 [mouse].hoverIcon {
     /*width: 70px!important;*/

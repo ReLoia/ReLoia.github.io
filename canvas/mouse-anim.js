@@ -148,6 +148,11 @@ function customMouseIcon() {
         mouseEl.style.height = `${(1 / (mouse.speed / 15 + 1)) * 20}px`
     }
 
+    if ((mouse.x < 20 || mouse.y < 20) || (mouse.y > (window.innerHeight + Math.abs(document.body.getBoundingClientRect().top)) - 20 || mouse.x > window.innerWidth - 20)) {
+        mouseEl.classList.add('hidden')
+    } else {
+        mouseEl.classList.remove('hidden')
+    }
 
     // if user is AFK, apply a cos and sin function to the mouse
     if (userIsAFK) {
