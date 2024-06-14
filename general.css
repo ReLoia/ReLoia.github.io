@@ -106,3 +106,9 @@ content grade[bronze]::after {
   color: #945b1a;
   content: "Bronze";
 }
+
+error {
+  color: #ff0000;
+  text-transform: uppercase;
+  font-weight: bold;
+}

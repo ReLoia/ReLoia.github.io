@@ -93,6 +93,7 @@ const activatePage = e => {
             if (
                 ["Tab", "Shift", "Control", "Alt", "Meta"].includes(e.key)
             ) return;
+            if (e.ctrlKey) return;
         } else if ("touches" in e) {
             lastClientY = 0;
         } else {
@@ -187,7 +188,7 @@ window.sotd = [];
                     Authorization: password,
                 },
                 body: JSON.stringify({
-                    url: document.querySelector("div[spotify] > a").attributes
+                    url: document.querySelector("div[spotify] > a")
                         .href.value,
                 }),
             }
@@ -196,17 +197,24 @@ window.sotd = [];
         else if (result.status != 200) return console.error(result);
 
         if (!spotifyElem) return;
-        addSong(
+        (await addSong(
             document.getElementById("sotd"),
             {
                 name: nomEl.innerText,
                 author: autEl.innerText,
-                date: new Date().toLocaleString("it", { day: "numeric", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+                date: new Date().toLocaleString("it", {
+                    day: "numeric",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                }),
                 album: spotifyElem.querySelector("div > img").src,
             },
             0,
             true
-        );
+        )).style.backgroundColor = "rgba(224, 192, 103, 0.06)";
         addSotD.classList.add("added");
     });
 
@@ -233,12 +241,12 @@ window.sotd = [];
         sotdEl.parentElement.querySelector("h2").innerHTML =
             "Song<sub>s</sub> of the day<a regu>See more</a>";
     (sotdMore = sotdEl.parentElement.querySelector("h2>a")).onclick = () => {
-        if (sotdEl.style.maxHeight == "unset") {
-            sotdEl.style.maxHeight = "143px";
+        if (sotdEl.classList.contains("open")) {
+            sotdEl.classList.remove("open");
             sotdMore.innerText = "See more";
         }
         else {
-            sotdEl.style.maxHeight = "unset"
+            sotdEl.classList.add("open");
             sotdMore.innerText = "See less";
         }
     };
@@ -278,6 +286,8 @@ const addSong = async (container, song, i, position = false) => {
             deleteSong(songEl);
         });
     mouseHoverHandler(document.querySelector(`#sotd a#sotd-${i}`));
+
+    return songEl;
 };
 
 const deleteSong = async container => {
@@ -375,3 +385,19 @@ window.addEventListener("keydown", async e => {
     }
 )
 
+// fav artists
+const favArtists = document.querySelector("div[f] > div");
+
+// on hover set the anchor of the translation to the absolute X of the mouse position relative to the element
+favArtists.addEventListener("mousemove", e => {
+    const rect = favArtists.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+
+    if (x < 110 || (x > rect.width - 110)) {
+        favArtists.style.setProperty("--scale", "1");
+        return;
+    }
+
+    favArtists.style.setProperty("--x", `${x}px`);
+    favArtists.style.setProperty("--scale", "1.2");
+});

@@ -118,7 +118,7 @@ const fastMouseEl = mouseEl.querySelector("[data-type=\"fast\"]")
 mouse.transformBaseCSS = getComputedStyle(mouseEl).transform
 
 // Custom Mouse Icon - NOT USING CANVAS
-// This is the Canvas Renderers array only to load it every frame
+// This shouldn't be in the Canvas Renderers array, but it is there to be executed every frame
 function customMouseIcon() {
     if (mouse.hover && mouse.hoverAnimation == "default") {
         // Decrease the interpolation speed

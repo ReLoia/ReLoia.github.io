@@ -106,6 +106,8 @@ page > p {
     color: #682d2d;
     text-shadow: #d071174e 0 0 10px;
     text-align: center;
+
+    font-family: "Courier New", Courier, monospace;
 }
 
 div[logo] {
@@ -121,8 +123,7 @@ div[logo] > p {
     position: absolute;
     --margin: 0.83em;
     text-align: center;
-    /* font-size: min(.43em, 1.35vw); */
-    /* font-size: max(min(40vw, 8.5em), 7vw); */
+
     font-size: max(min(40vw, 8.5em), min(19vw, 19vh));
     color: firebrick;
     transition: text-shadow 0.5s ease;
@@ -135,7 +136,6 @@ div[logo]:hover > p {
 }
 
 div[logo] > quote {
-    /* font-size: max(min(40vw, 8.5em), 7vw); */
     font-size: max(min(40vw, 8.5em), min(19vw, 19vh));
     color: rgb(117, 25, 25);
     animation: float 2.2s ease-in-out infinite;
@@ -613,6 +613,18 @@ content > div[f] > div {
     align-items: end;
     justify-content: center;
     margin-bottom: 1em;
+
+    transition: transform .777s, transform-origin .377s;
+}
+content > div[f] > div:hover {
+    --y: 50%;
+    --x: 50%;
+    --scale: 1;
+
+    transition: transform .777s;
+
+    transform-origin: var(--x) var(--y);
+    transform: scale(var(--scale));
 }
 
 content > div[f] > div > div {
@@ -662,6 +674,11 @@ content > div[s] > div#sotd {
     gap: 1em;
     max-height: 143px;
     overflow: hidden;
+
+    &.open {
+        max-height: 400px;
+        overflow-y: auto;
+    }
 }
 
 content > div[s] > div > div {
