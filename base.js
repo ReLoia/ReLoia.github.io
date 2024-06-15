@@ -31,9 +31,16 @@ const queries = location.search
 // Redirect to "First Day of having a Chicken" if user comes from Instagram
 if (queries && queries[0][0] == "fbclid")
     setTimeout(
-        () =>
-            (window.location.href = "https://youtube.com/watch?v=ocuw3_DqyfE"),
-        7777
+        () => {
+            // delete fbclid from the url if it's the first query from the history
+            history.replaceState(
+                {},
+                document.title,
+                window.location.href.split("?")[0]
+            );
+
+            (window.location.href = "https://youtube.com/watch?v=ocuw3_DqyfE")
+        }, 7777
     );
 
 ((url, info) => {
@@ -390,6 +397,8 @@ const favArtists = document.querySelector("div[f] > div");
 
 // on hover set the anchor of the translation to the absolute X of the mouse position relative to the element
 favArtists.addEventListener("mousemove", e => {
+    if ("touches" in e) return;
+
     const rect = favArtists.getBoundingClientRect();
     let x = e.clientX - rect.left;
 
