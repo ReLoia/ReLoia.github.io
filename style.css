@@ -312,6 +312,8 @@ canvas {
     padding: 10px;
     color: white;
     display: flex;
+
+    min-width: 250px;
 }
 
 [head] > div[spotify] > a {
@@ -610,6 +612,10 @@ main > div[wss] {
 
     box-shadow: 0 4px 8px 6px rgba(0, 0, 0, 0.24);
 
+    &[data-status="online"] {
+        --bg-color: #051f04b0;
+    }
+
     & > div.title {
         display: flex;
         /*justify-content: space-between;*/
@@ -625,8 +631,77 @@ main > div[wss] {
     & > p {
         display: none;
     }
-    &[data-status="offline"] > p {
-        display: inline-block;
+    &[data-status="offline"] {
+        & > p {
+            display: inline-block;
+        }
+        & > .chat {
+            display: none;
+        }
+    }
+
+
+    & > .chat {
+        & > .client {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+
+            & > input#username {
+                appearance: none;
+                background: none;
+                border: none;
+
+                color: white;
+                outline: none;
+
+                padding-left: 7px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            & > div {
+                display: flex;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                border-radius: 4px;
+                padding: 6px 12px;
+
+                box-sizing: border-box;
+
+                & > textarea {
+                    appearance: none;
+                    background: none;
+                    border: none;
+                    color: white;
+                    flex: auto;
+
+                    resize: none;
+                    outline: none;
+
+                    height: 1rem;
+
+                    &:hover {
+                        cursor: text;
+                    }
+                }
+
+                & > button {
+                    appearance: none;
+                    background: none;
+                    border: none;
+                    color: white;
+
+                    cursor: pointer;
+                    display: contents;
+                }
+            }
+        }
+
+        & > p {
+            margin-top: 1em;
+            font-size: .8rem;
+        }
     }
 }
 

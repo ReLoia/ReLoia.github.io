@@ -133,7 +133,7 @@
 
                         function wssFallback() {
                             console.log("Websocket not available");
-                            wwStatusWidgetHandlers.onerror("websocket not available")
+                            wssStatusWidgetHandlers.onerror("websocket not available")
                             // Some italian IPS block glitch.me, so I need to use this proxy
                             let waiting = false;
                             // Delete the online counter if the websocket is not available
@@ -170,36 +170,39 @@
                         let usingProxy = false;
 
                         // The WSS Status Widget will show status about the widget and a chat to send messages to the backend
-                        const wwStatusWidgetHandlers = {
+                        const wssStatusWidgetHandlers = {
                             _widget_element: null,
                             get widget_element() {
-                                if (this._widget_element) return this._widget_element;
-
-                                wgtElem = document.querySelector("div[wss]")
-                                if (!wgtElem) return null;
-
-                                return this._widget_element = wgtElem;
+                                return document.querySelector("div[wss]")
                             },
                             // if there is an error in the connection, set the status of the widget to offline
-                            onerror: (reason) => {
-                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "offline");
-                                this.widget_element.querySelector("p > b:last-of-type").innerText = reason;
+                            onerror: function (reason) {
+                                wssStatusWidgetHandlers.widget_element.setAttribute("data-status", "offline");
+
+                                this.widget_element.querySelector("p:nth-child(2) > b:nth-of-type(3)").innerText = reason;
+                                this.widget_element.querySelector("p").innerHTML = "You are currently <b>not connected</b> to the websocket";
                             },
                             // if the connection is open, set the status of the widget to online
-                            onopen: () => {
-                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
+                            onopen: function () {
+                                console.log(this)
+                                wssStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
+                                this.widget_element.querySelector("p").innerHTML = "You are currently <b>connected</b> with other <b id='onlineCont'>0</b> people";
                             },
                             // when a message is received, set the status of the widget to online and show the message
-                            onmessage: (event) => {
-                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
-                                wwStatusWidgetHandlers.widget_element.querySelector(".chat").insertAdjacentHTML("beforeend", `<div class="box">${event.data}</div>`);
+                            onmessage: function (event) {
+                                wssStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
+                                console.log(event.data)
+                                wssStatusWidgetHandlers.widget_element.querySelector(".chat").insertAdjacentHTML("beforeend", `<div class="box">${event.data}</div>`);
+                                this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with other <b id='onlineCont'>${event.data.online}</b> people`;
                             },
                         }
 
                         // WSS handlers
                         const wssHandlers = {
                             onmessage: (event) => {
+                                console.log(event)
                                 // TODO: add handle for chat messages
+
                                 try {
                                     setMusicPlayerInfo(JSON.parse(event.data));
                                 } catch (error) {
@@ -214,12 +217,12 @@
                                     console.warn(error);
                                 }
                             },
-                            onclose: () => {
+                            onclose: function () {
                                 if (this.retries < 3) {
                                     console.log("Websocket closed, retrying...");
                                     if (usingProxy) {
                                         console.log("Websocket has died, switching to proxy...");
-                                        wwStatusWidgetHandlers.onerror("websocket died, switching to proxy");
+                                        wssStatusWidgetHandlers.onerror("websocket died, switching to proxy");
                                         this.retries = 3;
                                         return;
                                     }
@@ -235,8 +238,8 @@
                             onerror: (...e) => {
                                 console.warn("Websocket error:");
                                 console.error(e);
-                                console.log(e.ev)
-                                wwStatusWidgetHandlers.onerror(e.ev)
+                                console.warn(e.ev)
+                                wssStatusWidgetHandlers.onerror(e.ev)
                             },
                             retries: 0,
                         };
@@ -252,6 +255,7 @@
                             retries = 0;
 
                             if (wss.readyState != 3) {
+                                wssStatusWidgetHandlers.onopen();
                                 wss.onmessage = wssHandlers.onmessage;
                                 wss.onclose = wssHandlers.onclose;
                             } else wssFallback();
@@ -392,13 +396,20 @@
                     <p>You are currently <b>not connected</b> to the websocket</p>
                 </div>
                 <p>The backend may be <b>down</b>, <b>loading</b> or <a href="https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902" regu>your ISP may be banning glitch.me</a>. Reported reason: <b>backend offline</b></p>
-<!--                <div class="chat">-->
-<!--                    <div class="box">-->
-<!--                        <input type="text" name="" id="">-->
-<!--                    </div>-->
-
-<!--                    -->
-<!--                </div>-->
+                <div class="chat">
+                    <div class="client">
+                        <input type="text" name="username" id="username" placeholder="Who are you?!">
+                        <div>
+                            <textarea name="comment" id="comment" placeholder="Type anything!"></textarea>
+                            <button onclick="sendMessage()">
+                                <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20.764 12H10.056M3 8h2.5M4 12h1.5m-1 4h1m4.462-3.51-.892 2.959c-.337 1.12-.506 1.68-.363 2.014a1 1 0 0 0 .687.578c.354.085.877-.177 1.924-.7l7.82-3.91c.921-.46 1.382-.69 1.53-1.002a1 1 0 0 0 0-.857c-.148-.312-.609-.542-1.53-1.003l-7.831-3.916c-1.044-.521-1.565-.782-1.92-.698a1 1 0 0 0-.686.577c-.144.334.023.893.357 2.01l.905 3.028a2 2 0 0 1 .086.344 1 1 0 0 1 0 .232c-.01.087-.036.173-.087.344" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <p>To avoid spam, the messages won't be stored on the server</p>
+                </div>
             </div>
             <div f>
                 <h2>Favourite artists</h2>
