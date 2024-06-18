@@ -545,7 +545,7 @@ links a:hover {
 
 /* Content */
 
-content {
+main {
     display: block;
     position: relative;
     margin-bottom: 100px;
@@ -557,7 +557,7 @@ content {
     min-height: calc(100vh + 100px);
 }
 
-content > div > h2 {
+main > div > h2 {
     /* Title of Content sub category */
     font-size: 2em;
     --margin: 1.4em;
@@ -566,13 +566,13 @@ content > div > h2 {
     position: relative;
 }
 
-content > div[i] > h1 {
+main > div[i] > h1 {
     /* Bio bigger text */
     font-size: 2.5em;
     margin-bottom: 0.5em;
 }
 
-content > div[i] > p {
+main > div[i] > p {
     /* Text line of bio */
     font-size: 1.5em;
     margin-bottom: 0.3em;
@@ -580,33 +580,66 @@ content > div[i] > p {
 
 /* Project list */
 
-content > div[p] > div > div {
+main > div[p] > div > div {
     /* Project container */
     margin-bottom: 1em;
 }
 
-content > div[p] > div > div > h3 {
+main > div[p] > div > div > h3 {
     /* Title */
     font-size: 1.5em;
     display: inline-block;
 }
 
-content > div[p] > div > div > p {
+main > div[p] > div > div > p {
     /* Description */
     color: #afa0a0;
     display: inline-block;
 }
 
+/* Socket Connection info */
+
+main > div[wss] {
+    margin-block: 20px;
+    padding: 5px 15px;
+
+    --bg-color: #1e1e1ee0;
+    background-color: var(--bg-color);
+
+    border-radius: 5px;
+
+    box-shadow: 0 4px 8px 6px rgba(0, 0, 0, 0.24);
+
+    & > div.title {
+        display: flex;
+        /*justify-content: space-between;*/
+        align-items: baseline;
+        margin-bottom: 6px;
+
+        & > h2 {
+            font-size: 1.4em;
+            margin-right: 1em;
+        }
+    }
+
+    & > p {
+        display: none;
+    }
+    &[data-status="offline"] > p {
+        display: inline-block;
+    }
+}
+
 /* Favourite artists */
 
-content > div[f] > c {
+main > div[f] > c {
     /* Last.fm images text */
     margin-top: -1em;
     display: block;
     margin-bottom: 1em;
 }
 
-content > div[f] > div {
+main > div[f] > div {
     /* Arists divs container */
     display: flex;
     flex-wrap: wrap;
@@ -616,7 +649,7 @@ content > div[f] > div {
 
     transition: transform .777s, transform-origin .377s;
 }
-content > div[f] > div:hover {
+main > div[f] > div:hover {
     --y: 50%;
     --x: 50%;
     --scale: 1;
@@ -627,7 +660,7 @@ content > div[f] > div:hover {
     transform: scale(var(--scale));
 }
 
-content > div[f] > div > div {
+main > div[f] > div > div {
     /* Artist div */
     --offset: 0px;
     position: relative;
@@ -636,7 +669,7 @@ content > div[f] > div > div {
     margin-bottom: var(--offset);
 }
 
-content > div[f] > div > div > img {
+main > div[f] > div > div > img {
     /* Image of the artist */
     width: 100%;
     aspect-ratio: 1/1;
@@ -645,7 +678,7 @@ content > div[f] > div > div > img {
     pointer-events: none;
 }
 
-content > div[f] > div > div > span {
+main > div[f] > div > div > span {
     /* Name of the artist */
     position: absolute;
     width: fit-content;
@@ -660,7 +693,7 @@ content > div[f] > div > div > span {
 
 /* Song of the Day */
 
-content > div[s] > h2 > a {
+main > div[s] > h2 > a {
     position: absolute;
     font-size: 12px;
     top: 20px;
@@ -668,7 +701,7 @@ content > div[s] > h2 > a {
     cursor: pointer;
 }
 
-content > div[s] > div#sotd {
+main > div[s] > div#sotd {
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
@@ -681,7 +714,7 @@ content > div[s] > div#sotd {
     }
 }
 
-content > div[s] > div > div {
+main > div[s] > div > div {
     background-color: #00000093;
     border-radius: 7px;
     padding: 7px;
@@ -690,18 +723,18 @@ content > div[s] > div > div {
     width: 250px;
 }
 
-content > div[s] > div > div > img {
+main > div[s] > div > div > img {
     height: 51px;
     width: 51px;
     border-radius: 5px;
 }
 
-content > div[s] > div > div > div:first-of-type {
+main > div[s] > div > div > div:first-of-type {
     width: 100%;
     max-width: 160px;
 }
 
-content > div[s] > div t {
+main > div[s] > div t {
     /* Title */
     display: inline-block;
     font-size: 1.1em;
@@ -712,7 +745,7 @@ content > div[s] > div t {
     font-weight: bold;
 }
 
-content > div[s] > div p {
+main > div[s] > div p {
     /* Author */
     font-size: 0.8em;
     white-space: nowrap;
@@ -722,7 +755,7 @@ content > div[s] > div p {
     width: fit-content;
 }
 
-content > div[s] > div c {
+main > div[s] > div c {
     /* Infos */
     font-size: 0.8em;
     display: inline-block;
@@ -736,7 +769,7 @@ content > div[s] > div c {
         padding-right: 0;
     }
 
-    content > div[f] > div > div {
+    main > div[f] > div > div {
         margin-bottom: 0 !important;
     }
 
@@ -745,13 +778,13 @@ content > div[s] > div c {
         scale: 0.5;
     }
 
-    content > div[f] > div > div {
+    main > div[f] > div > div {
         width: min(max(48%, 130px), min(300px, max(18vw, 140px)));
     }
 }
 
 @media screen and (max-width: 756px) {
-    content > div[f] > div > div {
+    main > div[f] > div > div {
         margin-bottom: 0 !important;
     }
 }

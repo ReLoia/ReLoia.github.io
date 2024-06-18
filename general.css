@@ -41,7 +41,7 @@ ita {
 }
 
 /* Code element */
-content > div[w] > div > div > h2 {
+main > div[w] > div > div > h2 {
   font-size: 1.5em;
   margin-block: 0.5em;
 }
@@ -102,7 +102,7 @@ span[code] [numb] {
 }
 
 /* Badges */
-content grade[bronze]::after {
+main grade[bronze]::after {
   color: #945b1a;
   content: "Bronze";
 }

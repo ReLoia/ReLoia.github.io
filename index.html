@@ -133,7 +133,8 @@
 
                         function wssFallback() {
                             console.log("Websocket not available");
-                            // Some italian IPS block glitch.me so I need use this proxy
+                            wwStatusWidgetHandlers.onerror("websocket not available")
+                            // Some italian IPS block glitch.me, so I need to use this proxy
                             let waiting = false;
                             // Delete the online counter if the websocket is not available
                             onlineCont.parentElement.remove();
@@ -168,9 +169,37 @@
 
                         let usingProxy = false;
 
+                        // The WSS Status Widget will show status about the widget and a chat to send messages to the backend
+                        const wwStatusWidgetHandlers = {
+                            _widget_element: null,
+                            get widget_element() {
+                                if (this._widget_element) return this._widget_element;
+
+                                wgtElem = document.querySelector("div[wss]")
+                                if (!wgtElem) return null;
+
+                                return this._widget_element = wgtElem;
+                            },
+                            // if there is an error in the connection, set the status of the widget to offline
+                            onerror: (reason) => {
+                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "offline");
+                                this.widget_element.querySelector("p > b:last-of-type").innerText = reason;
+                            },
+                            // if the connection is open, set the status of the widget to online
+                            onopen: () => {
+                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
+                            },
+                            // when a message is received, set the status of the widget to online and show the message
+                            onmessage: (event) => {
+                                wwStatusWidgetHandlers.widget_element.setAttribute("data-status", "online");
+                                wwStatusWidgetHandlers.widget_element.querySelector(".chat").insertAdjacentHTML("beforeend", `<div class="box">${event.data}</div>`);
+                            },
+                        }
+
                         // WSS handlers
                         const wssHandlers = {
                             onmessage: (event) => {
+                                // TODO: add handle for chat messages
                                 try {
                                     setMusicPlayerInfo(JSON.parse(event.data));
                                 } catch (error) {
@@ -190,6 +219,7 @@
                                     console.log("Websocket closed, retrying...");
                                     if (usingProxy) {
                                         console.log("Websocket has died, switching to proxy...");
+                                        wwStatusWidgetHandlers.onerror("websocket died, switching to proxy");
                                         this.retries = 3;
                                         return;
                                     }
@@ -205,6 +235,8 @@
                             onerror: (...e) => {
                                 console.warn("Websocket error:");
                                 console.error(e);
+                                console.log(e.ev)
+                                wwStatusWidgetHandlers.onerror(e.ev)
                             },
                             retries: 0,
                         };
@@ -302,14 +334,14 @@
                 Some <a href="https://www.svgrepo.com" target="_blank">Icons by svgrepo.com</a>
             </links>
         </fake-footer>
-        <content>
+        <main>
             <div i>
                 <h1><ita>Ciao</ita>! I'm Renato Loiacono</h1>
                 <p>I'm a <age>17</age> years old student from <ita>Italy</ita>, I love programming and making websites.</p>
                 <p>My favourite programming language is Kotlin, but I've got a wider knowledge of JavaScript, I've also got experience in C++, C#, Java, C and Lua.</p>
                 <br>
                 <p>High School student at <a regu href="https://www.iissvoltadegemmis.edu.it/" target="_blank">Volta de Gemmis</a>.</p>
-                <p>Member of the Cybersecurity and Ethical Hacking <a regu href="https://mntcrl.it/" target="_blank">M0nt3C4rl0</a>.</p>
+                <p>Member of the Cybersecurity and Ethical Hacking group <a regu href="https://mntcrl.it/" target="_blank">M0nt3C4rl0</a>.</p>
             </div>
             <div p>
                 <h2>My Projects</h2>
@@ -328,7 +360,7 @@
                     </div>
                     <div>
                         <h3>ArgoScuolaNext-NodeJS</h3>
-                        <p>A NodeJS library that allows you to interact with ArgoScuolaNext API</p>
+                        <p>A Node.JS library that allows you to interact with ArgoScuolaNext API</p>
                         <br />
                         <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS" target="_blank" target="_blank">ReLoia/ArgoScuolaNext-NodeJS</a> - <a regu href="https://github.com/ReLoia/ArgoScuolaNext-NodeJS/blob/main/README.md" target="_blank">Readme</a>.md
                     </div>
@@ -353,6 +385,20 @@
                     </div>
                     See my GitHub Profile for more <a regu href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
                 </div>
+            </div>
+            <div wss data-status="offline">
+                <div class="title">
+                    <h2>WebSocket status</h2>
+                    <p>You are currently <b>not connected</b> to the websocket</p>
+                </div>
+                <p>The backend may be <b>down</b>, <b>loading</b> or <a href="https://support.glitch.com/t/unable-to-access-glitch-me-websites/13902" regu>your ISP may be banning glitch.me</a>. Reported reason: <b>backend offline</b></p>
+<!--                <div class="chat">-->
+<!--                    <div class="box">-->
+<!--                        <input type="text" name="" id="">-->
+<!--                    </div>-->
+
+<!--                    -->
+<!--                </div>-->
             </div>
             <div f>
                 <h2>Favourite artists</h2>
@@ -415,7 +461,7 @@
                     </ul>
                 </div>
             </div>
-        </content>
+        </main>
         <showcase>
             <div>
                 <p><t>X</t><close onclick="(() => document.querySelector('showcase').style.display = 'none')()">X</close></p>
