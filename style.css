@@ -693,8 +693,30 @@ main > div[wss] {
                     color: white;
 
                     cursor: pointer;
-                    display: contents;
+                    height: 20px;
+                    padding: 0;
+
+                    &[disabled] > svg path {
+                        stroke: #800;
+                    }
                 }
+            }
+        }
+
+        & > .messages {
+            margin-top: 10px;
+            padding-inline: 10px;
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+
+            max-height: 180px;
+            overflow-y: auto;
+
+            & > .box * {
+                white-space: pre-wrap;
+                word-break: break-all;
             }
         }
 
