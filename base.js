@@ -23,13 +23,13 @@ const queries = location.search
           .slice(1)
           .split("&")
           .map(el => {
-              if (el == "") return;
+              if (el === "") return;
               const r = /(.+)=(.+)/g.exec(el);
               return [r?.[1], r?.[2]];
           })
     : null;
 // Redirect to "First Day of having a Chicken" if user comes from Instagram
-if (queries && queries[0][0] == "fbclid")
+if (queries && queries[0][0] === "fbclid")
     setTimeout(
         () => {
             // delete fbclid from the url if it's the first query from the history
@@ -52,8 +52,8 @@ if (queries && queries[0][0] == "fbclid")
         " "
     );
 })(
-    (queries ? queries.find(el => el?.[0] == "image") : null)?.[1],
-    (queries ? queries.find(el => el?.[0] == "info") : null)?.[1]
+    (queries ? queries.find(el => el?.[0] === "image") : null)?.[1],
+    (queries ? queries.find(el => el?.[0] === "info") : null)?.[1]
 );
 
 // Premere qualasiasi tasto per continuare
@@ -68,7 +68,7 @@ const movingHandler = e => {
     let goingUp = false;
     if ("deltaY" in e) goingUp = e.deltaY < 0;
     else {
-        if (lastClientY == 0) lastClientY = e.touches[0].clientY;
+        if (lastClientY === 0) lastClientY = e.touches[0].clientY;
         if (Math.abs(e.touches[0].clientY - lastClientY) < 10) return;
         goingUp = e.touches[0].clientY > lastClientY;
         lastClientY = e.touches[0].clientY;
@@ -77,7 +77,7 @@ const movingHandler = e => {
     if (pageActivated && goingUp && window.scrollY < 20)
         // Disattiva la pagina
         deactivatePage();
-    else if (!pageActivated && !goingUp && window.scrollY == 0) activatePage(e);
+    else if (!pageActivated && !goingUp && window.scrollY === 0) activatePage(e);
 };
 document.onwheel = document.ontouchmove = movingHandler;
 document.body.style.position = "fixed";
@@ -178,7 +178,8 @@ let password = "";
 
 window.sotd = [];
 (async () => {
-    await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
+    const resultOfStatusCheck = await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
+    resultOfStatusCheck.status === 200 ? console.log("API is up") : console.error(resultOfStatusCheck);
 
     const addSotD = document.querySelector("a[sotd]");
     if (!addSotD) return;
