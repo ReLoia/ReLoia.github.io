@@ -19,6 +19,7 @@
         <script src="utils.js"></script>
         <script defer src="base.js"></script>
         <script defer src="canvas/mouse-anim.js"></script>
+        <script defer src="canvas/paint-canvas.js"></script>
     </head>
 
     <body>
@@ -448,6 +449,22 @@
                     See my GitHub Profile for more <a regu href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
                 </div>
             </div>
+            <div paint>
+                <h2>Your Canvas</h2>
+                <canvas id="paintCanvas" width="420" height="140"></canvas>
+                <!--    controls    -->
+                <div class="palette">
+                    <button onclick="paintCanvasSetColor(this)" class="selected" style="background-color: #000000"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #ff0000"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #00ff00"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #0000ff"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #ffff00"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #ff00ff"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #00ffff"></button>
+                    <button onclick="paintCanvasSetColor(this)" style="background-color: #ffffff"></button>
+                    <div style="width: 100%;height: 6px;"></div>
+                </div>
+            </div>
             <div wss data-status="offline">
                 <div class="title">
                     <h2>WebSocket status</h2>
@@ -580,6 +597,6 @@
                 <img src="" alt="" />
             </div>
         </showcase>
-        <canvas id="canvas"></canvas>
+        <canvas id="backgroundCanvas"></canvas>
     </body>
 </html>

@@ -10,6 +10,9 @@ function handleTime(date) {
 function sameDay(date, date1) {
     return new Date(date).toDateString() == new Date(date1).toDateString();
 }
+function randomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
 Object.defineProperty(Element.prototype, 'path', {
     get() {
         if (this == document.body) return [this];

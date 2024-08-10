@@ -197,7 +197,7 @@ window.sotd = [];
                 },
                 body: JSON.stringify({
                     url: document.querySelector("div[spotify] > a")
-                        .href.value,
+                        .href,
                 }),
             }
         );
@@ -297,7 +297,6 @@ const addSong = async (container, song, i, position = false) => {
 
     return songEl;
 };
-
 const deleteSong = async container => {
     password = password || window.prompt("Type the API password", "");
     const result = await fetch(
@@ -322,15 +321,15 @@ const deleteSong = async container => {
     } else if (result.status == 401) password = "";
     else console.error(result);
 };
+// end songs of the day handler
 
 // Canvas
-
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const backgroundCanvas = document.querySelector("canvas#backgroundCanvas");
+const backgroundCanvasCTX = backgroundCanvas.getContext("2d");
 
 const resizeCanvas = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    backgroundCanvas.width = window.innerWidth;
+    backgroundCanvas.height = window.innerHeight;
 };
 window.onresize = resizeCanvas;
 resizeCanvas();
@@ -345,7 +344,7 @@ let lastMouseY = 0;
 let lastTime = Date.now();
 let userIsAFK = false;
 function baseCanvasRender() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
     canvasRenderers.forEach(func => func());
 
     // Check if user is AFK (has not moved the mouse in 15 seconds)
@@ -368,7 +367,6 @@ function baseCanvasRender() {
     requestAnimationFrame(baseCanvasRender);
 }
 baseCanvasRender();
-
 // End Canvas
 
 let tabbingDelay = null;
@@ -395,7 +393,6 @@ window.addEventListener("keydown", async e => {
 
 // fav artists
 const favArtists = document.querySelector("div[f] > div");
-
 // on hover set the anchor of the translation to the absolute X of the mouse position relative to the element
 favArtists.addEventListener("mousemove", e => {
     if ("touches" in e) return;
