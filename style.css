@@ -352,6 +352,7 @@ canvas {
 [head] > div[spotify] > div > div[info] {
     /* Infos about the song */
     position: relative;
+    cursor: text;
 }
 
 [head] > div[spotify] > div > div[info] > :is(t, p) {
