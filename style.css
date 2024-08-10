@@ -529,6 +529,10 @@ links div a {
     margin-right: 0.4em;
     margin-bottom: 0.2em;
 
+    height: 34px;
+    width: 34px;
+    box-sizing: border-box;
+
     border-radius: 0.4em;
     background-color: rgba(137, 130, 67, 0.3);
     padding-inline: 5px;
@@ -858,6 +862,29 @@ main > div[s] > div c {
     display: inline-block;
     margin-top: 7px;
     color: #8b8d8b;
+}
+
+/* Social Links */
+
+main > div[sl] > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    & > a {
+        gap: 0.5em;
+        font-size: 1.2em;
+        width: 40px;
+        height: 40px;
+
+        line-height: 58px;
+        text-align: center;
+
+        border-radius: 5px;
+        background-color: rgba(137, 130, 67, 0.3);
+        color: white;
+        transition: background-color 0.3s;
+    }
 }
 
 /* Telefono */
