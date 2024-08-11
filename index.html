@@ -143,7 +143,7 @@
                             async function fetchData() {
                                 if (waiting) return;
                                 try {
-                                    const response = await fetch("https://glitch-proxy.vercel.app/reloia-listen/api");
+                                    const response = await fetch(`${BASEURL}/api`);
                                     if (response.status != 200) {
                                         if (response.status == 403) {
                                             waiting = true;
@@ -262,7 +262,10 @@
                                     setMusicPlayerInfo(data);
                                 } else if (data.type == "chat") {
                                     wssStatusWidgetHandlers.onmessage(data);
+                                } else if (data.type == "paintcanvas") {
+                                    paintPixel(data.x, data.y, data.color)
                                 } else {
+                                    console.error(data);
                                     setMusicPlayerInfo({
                                         author: "An error occurred",
                                         name: "There was an error",

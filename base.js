@@ -7,6 +7,7 @@ console.log(
 /**
  * This javascript file is executed after the html is loaded
  */
+let BASEURL = "https://glitch-proxy.vercel.app/reloia-listen";
 
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");
@@ -28,6 +29,11 @@ const queries = location.search
               return [r?.[1], r?.[2]];
           })
     : null;
+
+// Set debug mode on
+if (queries && queries.find(el => el[0] === "debug")?.[1] === "on")
+    BASEURL = "http://localhost:3000";
+
 // Redirect to "First Day of having a Chicken" if user comes from Instagram
 if (queries && queries[0][0] === "fbclid")
     setTimeout(
@@ -178,7 +184,7 @@ let password = "";
 
 window.sotd = [];
 (async () => {
-    const resultOfStatusCheck = await fetch("https://glitch-proxy.vercel.app/reloia-listen/"); // waits for the api to wake up
+    const resultOfStatusCheck = await fetch(`${BASEURL}/`); // waits for the api to wake up
     resultOfStatusCheck.status === 200 ? console.log("API is up") : console.error(resultOfStatusCheck);
 
     const addSotD = document.querySelector("a[sotd]");
@@ -188,7 +194,7 @@ window.sotd = [];
 
         password = password || window.prompt("Type the API password", "");
         const result = await fetch(
-            "https://glitch-proxy.vercel.app/reloia-listen/sotd/url",
+            `${BASEURL}/sotd/url`,
             {
                 method: "POST",
                 headers: {
@@ -230,7 +236,7 @@ window.sotd = [];
     let sotdResponse;
     try {
         sotdResponse = await fetch(
-            "https://glitch-proxy.vercel.app/reloia-listen/sotd"
+            `${BASEURL}/sotd`
         );
         throw sotdResponse;
     } catch (e) {
@@ -300,7 +306,7 @@ const addSong = async (container, song, i, position = false) => {
 const deleteSong = async container => {
     password = password || window.prompt("Type the API password", "");
     const result = await fetch(
-        "https://glitch-proxy.vercel.app/reloia-listen/sotd/remove",
+        `${BASEURL}/sotd/remove`,
         {
             method: "POST",
             headers: {
@@ -371,7 +377,7 @@ baseCanvasRender();
 
 let tabbingDelay = null;
 
-// Check if tabbed element is out of view and if so, scroll to it (activate page or deactivate page)
+// Check if the tabbed element is out of view and if so, scroll to it (activate page or deactivate page)
 window.addEventListener("keydown", async e => {
         if (e.key == "Tab") {
             const tabbed = document.activeElement;

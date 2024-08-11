@@ -37,11 +37,11 @@ for (let i = 0; i < 38; i++) {
 paintCtx.fillStyle = "white";
 paintCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
 (async () => {
-    const canvasStatus = await fetch("https://glitch-proxy.vercel.app/reloia-listen/paintcanvas/status");
+    const canvasStatus = await fetch(`${BASEURL}/paintcanvas/status`);
     // array of { x, y, color }
     const status = await canvasStatus.json();
 
-    status.forEach((pixel) => paintPixel(pixel.x, pixel.y, pixel.color));
+    status.forEach((pixel) => paintPixel(pixel?.x, pixel?.y, pixel?.color));
 })();
 
 paintCanvas.addEventListener("click", async (e) => {
@@ -53,13 +53,14 @@ paintCanvas.addEventListener("click", async (e) => {
     paintCanvasSettings.oncooldown = true;
 
     paintPixel(x, y, paintCanvasSettings.pixelColor);
+    const coords = fixCoords(x, y);
 
-    await fetch("https://glitch-proxy.vercel.app/reloia-listen/paintcanvas", {
+    await fetch(`${BASEURL}/paintcanvas`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ x: Math.round(x), y: Math.round(y), color: paintCanvasSettings.pixelColor }),
+        body: JSON.stringify({ x: coords.x, y: coords.y, color: paintCanvasSettings.pixelColor }),
     });
 });
 
@@ -73,5 +74,13 @@ function paintCanvasSetColor(element) {
 
 function paintPixel(x, y, color) {
     paintCtx.fillStyle = color;
-    paintCtx.fillRect(Math.floor(x / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize, Math.floor(y / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize);
+    const coords = fixCoords(x, y);
+    paintCtx.fillRect(coords.x, coords.y, paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize);
+}
+
+function fixCoords(x, y) {
+    return {
+        x: Math.floor(x / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize,
+        y: Math.floor(y / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize,
+    };
 }
