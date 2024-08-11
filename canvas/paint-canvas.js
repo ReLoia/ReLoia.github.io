@@ -7,8 +7,25 @@ paintCanvas.height = 140;
 paintCanvas.width = 420;
 const paintCtx = paintCanvas.getContext("2d");
 
-const pixelSize = 14;
-let pixelColor = "black";
+let paintCanvasSettings = {
+    pixelSize: 14,
+    pixelColor: "black",
+    get oncooldown() {
+        return this._oncooldown;
+    },
+    set oncooldown(value) {
+        if (value) {
+            paintCanvas.parentElement.classList.add("cooldown");
+            paintCanvas.style.cursor = "not-allowed";
+            setInterval(() => {
+                this._oncooldown = false;
+                paintCanvas.parentElement.classList.remove("cooldown");
+                paintCanvas.style.cursor = "crosshair";
+            }, 30_000);
+        }
+        this._oncooldown = true;
+    }
+}
 
 // generate 16 random colors to add to the palette
 
@@ -32,18 +49,29 @@ paintCanvas.addEventListener("click", async (e) => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    paintPixel(x, y, pixelColor);
+    if (paintCanvasSettings.oncooldown) return;
+    paintCanvasSettings.oncooldown = true;
 
-    // await fetch("https://glitch-proxy.vercel.app/reloia-listen/paintcanvas", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ x, y, color }),
-    // });
+    paintPixel(x, y, paintCanvasSettings.pixelColor);
+
+    await fetch("https://glitch-proxy.vercel.app/reloia-listen/paintcanvas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ x: Math.round(x), y: Math.round(y), color: paintCanvasSettings.pixelColor }),
+    });
 });
+
+let lastColor = document.querySelector(".palette .selected");
+function paintCanvasSetColor(element) {
+    lastColor.classList.remove("selected");
+    element.classList.add("selected");
+    paintCanvasSettings.pixelColor = element.style.backgroundColor;
+    lastColor = element;
+}
 
 function paintPixel(x, y, color) {
     paintCtx.fillStyle = color;
-    paintCtx.fillRect(Math.floor(x / pixelSize) * pixelSize, Math.floor(y / pixelSize) * pixelSize, pixelSize, pixelSize);
+    paintCtx.fillRect(Math.floor(x / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize, Math.floor(y / paintCanvasSettings.pixelSize) * paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize);
 }
