@@ -503,6 +503,7 @@ a.added[title] > svg > path,
 fake-footer {
     display: block;
     position: relative;
+    width: 100vw;
 }
 
 links {
@@ -609,8 +610,11 @@ main > div[paint] > canvas#paintCanvas {
     cursor: crosshair;
 }
 main > div[paint] {
-    &[data-status="offline"] {
+    &[data-status="loading"] {
         cursor: not-allowed;
+        & > canvas {
+            cursor: not-allowed!important;
+        }
     }
 
     & > p {
