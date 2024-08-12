@@ -181,7 +181,7 @@ hover {
     position: fixed;
     z-index: 9999;
 
-    width: 100%;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -609,6 +609,14 @@ main > div[paint] > canvas#paintCanvas {
     cursor: crosshair;
 }
 main > div[paint] {
+    &[data-status="offline"] {
+        cursor: not-allowed;
+    }
+
+    & > p {
+        margin-top: -1em;
+        margin-bottom: 0.5em;
+    }
     & > div.palette {
         display: flex;
         flex-wrap: wrap;
@@ -618,6 +626,7 @@ main > div[paint] {
         gap: 2px 4px;
         padding: 2px;
         box-sizing: border-box;
+        cursor: crosshair;
 
         & > button {
             border: none;
@@ -642,6 +651,7 @@ main > div[paint] {
     }
     &.cooldown > div.palette {
         background-color: #751d2e;
+        cursor: not-allowed;
     }
 }
 

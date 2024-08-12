@@ -119,7 +119,7 @@
                                 tmpEl.innerText = formatMS(data.duration);
                                 tmpEl.setAttribute("ms", data.duration);
                             }
-                            spotifyElem.querySelector("div > img").src = data.album_image;
+                            if (data.album_image) spotifyElem.querySelector("div > img").src = data.album_image;
 
                             // (canEl width - el width) < 0  |  el è più grande del massimo
                             function scrollEle(mento) {
@@ -137,6 +137,8 @@
                             wssStatusWidgetHandlers.onerror("websocket not available")
                             // Some italian IPS block glitch.me, so I need to use this proxy
                             let waiting = false;
+                            usingProxy = true;
+                            paintCanvasSettings.status = "offline";
                             // Delete the online counter if the websocket is not available
                             onlineCont.parentElement.remove();
 
@@ -277,21 +279,22 @@
                                 }
                             },
                             onclose: function () {
-                                if (this.retries < 3) {
+                                console.warn("Websocket closed", wssHandlers.retries);
+                                if (wssHandlers.retries < 3) {
                                     console.warn("Websocket closed, retrying...");
                                     if (usingProxy) {
                                         console.error("Websocket has died, switching to proxy...");
                                         wssStatusWidgetHandlers.onerror("websocket died, switching to proxy");
-                                        this.retries = 3;
+                                        wssHandlers.retries = 3;
                                         return;
                                     }
-                                    this.retries++;
+                                    wssHandlers.retries++;
                                     setTimeout(() => {
                                         wss = new WebSocket("wss://reloia-listen.glitch.me");
                                         wss.onmessage = wssHandlers.onmessage;
                                         wss.onclose = wssHandlers.onclose;
                                         wss.onerror = wssHandlers.onerror;
-                                    }, 4000 * this.retries);
+                                    }, 4000 * wssHandlers.retries);
                                 } else wssFallback();
                             },
                             onerror: (...e) => {
@@ -303,7 +306,7 @@
                             retries: 0,
                         };
 
-                        let wss, retries;
+                        let wss;
                         (async () => {
                             console.info("Connecting to websocket...");
                             wss = await new Promise(resolve => {
@@ -311,7 +314,6 @@
                                 ws.onopen = () => resolve(ws);
                                 ws.onerror = () => resolve(ws);
                             });
-                            retries = 0;
 
                             if (wss.readyState != 3) {
                                 wssStatusWidgetHandlers.onopen();
@@ -452,10 +454,10 @@
                     See my GitHub Profile for more <a regu href="https://github.com/ReLoia" target="_blank">github.com/ReLoia</a>
                 </div>
             </div>
-            <div paint>
+            <div paint data-status="loading">
                 <h2>Your Canvas</h2>
+                <p>This Canvas is shared with other people, so be careful with what you draw. Current status: <b>loading</b></p>
                 <canvas id="paintCanvas" width="420" height="140"></canvas>
-                <!--    controls    -->
                 <div class="palette">
                     <button onclick="paintCanvasSetColor(this)" class="selected" style="background-color: #000000"></button>
                     <button onclick="paintCanvasSetColor(this)" style="background-color: #ff0000"></button>
