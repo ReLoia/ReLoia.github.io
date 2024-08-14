@@ -265,7 +265,7 @@
                                 } else if (data.type == "chat") {
                                     wssStatusWidgetHandlers.onmessage(data);
                                 } else if (data.type == "paintcanvas") {
-                                    paintPixel(data.x, data.y, data.color)
+                                    paintPixel(data.x * paintCanvasSettings.pixelSize, data.y * paintCanvasSettings.pixelSize, data.color)
                                 } else {
                                     console.error(data);
                                     setMusicPlayerInfo({
