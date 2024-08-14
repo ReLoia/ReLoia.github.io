@@ -11,7 +11,9 @@ let scale = 1;
 // if width of screen < 440,
 // scale = (width of screen - 20) / 420
 if (window.innerWidth < 440) {
-    scale = (window.innerWidth - 38) / 420;
+    scale = (window.innerWidth - 26) / 420;
+    // round to 3 decimal places
+    scale = Math.round(scale * 100) / 100;
 }
 
 paintCanvas.height = 140 * scale;
@@ -22,7 +24,7 @@ let paintCanvasSettings = {
     pixelSize: pixelBASESize * scale,
     pixelColor: "black",
     get status() {
-        return this._status || "offline";
+        return this._status || "loading";
     },
     set status(value) {
         switch (value) {
@@ -41,7 +43,6 @@ let paintCanvasSettings = {
         return this._oncooldown;
     },
     set oncooldown(value) {
-        return;
         if (value) {
             paintCanvas.parentElement.classList.add("cooldown");
             setTimeout(() => {
@@ -66,11 +67,11 @@ paintCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
     // array of { x, y, color }
     const status = await canvasStatus.json();
 
-    status.forEach((pixel) => paintPixel(pixel?.x * scale, pixel?.y * scale, pixel?.color));
+    status.forEach((pixel) => paintPixel(pixel?.x * paintCanvasSettings.pixelSize, pixel?.y * paintCanvasSettings.pixelSize, pixel?.color));
 })();
 
 paintCanvas.addEventListener("click", async (e) => {
-    if (paintCanvasSettings.status == "offline") return;
+    if (paintCanvasSettings.status == "loading") return;
 
     const rect = paintCanvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -79,15 +80,15 @@ paintCanvas.addEventListener("click", async (e) => {
     if (paintCanvasSettings.oncooldown) return;
     paintCanvasSettings.oncooldown = true;
 
-    paintPixel(x, y, paintCanvasSettings.pixelColor);
     const coords = fixCoords(x, y, paintCanvasSettings.pixelSize);
+    paintPixel(coords.x, coords.y, paintCanvasSettings.pixelColor);
 
     await fetch(`${BASEURL}/paintcanvas`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ x: coords.x / paintCanvasSettings.pixelSize, y: coords.y / paintCanvasSettings.pixelSize, color: paintCanvasSettings.pixelColor }),
+        body: JSON.stringify({ x: Math.round(coords.x / paintCanvasSettings.pixelSize), y: Math.round(coords.y / paintCanvasSettings.pixelSize), color: paintCanvasSettings.pixelColor }),
     });
 });
 
@@ -101,13 +102,16 @@ function paintCanvasSetColor(element) {
 
 function paintPixel(x, y, color) {
     paintCtx.fillStyle = color;
-    const coords = fixCoords(x, y, paintCanvasSettings.pixelSize);
-    paintCtx.fillRect(coords.x, coords.y, paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize);
+    if (isNaN(x)) return;
+    paintCtx.fillRect(x, y, paintCanvasSettings.pixelSize, paintCanvasSettings.pixelSize);
 }
 
 function fixCoords(x, y, size = pixelBASESize) {
+    x = Math.round(x);
+    y = Math.round(y);
+
     return {
-        x: Math.floor(x / size) * size,
-        y: Math.floor(y / size) * size,
+        x: Math.round(Math.floor(x / size) * size),
+        y: Math.round(Math.floor(y / size) * size),
     };
 }

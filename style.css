@@ -613,7 +613,7 @@ main > div[paint] {
     &[data-status="loading"] {
         cursor: not-allowed;
         & > canvas {
-            cursor: not-allowed!important;
+            cursor: wait!important;
         }
     }
 
