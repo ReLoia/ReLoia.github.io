@@ -605,7 +605,15 @@ main > div[p] > div > div > p {
     display: inline-block;
 }
 
-/* Your canvas  */
+/* Pong canvas */
+main > div[pong] {
+    & > p {
+        margin-top: -1em;
+        margin-bottom: 0.5em;
+    }
+}
+
+/* PaintCanvas  */
 main > div[paint] > canvas#paintCanvas {
     cursor: crosshair;
 }

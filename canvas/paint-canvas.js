@@ -1,5 +1,5 @@
-/*
- Paint Canvas (kinda like reddit's canvas)
+/**
+ * @fileoverview Paint Canvas (kinda like reddit's canvas)
  */
 
 const canvasPaintDiv = document.querySelector("div[paint]");
