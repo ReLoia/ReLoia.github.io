@@ -131,6 +131,17 @@ function updateCanvasPong() {
     }
 }
 
+function resetBall() {
+    pongSettings.ball.x = pongCanvas.width / 2;
+    pongSettings.ball.y = Math.floor(Math.random() * (pongCanvas.height - pongSettings.borderWidth * 2)) + pongSettings.borderWidth * 2;
+    pongSettings.ball.dx = -pongSettings.ball.dx;
+    pongSettings.ball.dy = -pongSettings.ball.dy;
+    if (Math.abs(pongSettings.ball.dx) < 4) {
+        pongSettings.ball.dx += 0.4 * Math.sign(pongSettings.ball.dx);
+        pongSettings.ball.dy += 0.4 * Math.sign(pongSettings.ball.dy);
+    }
+}
+
 function moveBall() {
     pongSettings.ball.x += pongSettings.ball.dx;
     pongSettings.ball.y += pongSettings.ball.dy;
@@ -142,11 +153,13 @@ function moveBall() {
     if (pongSettings.ball.x + pongSettings.ball.radius > pongCanvas.width) {
         pongSettings.player.score++;
         pongSettings.playing = false;
+        resetBall();
     }
 
     if (pongSettings.ball.x - pongSettings.ball.radius < 0) {
         pongSettings.computer.score++;
         pongSettings.playing = false;
+        resetBall();
     }
 
     const player = pongSettings.player;
@@ -159,6 +172,18 @@ function moveBall() {
 
     if ((ball.x + ball.radius) > computer.x && (ball.y > computer.y) && ball.y < (computer.y + computer.height)) {
         ball.dx = -ball.dx;
+    }
+}
+
+function moveAI() {
+    const computer = pongSettings.computer;
+    const ball = pongSettings.ball;
+
+    const computerCenter = computer.y + computer.height / 2;
+    if (ball.y < computerCenter) {
+        computer.y -= pongSettings.paddle.speed;
+    } else {
+        computer.y += pongSettings.paddle.speed;
     }
 }
 
