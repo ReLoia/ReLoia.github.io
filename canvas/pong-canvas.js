@@ -131,5 +131,36 @@ function updateCanvasPong() {
     }
 }
 
+function moveBall() {
+    pongSettings.ball.x += pongSettings.ball.dx;
+    pongSettings.ball.y += pongSettings.ball.dy;
+
+    if (pongSettings.ball.y + pongSettings.ball.radius > pongCanvas.height || pongSettings.ball.y - pongSettings.ball.radius < 0) {
+        pongSettings.ball.dy = -pongSettings.ball.dy;
+    }
+
+    if (pongSettings.ball.x + pongSettings.ball.radius > pongCanvas.width) {
+        pongSettings.player.score++;
+        pongSettings.playing = false;
+    }
+
+    if (pongSettings.ball.x - pongSettings.ball.radius < 0) {
+        pongSettings.computer.score++;
+        pongSettings.playing = false;
+    }
+
+    const player = pongSettings.player;
+    const computer = pongSettings.computer;
+    const ball = pongSettings.ball;
+
+    if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height) {
+        ball.dx = -ball.dx;
+    }
+
+    if ((ball.x + ball.radius) > computer.x && (ball.y > computer.y) && ball.y < (computer.y + computer.height)) {
+        ball.dx = -ball.dx;
+    }
+}
+
 addCanvasRenderer(updateCanvasPong);
 
