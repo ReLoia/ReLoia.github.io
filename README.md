@@ -1,4 +1,5 @@
 # Ciao, I'm Renato
+![image](https://github.com/user-attachments/assets/af6dbd91-c79f-48df-a7b9-bc15a1fe660c)
 
 This is my kinda "portfolio", I hope you like it!
 
