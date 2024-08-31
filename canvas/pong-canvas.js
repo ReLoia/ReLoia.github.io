@@ -17,13 +17,13 @@ pongCanvas.width = 420 * scale;
 
 let pongSettings = {
     borderWidth: 5,
+    playing: false,
     ball: {
         x: pongCanvas.width / 2,
         y: pongCanvas.height / 2,
         dx: 2,
         dy: -2,
         radius: 10 * scale,
-        speed: 2
     },
     paddle: {
         width: 8 * scale,
@@ -47,6 +47,10 @@ canvasPongDiv.addEventListener("mousemove", (ev) => {
     const rect = pongCanvas.getBoundingClientRect();
     const mouseY = ev.clientY - rect.top;
     pongSettings.player.y = mouseY - pongSettings.paddle.height / 2;
+
+    if (!pongSettings.playing)
+        pongSettings.playing = true;
+
 });
 
 const minHeight = pongSettings.borderWidth + 1
@@ -59,10 +63,11 @@ let score = {
 // Border
 pongCtx.fillStyle = "white"
 pongCtx.fillRect(0, 0, pongCanvas.width, pongCanvas.height);
+
 function updateCanvasPong() {
     pongCtx.fillStyle = "#000097";
     pongCtx.fillRect(5, 5, pongCanvas.width - 10, pongCanvas.height - 10);
-    
+
     // Draw the background
     // dotted middle line
     pongCtx.strokeStyle = "white";
@@ -113,6 +118,17 @@ function updateCanvasPong() {
         pongSettings.paddle.width,
         pongSettings.paddle.height
     );
+
+    if (!pongSettings.playing) {
+        pongCtx.font = "14px monospace";
+        const text = "Move your mouse to start";
+
+        pongCtx.fillText(text, pongCanvas.width / 2 - pongCtx.measureText(text).width / 2, pongCanvas.height - 10);
+    } else {
+        // TODO: moveball and moveai
+        moveBall();
+        moveAI();
+    }
 }
 
 addCanvasRenderer(updateCanvasPong);
