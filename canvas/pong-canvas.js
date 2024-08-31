@@ -4,7 +4,7 @@
 
 const canvasPongDiv = document.querySelector("div[pong]");
 // TODO: remove debug
-canvasPongDiv.style.display = "none"
+// canvasPongDiv.style.display = "none"
 
 const pongCanvas = canvasPongDiv.querySelector("canvas#pongCanvas");
 const pongCtx = pongCanvas.getContext("2d");
@@ -125,7 +125,6 @@ function updateCanvasPong() {
 
         pongCtx.fillText(text, pongCanvas.width / 2 - pongCtx.measureText(text).width / 2, pongCanvas.height - 10);
     } else {
-        // TODO: moveball and moveai
         moveBall();
         moveAI();
     }
@@ -133,13 +132,11 @@ function updateCanvasPong() {
 
 function resetBall() {
     pongSettings.ball.x = pongCanvas.width / 2;
-    pongSettings.ball.y = Math.floor(Math.random() * (pongCanvas.height - pongSettings.borderWidth * 2)) + pongSettings.borderWidth * 2;
-    pongSettings.ball.dx = -pongSettings.ball.dx;
-    pongSettings.ball.dy = -pongSettings.ball.dy;
-    if (Math.abs(pongSettings.ball.dx) < 4) {
-        pongSettings.ball.dx += 0.4 * Math.sign(pongSettings.ball.dx);
-        pongSettings.ball.dy += 0.4 * Math.sign(pongSettings.ball.dy);
-    }
+    const randHeight = Math.random() * pongCanvas.height;
+    pongSettings.ball.y = Math.max(pongSettings.borderWidth + pongSettings.ball.radius, Math.min(randHeight, pongCanvas.height - pongSettings.borderWidth - pongSettings.ball.radius));
+    pongSettings.ball.dx = Math.sign(pongSettings.ball.dx) * 2;
+    pongSettings.ball.dy = Math.sign(pongSettings.ball.dy) * 2;
+
 }
 
 function moveBall() {
@@ -166,12 +163,19 @@ function moveBall() {
     const computer = pongSettings.computer;
     const ball = pongSettings.ball;
 
-    if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height) {
-        ball.dx = -ball.dx;
+    const ballTop = ball.y - ball.radius;
+    const ballBottom = ball.y + ball.radius;
+
+    if ((ball.x - ball.radius) < (player.x + pongSettings.paddle.width) && ballTop < (player.y + pongSettings.paddle.height) && ballBottom > player.y) {
+        ball.dx = Math.abs(ball.dx);
+        pongSettings.ball.dx += 0.3 * Math.sign(pongSettings.ball.dx);
+        pongSettings.ball.dy += 0.3 * Math.sign(pongSettings.ball.dy);
     }
 
-    if ((ball.x + ball.radius) > computer.x && (ball.y > computer.y) && ball.y < (computer.y + computer.height)) {
-        ball.dx = -ball.dx;
+    if ((ball.x + ball.radius) > computer.x && ballTop < (computer.y + pongSettings.paddle.height) && ballBottom > computer.y) {
+        ball.dx = -Math.abs(ball.dx);
+        pongSettings.ball.dx += 0.3 * Math.sign(pongSettings.ball.dx);
+        pongSettings.ball.dy += 0.3 * Math.sign(pongSettings.ball.dy);
     }
 }
 
@@ -179,7 +183,12 @@ function moveAI() {
     const computer = pongSettings.computer;
     const ball = pongSettings.ball;
 
-    const computerCenter = computer.y + computer.height / 2;
+    // get a random number between 0 and 1 if it is less than 0.5, the computer won't move
+    if (Math.random() > 0.85 || ball.x < pongCanvas.width / 2) {
+        return;
+    }
+
+    const computerCenter = computer.y + pongSettings.paddle.height / 2;
     if (ball.y < computerCenter) {
         computer.y -= pongSettings.paddle.speed;
     } else {
@@ -188,4 +197,3 @@ function moveAI() {
 }
 
 addCanvasRenderer(updateCanvasPong);
-
