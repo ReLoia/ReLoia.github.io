@@ -291,7 +291,7 @@
                                     }
                                     wssHandlers.retries++;
                                     setTimeout(() => {
-                                        wss = new WebSocket("wss://reloia-listen.glitch.me");
+                                        wss = new WebSocket("wss://reloia.ddns.net/reloia_listen/");
                                         wss.onmessage = wssHandlers.onmessage;
                                         wss.onclose = wssHandlers.onclose;
                                         wss.onerror = wssHandlers.onerror;
@@ -311,7 +311,7 @@
                         (async () => {
                             console.info("Connecting to websocket...");
                             wss = await new Promise(resolve => {
-                                const ws = new WebSocket("wss://reloia-listen.glitch.me");
+                                const ws = new WebSocket("wss://reloia.ddns.net/reloia_listen/");
                                 ws.onopen = () => resolve(ws);
                                 ws.onerror = () => resolve(ws);
                             });
@@ -425,7 +425,7 @@
                         <h3>ReLoia Listen</h3>
                         <p>Api endpoint to see what I'm listening to and other spotify-related stuff</p>
                         <br />
-                        <a regu href="https://reloia-listen.glitch.me" target="_blank">reloia-listen.glitch.me</a> - <a regu href="https://github.com/ReLoia/reloia_listen" target="_blank">GitHub</a> page
+                        <a regu href="https://reloia.ddns.net/reloia_listen" target="_blank">reloia.ddns.net/reloia_listen</a> - <a regu href="https://github.com/ReLoia/reloia_listen" target="_blank">GitHub</a> page
                     </div>
                     <div>
                         <h3>ArgoScuolaNext-NodeJS</h3>

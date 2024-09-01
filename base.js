@@ -7,7 +7,7 @@ console.log(
 /**
  * This javascript file is executed after the html is loaded
  */
-let BASEURL = "https://glitch-proxy.vercel.app/reloia-listen";
+let BASEURL = "https://reloia.ddns.net/reloia_listen";
 
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");
