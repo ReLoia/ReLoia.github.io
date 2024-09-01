@@ -21,23 +21,23 @@ let pongSettings = {
     ball: {
         x: pongCanvas.width / 2,
         y: pongCanvas.height / 2,
-        dx: 2,
-        dy: -2,
+        dx: 2.3,
+        dy: -1.3,
         radius: 10 * scale,
     },
     paddle: {
         width: 8 * scale,
-        height: 40 * scale,
+        height: 30 * scale,
         speed: 2
     },
     player: {
         x: 6,
-        y: pongCanvas.height / 2 - 50,
+        y: pongCanvas.height / 2 - (30 * scale / 2),
         score: 0
     },
     computer: {
-        x: pongCanvas.width - (8 + 6),
-        y: pongCanvas.height / 2 - 50,
+        x: pongCanvas.width - ((8 * scale) + 6),
+        y: pongCanvas.height / 2 - (30 * scale / 2),
         score: 0
     }
 }
@@ -69,7 +69,6 @@ function updateCanvasPong() {
     pongCtx.fillRect(5, 5, pongCanvas.width - 10, pongCanvas.height - 10);
 
     // Draw the background
-    // dotted middle line
     pongCtx.strokeStyle = "white";
     pongCtx.beginPath();
     pongCtx.lineWidth = 5;
@@ -91,7 +90,6 @@ function updateCanvasPong() {
     pongCtx.font = "30px monospace";
     pongCtx.fillText(pongSettings.player.score, pongCanvas.width / 2 - 30, 30);
     pongCtx.fillText(pongSettings.computer.score, pongCanvas.width / 2 + 12, 30);
-
 
     // Draw the players
     pongCtx.fillStyle = "white";
@@ -134,8 +132,8 @@ function resetBall() {
     pongSettings.ball.x = pongCanvas.width / 2;
     const randHeight = Math.random() * pongCanvas.height;
     pongSettings.ball.y = Math.max(pongSettings.borderWidth + pongSettings.ball.radius, Math.min(randHeight, pongCanvas.height - pongSettings.borderWidth - pongSettings.ball.radius));
-    pongSettings.ball.dx = Math.sign(pongSettings.ball.dx) * 2;
-    pongSettings.ball.dy = Math.sign(pongSettings.ball.dy) * 2;
+    pongSettings.ball.dx = Math.sign(pongSettings.ball.dx) * 2.3;
+    pongSettings.ball.dy = Math.sign(pongSettings.ball.dy) * 1.3;
 
 }
 
@@ -183,8 +181,7 @@ function moveAI() {
     const computer = pongSettings.computer;
     const ball = pongSettings.ball;
 
-    // get a random number between 0 and 1 if it is less than 0.5, the computer won't move
-    if (Math.random() > 0.85 || ball.x < pongCanvas.width / 2) {
+    if (Math.random() > 0.9 || ball.x < pongCanvas.width / 2) {
         return;
     }
 
