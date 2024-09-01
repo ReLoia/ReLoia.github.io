@@ -220,18 +220,18 @@
                                 box.appendChild(message);
                                 wssStatusWidgetHandlers.widget_element.querySelector(".chat > .messages").prepend(box);
 
-
-                                this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with other <b id='onlineCont'>${data.clients - 1}</b> people`;
+                                this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with <b id='onlineCont'>${data.clients - 1}</b> other ${data.clients == 1 ? "person" : "people"}`;
                             },
                             sendmessage: function (message) {
-                                if (this.oncooldown) return;
+                                if (this.oncooldown) return false;
                                 this.oncooldown = true;
-                                if (message.username == "" || message.message == "") return;
+                                if (message.username == "" || message.message == "") return false;
                                 if (message.message.length > 200 || message.username.length > 20) {
                                     console.warn("Message or username too long");
-                                    return;
+                                    return false;
                                 }
                                 wss.send(JSON.stringify({ type: "chat", message }));
+                                return true;
                             },
                         }
 
@@ -492,7 +492,7 @@
                             <button type="button" onclick="wssStatusWidgetHandlers.sendmessage({
                                 username: this.parentElement.parentElement.querySelector('#username').value,
                                 message: this.parentElement.querySelector('#comment').value
-                            }); this.parentElement.parentElement.querySelector('#username').value = ''; this.parentElement.querySelector('#comment').value = ''">
+                            }) && ((this.parentElement.parentElement.querySelector('#username').value = '') || (this.parentElement.querySelector('#comment').value = ''))">
                                 <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20.764 12H10.056M3 8h2.5M4 12h1.5m-1 4h1m4.462-3.51-.892 2.959c-.337 1.12-.506 1.68-.363 2.014a1 1 0 0 0 .687.578c.354.085.877-.177 1.924-.7l7.82-3.91c.921-.46 1.382-.69 1.53-1.002a1 1 0 0 0 0-.857c-.148-.312-.609-.542-1.53-1.003l-7.831-3.916c-1.044-.521-1.565-.782-1.92-.698a1 1 0 0 0-.686.577c-.144.334.023.893.357 2.01l.905 3.028a2 2 0 0 1 .086.344 1 1 0 0 1 0 .232c-.01.087-.036.173-.087.344" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
