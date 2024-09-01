@@ -202,8 +202,6 @@
                              * }}
                              */
                             onmessage: function (data) {
-                                if (this.oncooldown) return;
-                                this.oncooldown = true;
                                 this.widget_element.querySelector("button").setAttribute("disabled", "");
                                 setTimeout(() => {
                                     this.oncooldown = false;
@@ -226,6 +224,8 @@
                                 this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with other <b id='onlineCont'>${data.clients - 1}</b> people`;
                             },
                             sendmessage: function (message) {
+                                if (this.oncooldown) return;
+                                this.oncooldown = true;
                                 if (message.username == "" || message.message == "") return;
                                 if (message.message.length > 200 || message.username.length > 20) {
                                     console.warn("Message or username too long");
@@ -256,6 +256,8 @@
                                      */
                                     const initData = data;
                                     setMusicPlayerInfo(data.listening);
+
+                                    console.log(initData.recentMessages)
 
                                     initData.recentMessages.forEach((message) => {
                                         wssStatusWidgetHandlers.onmessage({ type: "chat", clients: initData.listening.clients, username: message.username, message: message.message })
