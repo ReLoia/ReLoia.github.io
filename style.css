@@ -29,7 +29,6 @@ body > *:not(page, hover) {
 } */
 
 
-
 showcase {
     display: none;
 
@@ -186,6 +185,7 @@ hover {
     justify-content: center;
     align-items: center;
 }
+
 [mouse] {
     position: absolute;
     border-radius: 50%;
@@ -199,25 +199,30 @@ hover {
     filter: blur(8px);
 
 }
+
 [mouse].hidden {
-    opacity: 0!important;
+    opacity: 0 !important;
 }
+
 [mouse]:not(.hovering) {
     width: 20px !important;
     height: 20px;
-    transition: outline 0.4s, height .4s, width .4s,  border-radius 0.4s, opacity .6s;
+    transition: outline 0.4s, height .4s, width .4s, border-radius 0.4s, opacity .6s;
 }
+
 [mouse] > svg {
     /*display: none;*/
     opacity: 0;
     position: absolute;
 }
+
 [mouse].hovering {
     background-color: rgb(252, 168, 0);
     /*outline: 2px solid rgb(252, 168, 0);*/
     border-radius: 0;
     transition: outline 0.4s, height 0.4s, width 0.4s, border-radius 0.4s, opacity .6s;
 }
+
 [mouse].hoverIcon {
     /*width: 70px!important;*/
     /*height: 70px!important;*/
@@ -227,23 +232,27 @@ hover {
     filter: none;
     outline: none;
 
-    transform: translate(-50%, -50%)!important;
+    transform: translate(-50%, -50%) !important;
 
     transition: outline 0.4s, height 0.4s, width 0.4s, border-radius 0.4s, background-color .2s .1s;
 
     z-index: 10001;
 }
+
 [mouse].hoverIcon > svg > path {
     fill: var(--icon-color);
 }
+
 [mouse].like {
     --icon-color: #000;
     background-color: #800;
 }
+
 [mouse].unlike {
     --icon-color: #800;
     background-color: #000;
 }
+
 [mouse]:is(.like, .unlike) > svg#like-icon {
     /*display: block!important;*/
     opacity: 1;
@@ -254,6 +263,7 @@ hover {
     --icon-color: #888100;
     background-color: rgb(35, 35, 35);
 }
+
 [mouse].star > svg#star-icon {
     opacity: 1;
     transition: opacity 0.4s .15s;
@@ -263,6 +273,7 @@ hover {
     --icon-color: #000;
     background-color: #800;
 }
+
 [mouse].arrow-down > svg#arrow-down-icon {
     opacity: 1;
     transition: opacity 0.4s .15s;
@@ -432,9 +443,10 @@ canvas#backgroundCanvas {
     fill: #800;
     d: path("M12 26.031c0.156 0 0.344-0.031 0.469-0.125 0.344-0.219 8.094-5.156 10.75-10 1.125-2.063 1-4.844-0.281-7-1.125-1.906-3-2.969-5.25-2.969-3.094 0-4.781 1.656-5.688 3.063-0.906-1.406-2.625-3.063-5.688-3.063-2.281 0-4.125 1.063-5.281 2.969-1.281 2.156-1.375 4.938-0.25 7 2.625 4.844 10.406 9.781 10.719 10 0.156 0.094 0.313 0.125 0.5 0.125zM6.313 7.813c3.688 0 4.625 3.063 4.75 3.656 0.125 0.406 0.5 0.75 0.938 0.75 0.406 0 0.813-0.344 0.906-0.75 0.156-0.594 1.094-3.656 4.781-3.656 2.031 0 3.125 1.094 3.656 2.063 0.938 1.531 1.031 3.688 0.25 5.125-2.094 3.75-7.875 7.813-9.594 9-1.75-1.188-7.531-5.25-9.594-9-0.781-1.438-0.688-3.594 0.25-5.125 0.531-0.969 1.625-2.063 3.656-2.063z")
 }
+
 a.added:hover > svg > path {
     fill: #800;
-    d: path("M12 26.031c0.156 0 0.344-0.031 0.469-0.125 0.344-0.219 8.094-5.156 10.75-10 1.125-2.063 1-4.844-0.281-7-1.125-1.906-3-2.969-5.25-2.969-3.094 0-4.781 1.656-5.688 3.063-0.906-1.406-2.625-3.063-5.688-3.063-2.281 0-4.125 1.063-5.281 2.969-1.281 2.156-1.375 4.938-0.25 7 2.625 4.844 10.406 9.781 10.719 10 0.156 0.094 0.313 0.125 0.5 0.125zM6.313 7.813c3.688 0 4.625 3.063 4.75 3.656 0.125 0.406 0.5 0.75 0.938 0.75 0.406 0 0.813-0.344 0.906-0.75 0.156-0.594 1.094-3.656 4.781-3.656 2.031 0 3.125 1.094 3.656 2.063 0.938 1.531 1.031 3.688 0.25 5.125-2.094 3.75-7.875 7.813-9.594 9-1.75-1.188-7.531-5.25-9.594-9-0.781-1.438-0.688-3.594 0.25-5.125 0.531-0.969 1.625-2.063 3.656-2.063z")!important;
+    d: path("M12 26.031c0.156 0 0.344-0.031 0.469-0.125 0.344-0.219 8.094-5.156 10.75-10 1.125-2.063 1-4.844-0.281-7-1.125-1.906-3-2.969-5.25-2.969-3.094 0-4.781 1.656-5.688 3.063-0.906-1.406-2.625-3.063-5.688-3.063-2.281 0-4.125 1.063-5.281 2.969-1.281 2.156-1.375 4.938-0.25 7 2.625 4.844 10.406 9.781 10.719 10 0.156 0.094 0.313 0.125 0.5 0.125zM6.313 7.813c3.688 0 4.625 3.063 4.75 3.656 0.125 0.406 0.5 0.75 0.938 0.75 0.406 0 0.813-0.344 0.906-0.75 0.156-0.594 1.094-3.656 4.781-3.656 2.031 0 3.125 1.094 3.656 2.063 0.938 1.531 1.031 3.688 0.25 5.125-2.094 3.75-7.875 7.813-9.594 9-1.75-1.188-7.531-5.25-9.594-9-0.781-1.438-0.688-3.594 0.25-5.125 0.531-0.969 1.625-2.063 3.656-2.063z") !important;
 }
 
 a.added[title] > svg > path,
@@ -617,11 +629,13 @@ main > div[pong] {
 main > div[paint] > canvas#paintCanvas {
     cursor: crosshair;
 }
+
 main > div[paint] {
     &[data-status="loading"] {
         cursor: not-allowed;
+
         & > canvas {
-            cursor: wait!important;
+            cursor: wait !important;
         }
     }
 
@@ -629,6 +643,7 @@ main > div[paint] {
         margin-top: -1em;
         margin-bottom: 0.5em;
     }
+
     & > div.palette {
         display: flex;
         flex-wrap: wrap;
@@ -661,6 +676,7 @@ main > div[paint] {
             }
         }
     }
+
     &.cooldown > div.palette {
         background-color: #751d2e;
         cursor: not-allowed;
@@ -699,10 +715,12 @@ main > div[wss] {
     & > p {
         display: none;
     }
+
     &[data-status="offline"] {
         & > p {
             display: inline-block;
         }
+
         & > .chat {
             display: none;
         }
@@ -751,6 +769,12 @@ main > div[wss] {
 
                     &:hover {
                         cursor: text;
+                    }
+
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                    ::-webkit-scrollbar {
+                        display: none;
                     }
                 }
 
@@ -812,17 +836,20 @@ main > div[f] > div {
     justify-content: center;
     margin-bottom: 1em;
 
-    transition: transform .777s, transform-origin .377s;
+    transition: transform .777s, transform-origin .377s, filter .777s;
 }
+
 main > div[f] > div:hover {
     --y: 50%;
     --x: 50%;
+    --shadow-x: 0;
     --scale: 1;
 
     transition: transform .777s;
 
     transform-origin: var(--x) var(--y);
     transform: scale(var(--scale));
+    filter: drop-shadow(var(--shadow-x) 20px 6px rgba(0, 0, 0, 0.3))
 }
 
 main > div[f] > div > div {
@@ -991,6 +1018,6 @@ main > div[sl] > div {
     }
 
     .nomobile {
-        display: none!important;
+        display: none !important;
     }
 }

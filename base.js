@@ -399,6 +399,11 @@ window.addEventListener("keydown", async e => {
 
 // fav artists
 const favArtists = document.querySelector("div[f] > div");
+
+function shadowInterpolation(x, width) {
+    return lerp(-width / 2, width / 2, x / width)
+}
+
 // on hover set the anchor of the translation to the absolute X of the mouse position relative to the element
 favArtists.addEventListener("mousemove", e => {
     if ("touches" in e) return;
@@ -413,4 +418,5 @@ favArtists.addEventListener("mousemove", e => {
 
     favArtists.style.setProperty("--x", `${x}px`);
     favArtists.style.setProperty("--scale", "1.2");
+    favArtists.style.setProperty("--shadow-x", `${shadowInterpolation(x, rect.width)/6}px`);
 });

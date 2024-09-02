@@ -15,6 +15,7 @@ if (window.innerWidth < 440) {
     // round to 3 decimal places
     scale = Math.round(scale * 100) / 100;
 }
+scale = Math.abs(scale);
 
 paintCanvas.height = 140 * scale;
 paintCanvas.width = 420 * scale;
