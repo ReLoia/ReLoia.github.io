@@ -8,4 +8,4 @@ Link to the page:
 
 Link to the music API:  
 [GitHub Page](https://github.com/ReLoia/reloia_listen)  
-[API Direct Link](https://glitch-proxy.vercel.app/reloia-listen/)
+[API Direct Link](https://reloia.ddns.net/reloia_listen/)
