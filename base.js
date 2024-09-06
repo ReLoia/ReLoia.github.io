@@ -349,8 +349,11 @@ let lastMouseX = 0;
 let lastMouseY = 0;
 let lastTime = Date.now();
 let userIsAFK = false;
+
+backgroundImageEL = document.querySelector("background-image");
+
 function baseCanvasRender() {
-    backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+    // backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
     canvasRenderers.forEach(func => func());
 
     // Check if user is AFK (has not moved the mouse in 15 seconds)
@@ -369,6 +372,10 @@ function baseCanvasRender() {
         lastMouseX = mouse.x;
         lastMouseY = mouse.y;
     }
+
+    // logic to show the background of backgroundImageEL
+    backgroundImageEL.style.setProperty("--x", lastMouseX.toFixed(2) + "px");
+    backgroundImageEL.style.setProperty("--y", lastMouseY.toFixed(2) + "px");
 
     requestAnimationFrame(baseCanvasRender);
 }
