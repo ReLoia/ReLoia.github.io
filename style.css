@@ -97,6 +97,8 @@ page {
 
     -webkit-user-select: none;
     user-select: none;
+
+    pointer-events: none;
 }
 
 page > p {
@@ -107,6 +109,8 @@ page > p {
     text-align: center;
 
     font-family: "Courier New", Courier, monospace;
+
+    pointer-events: all;
 }
 
 div[logo] {
@@ -116,6 +120,8 @@ div[logo] {
     justify-content: center;
     /*cursor: pointer;*/
     font-family: "Roboto", sans-serif;
+
+    pointer-events: all;
 }
 
 div[logo] > p {
@@ -329,6 +335,7 @@ canvas#backgroundCanvas {
     top: 0;
     left: 0;
     z-index: -1;
+    pointer-events: none;
 }
 
 [head] {

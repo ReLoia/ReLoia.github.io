@@ -43,7 +43,7 @@ const mouse = {
     transformBaseCSS: "",
 }
 
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('pointermove', (e) => {
     if (mouse.hoverElCenterReached) return
     mouse.currentX = e.clientX
     mouse.currentY = e.clientY
