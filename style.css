@@ -316,7 +316,7 @@ background-image {
     pointer-events: none;
 
     background-image: radial-gradient(circle at var(--x) var(--y), transparent 30px, rgb(25, 14, 14, .99) 120px),
-            url("/assets/mouse-back.webp");
+    url("/assets/mouse-back.webp");
     background-size: cover;
     background-position: 50% 0;
 
@@ -809,6 +809,7 @@ main > div[wss] {
 
                     -ms-overflow-style: none;
                     scrollbar-width: none;
+
                     ::-webkit-scrollbar {
                         display: none;
                     }
@@ -935,6 +936,7 @@ main > div[s] > div#sotd {
     gap: 1em;
     max-height: 143px;
     overflow: hidden;
+    transition: .8s all;
 
     &.open {
         max-height: 400px;
@@ -998,19 +1000,31 @@ main > div[sl] > div {
     flex-wrap: wrap;
     gap: 1em;
 
+    max-width: 600px;
+
     & > a {
         gap: 0.5em;
         font-size: 1.2em;
-        width: 40px;
+        min-width: 40px;
         height: 40px;
 
-        line-height: 58px;
         text-align: center;
-
         border-radius: 5px;
         background-color: rgba(137, 130, 67, 0.3);
-        color: white;
+        color: black;
         transition: background-color 0.3s;
+
+        padding-inline: 5px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        & > t {
+            align-self: end;
+        }
     }
 }
 

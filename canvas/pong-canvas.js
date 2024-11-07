@@ -3,8 +3,6 @@
  */
 
 const canvasPongDiv = document.querySelector("div[pong]");
-// TODO: remove debug
-// canvasPongDiv.style.display = "none"
 
 const pongCanvas = canvasPongDiv.querySelector("canvas#pongCanvas");
 const pongCtx = pongCanvas.getContext("2d");
@@ -55,10 +53,6 @@ canvasPongDiv.addEventListener("mousemove", (ev) => {
 
 const minHeight = pongSettings.borderWidth + 1
 const maxHeight = (pongCanvas.height - pongSettings.borderWidth) - (pongSettings.paddle.height + 1);
-let score = {
-    player: 0,
-    computer: 0
-}
 
 // Border
 pongCtx.fillStyle = "white"

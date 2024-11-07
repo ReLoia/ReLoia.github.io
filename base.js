@@ -5,7 +5,7 @@ console.log(
 );
 
 /**
- * This javascript file is executed after the html is loaded
+ * This JavaScript file is executed after the HTML is loaded
  */
 let BASEURL = "https://reloia.ddns.net/reloia_listen";
 
@@ -21,13 +21,13 @@ etaEl.innerText = Math.floor(
 
 const queries = location.search
     ? location.search
-          .slice(1)
-          .split("&")
-          .map(el => {
-              if (el === "") return;
-              const r = /(.+)=(.+)/g.exec(el);
-              return [r?.[1], r?.[2]];
-          })
+        .slice(1)
+        .split("&")
+        .map(el => {
+            if (el === "") return;
+            const r = /(.+)=(.+)/g.exec(el);
+            return [r?.[1], r?.[2]];
+        })
     : null;
 
 // Set debug mode on
@@ -134,8 +134,6 @@ document.querySelectorAll("span[code]").forEach(el => {
     let newText = el.innerHTML
         .replace(/\n/g, "") // tutto su una sola linea
         .replace(/(\/\*.*?\*\/)/g, cWC("$1", "comm")); // commenti
-
-    const lang = el.getAttribute("code");
 
     switch (el.getAttribute("code")) {
         case "js":
@@ -253,13 +251,16 @@ window.sotd = [];
     sotdEl.innerHTML = "";
     if (sotd.length > 1)
         sotdEl.parentElement.querySelector("h2").innerHTML =
-            "Song<sub>s</sub> of the day<a regu>See more</a>";
+            `${sotd.length} Song<sub>s</sub> of the day<a regu>See more</a>`;
     (sotdMore = sotdEl.parentElement.querySelector("h2>a")).onclick = () => {
         if (sotdEl.classList.contains("open")) {
             sotdEl.classList.remove("open");
             sotdMore.innerText = "See more";
-        }
-        else {
+            sotdEl.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        } else {
             sotdEl.classList.add("open");
             sotdMore.innerText = "See less";
         }
@@ -280,14 +281,14 @@ const addSong = async (container, song, i, position = false) => {
         <t title="${song.name}">${song.name}</t>
         <p title="${song.author}">${song.author}</p>
         <c>${
-            typeof song.date == "number"
-                ? handleTime(new Date(song.date))
-                : song.date
-        }</c>
+        typeof song.date == "number"
+            ? handleTime(new Date(song.date))
+            : song.date
+    }</c>
     </div>
     <div>
         <a class="added mouse-hover" id="sotd-${i}" title="Remove song from SotD" data-hoveranimationicon="unlike" >
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32" version="1.1">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32"">
                 <path></path>
         </svg>
         </a>
@@ -330,27 +331,36 @@ const deleteSong = async container => {
 // end songs of the day handler
 
 // Canvas
-const backgroundCanvas = document.querySelector("canvas#backgroundCanvas");
-const backgroundCanvasCTX = backgroundCanvas.getContext("2d");
-
-const resizeCanvas = () => {
-    backgroundCanvas.width = window.innerWidth;
-    backgroundCanvas.height = window.innerHeight;
-};
-window.onresize = resizeCanvas;
-resizeCanvas();
-
 // Array of Functions that will be executed in the animation loop
 const canvasRenderers = [];
+
 function addCanvasRenderer(func) {
     canvasRenderers.push(func);
 }
+
 let lastMouseX = 0;
 let lastMouseY = 0;
 let lastTime = Date.now();
 let userIsAFK = false;
 
 backgroundImageEL = document.querySelector("background-image");
+window.countFPS = (function () {
+    var lastLoop = (new Date()).getMilliseconds();
+    var count = 1;
+    var fps = 0;
+
+    return function () {
+        var currentLoop = (new Date()).getMilliseconds();
+        if (lastLoop > currentLoop) {
+            fps = count;
+            count = 1;
+        } else {
+            count += 1;
+        }
+        lastLoop = currentLoop;
+        return fps;
+    };
+}());
 
 function baseCanvasRender() {
     // backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
@@ -374,11 +384,13 @@ function baseCanvasRender() {
     }
 
     // logic to show the background of backgroundImageEL
-    backgroundImageEL.style.setProperty("--x", lastMouseX.toFixed(2) + "px");
-    backgroundImageEL.style.setProperty("--y", lastMouseY.toFixed(2) + "px");
-
+    if (!pageActivated) {
+        backgroundImageEL.style.setProperty("--x", lastMouseX.toFixed(2) + "px");
+        backgroundImageEL.style.setProperty("--y", lastMouseY.toFixed(2) + "px");
+    }
     requestAnimationFrame(baseCanvasRender);
 }
+
 baseCanvasRender();
 // End Canvas
 
@@ -386,23 +398,22 @@ let tabbingDelay = null;
 
 // Check if the tabbed element is out of view and if so, scroll to it (activate page or deactivate page)
 window.addEventListener("keydown", async e => {
-        if (e.key == "Tab") {
-            const tabbed = document.activeElement;
-            if (tabbed == document.body) return;
+    if (e.key == "Tab") {
+        const tabbed = document.activeElement;
+        if (tabbed == document.body) return;
 
-            if (tabbingDelay != null) clearTimeout(tabbingDelay);
-            tabbingDelay = setTimeout(() => {
-                if (
-                    tabbed.getBoundingClientRect().top < 0 ||
-                    tabbed.getBoundingClientRect().bottom > window.innerHeight - 20
-                ) {
-                    if (pageActivated) deactivatePage();
-                    else activatePage();
-                }
-            }, 250);
-        }
+        if (tabbingDelay != null) clearTimeout(tabbingDelay);
+        tabbingDelay = setTimeout(() => {
+            if (
+                tabbed.getBoundingClientRect().top < 0 ||
+                tabbed.getBoundingClientRect().bottom > window.innerHeight - 20
+            ) {
+                if (pageActivated) deactivatePage();
+                else activatePage();
+            }
+        }, 250);
     }
-)
+});
 
 // fav artists
 const favArtists = document.querySelector("div[f] > div");
@@ -425,5 +436,5 @@ favArtists.addEventListener("mousemove", e => {
 
     favArtists.style.setProperty("--x", `${x}px`);
     favArtists.style.setProperty("--scale", "1.2");
-    favArtists.style.setProperty("--shadow-x", `${shadowInterpolation(x, rect.width)/6}px`);
+    favArtists.style.setProperty("--shadow-x", `${shadowInterpolation(x, rect.width) / 6}px`);
 });

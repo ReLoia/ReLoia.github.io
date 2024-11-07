@@ -155,7 +155,6 @@ function customMouseIcon() {
     }
 
     // if user is AFK, apply a cos and sin function to the mouse
-    //     console.log(mouse)
     if (userIsAFK && !mouse.hover) {
         mouseEl.style.left = `${
             mouse.x + Math.cos(Date.now() / 500) * 25
