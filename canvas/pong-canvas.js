@@ -2,6 +2,8 @@
  * @fileoverview Pong game
  */
 
+let pong = {};
+
 (() => {
 
     const pongDiv = document.querySelector("div[pong]");
@@ -15,7 +17,7 @@
     canvas.height = 140 * scale;
     canvas.width = 420 * scale;
 
-    const settings = {
+    pong.settings = {
         borderWidth: 5,
         playing: false,
         ball: {
@@ -46,18 +48,18 @@
     pongDiv.addEventListener("mousemove", (ev) => {
         const rect = canvas.getBoundingClientRect();
         const mouseY = ev.clientY - rect.top;
-        settings.player.y = mouseY - settings.paddle.height / 2;
+        pong.settings.player.y = mouseY - pong.settings.paddle.height / 2;
 
-        if (!settings.playing) {
-            settings.playing = true;
-            // arkanoidSettings.playing = false;
+        if (!pong.settings.playing) {
+            pong.settings.playing = true;
+            arkanoid.settings.playing = false;
 
         }
 
     });
 
-    const pongMinHeight = settings.borderWidth + 1
-    const pongMaxHeight = (canvas.height - settings.borderWidth) - (settings.paddle.height + 1);
+    const pongMinHeight = pong.settings.borderWidth + 1
+    const pongMaxHeight = (canvas.height - pong.settings.borderWidth) - (pong.settings.paddle.height + 1);
 
 // Border
     ctx.fillStyle = "white"
@@ -81,42 +83,42 @@
         // Draw the ball
         ctx.fillStyle = "white";
         ctx.beginPath();
-        ctx.arc(settings.ball.x, settings.ball.y, settings.ball.radius, 0, Math.PI * 2);
+        ctx.arc(pong.settings.ball.x, pong.settings.ball.y, pong.settings.ball.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
 
         // Draw the scores
         ctx.font = "30px monospace";
-        ctx.fillText(settings.player.score, canvas.width / 2 - 30, 30);
-        ctx.fillText(settings.computer.score, canvas.width / 2 + 12, 30);
+        ctx.fillText(pong.settings.player.score, canvas.width / 2 - 30, 30);
+        ctx.fillText(pong.settings.computer.score, canvas.width / 2 + 12, 30);
 
         // Draw the players
         ctx.fillStyle = "white";
         ctx.fillRect(
-            settings.player.x,
+            pong.settings.player.x,
             Math.max(
                 pongMinHeight,
                 Math.min(
-                    settings.player.y,
+                    pong.settings.player.y,
                     pongMaxHeight
                 )
             ),
-            settings.paddle.width,
-            settings.paddle.height
+            pong.settings.paddle.width,
+            pong.settings.paddle.height
         );
-        ctx.fillRect(settings.computer.x,
+        ctx.fillRect(pong.settings.computer.x,
             Math.max(
                 pongMinHeight,
                 Math.min(
-                    settings.computer.y,
+                    pong.settings.computer.y,
                     pongMaxHeight
                 )
             ),
-            settings.paddle.width,
-            settings.paddle.height
+            pong.settings.paddle.width,
+            pong.settings.paddle.height
         );
 
-        if (!settings.playing) {
+        if (!pong.settings.playing) {
             ctx.font = "14px monospace";
             const text = "Move your mouse to start";
 
@@ -128,67 +130,67 @@
     }
 
     function resetBall() {
-        settings.ball.x = canvas.width / 2;
+        pong.settings.ball.x = canvas.width / 2;
         const randHeight = Math.random() * canvas.height;
-        settings.ball.y = Math.max(settings.borderWidth + settings.ball.radius, Math.min(randHeight, canvas.height - settings.borderWidth - settings.ball.radius));
-        settings.ball.dx = Math.sign(settings.ball.dx) * 2.3;
-        settings.ball.dy = Math.sign(settings.ball.dy) * 1.3;
+        pong.settings.ball.y = Math.max(pong.settings.borderWidth + pong.settings.ball.radius, Math.min(randHeight, canvas.height - pong.settings.borderWidth - pong.settings.ball.radius));
+        pong.settings.ball.dx = Math.sign(pong.settings.ball.dx) * 2.3;
+        pong.settings.ball.dy = Math.sign(pong.settings.ball.dy) * 1.3;
 
     }
 
     function movePongBall() {
-        settings.ball.x += settings.ball.dx;
-        settings.ball.y += settings.ball.dy;
+        pong.settings.ball.x += pong.settings.ball.dx;
+        pong.settings.ball.y += pong.settings.ball.dy;
 
-        if (settings.ball.y + settings.ball.radius > canvas.height || settings.ball.y - settings.ball.radius < 0) {
-            settings.ball.dy = -settings.ball.dy;
+        if (pong.settings.ball.y + pong.settings.ball.radius > canvas.height || pong.settings.ball.y - pong.settings.ball.radius < 0) {
+            pong.settings.ball.dy = -pong.settings.ball.dy;
         }
 
-        if (settings.ball.x + settings.ball.radius > canvas.width) {
-            settings.player.score++;
-            settings.playing = false;
+        if (pong.settings.ball.x + pong.settings.ball.radius > canvas.width) {
+            pong.settings.player.score++;
+            pong.settings.playing = false;
             resetBall();
         }
 
-        if (settings.ball.x - settings.ball.radius < 0) {
-            settings.computer.score++;
-            settings.playing = false;
+        if (pong.settings.ball.x - pong.settings.ball.radius < 0) {
+            pong.settings.computer.score++;
+            pong.settings.playing = false;
             resetBall();
         }
 
-        const player = settings.player;
-        const computer = settings.computer;
-        const ball = settings.ball;
+        const player = pong.settings.player;
+        const computer = pong.settings.computer;
+        const ball = pong.settings.ball;
 
         const ballTop = ball.y - ball.radius;
         const ballBottom = ball.y + ball.radius;
 
-        if ((ball.x - ball.radius) < (player.x + settings.paddle.width) && ballTop < (player.y + settings.paddle.height) && ballBottom > player.y) {
+        if ((ball.x - ball.radius) < (player.x + pong.settings.paddle.width) && ballTop < (player.y + pong.settings.paddle.height) && ballBottom > player.y) {
             ball.dx = Math.abs(ball.dx);
-            settings.ball.dx += 0.3 * Math.sign(settings.ball.dx);
-            settings.ball.dy += 0.3 * Math.sign(settings.ball.dy);
+            pong.settings.ball.dx += 0.3 * Math.sign(pong.settings.ball.dx);
+            pong.settings.ball.dy += 0.3 * Math.sign(pong.settings.ball.dy);
         }
 
-        if ((ball.x + ball.radius) > computer.x && ballTop < (computer.y + settings.paddle.height) && ballBottom > computer.y) {
+        if ((ball.x + ball.radius) > computer.x && ballTop < (computer.y + pong.settings.paddle.height) && ballBottom > computer.y) {
             ball.dx = -Math.abs(ball.dx);
-            settings.ball.dx += 0.3 * Math.sign(settings.ball.dx);
-            settings.ball.dy += 0.3 * Math.sign(settings.ball.dy);
+            pong.settings.ball.dx += 0.3 * Math.sign(pong.settings.ball.dx);
+            pong.settings.ball.dy += 0.3 * Math.sign(pong.settings.ball.dy);
         }
     }
 
     function moveAI() {
-        const computer = settings.computer;
-        const ball = settings.ball;
+        const computer = pong.settings.computer;
+        const ball = pong.settings.ball;
 
         if (Math.random() > 0.9 || ball.x < canvas.width / 2) {
             return;
         }
 
-        const computerCenter = computer.y + settings.paddle.height / 2;
+        const computerCenter = computer.y + pong.settings.paddle.height / 2;
         if (ball.y < computerCenter) {
-            computer.y -= settings.paddle.speed;
+            computer.y -= pong.settings.paddle.speed;
         } else {
-            computer.y += settings.paddle.speed;
+            computer.y += pong.settings.paddle.speed;
         }
     }
 

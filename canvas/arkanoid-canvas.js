@@ -3,17 +3,19 @@
  */
 
 class Brick {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, color, value) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.color = color || "white";
+        this.value = value;
         this.destroyed = false;
     }
 
     draw(ctx) {
         if (!this.destroyed) {
-            ctx.fillStyle = "white";
+            ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
@@ -27,11 +29,13 @@ class Brick {
             ball.y < this.y + this.height
         ) {
             this.destroyed = true;
-            return true; // Indicate collision occurred
+            return this.value; // Indicate collision occurred
         }
-        return false;
+        return 0;
     }
 }
+
+let arkanoid = {};
 
 (() => {
     const arkaDiv = document.querySelector("div[arkanoid]");
@@ -41,14 +45,14 @@ class Brick {
     canvas.height = 140 * scale;
     canvas.width = 420 * scale;
 
-    const settings = {
+    arkanoid.settings = {
         borderWidth: 5,
         playing: false,
         ball: {
             x: canvas.width / 2,
             y: canvas.height / 2 + 20,
             dx: 0,
-            dy: 1.8,
+            dy: 2,
             radius: 6 * scale,
         },
         paddle: {
@@ -56,34 +60,38 @@ class Brick {
             height: 10 * scale,
             speed: 5 * scale,
             x: canvas.width / 2 - (80 * scale) / 2,
-            y: canvas.height - 20 * scale,
+            y: canvas.height - 20,
         },
         bricks: [],
+        aliveBricks: 0,
         brickConfig: {
-            rows: 4,
+            rows: 2,
             cols: 11,
             width: 30 * scale,
-            height: 6 * scale,
+            height: 6,
             padding: 4 * scale,
-            offsetTop: 20 * scale,
+            offsetTop: 25,
             offsetLeft: 20 * scale,
         },
-        score: 0,
+        score: Number(localStorage.getItem("arkanoidScore")) || 0,
     };
 
     function createBricks() {
-        settings.bricks = [];
-        for (let row = 0; row < settings.brickConfig.rows; row++) {
-            for (let col = 0; col < settings.brickConfig.cols; col++) {
+        arkanoid.settings.bricks = [];
+        for (let row = 0; row < Math.min(Math.max(arkanoid.settings.brickConfig.rows, 1), 5); row++) {
+            for (let col = 0; col < arkanoid.settings.brickConfig.cols; col++) {
                 const x =
-                    settings.brickConfig.offsetLeft +
-                    col * (settings.brickConfig.width + settings.brickConfig.padding);
+                    arkanoid.settings.brickConfig.offsetLeft +
+                    col * (arkanoid.settings.brickConfig.width + arkanoid.settings.brickConfig.padding);
                 const y =
-                    settings.brickConfig.offsetTop +
-                    row * (settings.brickConfig.height + settings.brickConfig.padding);
-                settings.bricks.push(new Brick(x, y, settings.brickConfig.width, settings.brickConfig.height));
+                    arkanoid.settings.brickConfig.offsetTop +
+                    row * (arkanoid.settings.brickConfig.height + arkanoid.settings.brickConfig.padding);
+
+                const level = Math.abs(row-arkanoid.settings.brickConfig.rows+1);
+                arkanoid.settings.bricks.push(new Brick(x, y, arkanoid.settings.brickConfig.width, arkanoid.settings.brickConfig.height, ["white", "yellow", "orange", "red"][level], 10**level));
             }
         }
+        arkanoid.settings.aliveBricks = arkanoid.settings.brickConfig.rows*arkanoid.settings.brickConfig.cols;
     }
 
     function draw() {
@@ -94,7 +102,7 @@ class Brick {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw ball
-        const {x, y, radius} = settings.ball;
+        const {x, y, radius} = arkanoid.settings.ball;
         ctx.fillStyle = "white";
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -102,21 +110,21 @@ class Brick {
         ctx.closePath();
 
         // Draw paddle
-        const {x: paddleX, y: paddleY, width, height} = settings.paddle;
+        const {x: paddleX, y: paddleY, width, height} = arkanoid.settings.paddle;
         ctx.fillStyle = "white";
         ctx.fillRect(paddleX, paddleY, width, height);
 
         // Draw bricks
-        settings.bricks.forEach((brick) => brick.draw(ctx));
+        arkanoid.settings.bricks.forEach((brick) => brick.draw(ctx));
 
         // Draw score
         ctx.fillStyle = "white";
         ctx.font = `${16 * scale}px Arial`;
-        ctx.fillText(settings.score, 10, 18);
+        ctx.fillText(""+Math.floor(arkanoid.settings.score), 10, 18);
     }
 
     function moveBall() {
-        const {ball, paddle} = settings;
+        const {ball, paddle} = arkanoid.settings;
 
         ball.x += ball.dx;
         ball.y += ball.dy;
@@ -142,51 +150,66 @@ class Brick {
 
         // Ball out of bounds
         if (ball.y + ball.radius > canvas.height) {
-            settings.playing = false;
+            arkanoid.settings.playing = false;
+            arkanoid.settings.score *= 0.999;
+            arkanoid.settings.brickConfig.rows -= 1;
             resetGame();
         }
 
         // Ball collision with bricks
-        settings.bricks.forEach((brick) => {
-            if (brick.checkCollision(ball)) {
+        arkanoid.settings.bricks.forEach((brick) => {
+            const value = brick.checkCollision(ball);
+            if (value) {
+                arkanoid.settings.aliveBricks--;
                 ball.dy = -ball.dy;
-                settings.score += 10;
+                arkanoid.settings.score += value;
             }
         });
+
+        if (arkanoid.settings.aliveBricks === 0) {
+            arkanoid.settings.brickConfig.rows += 1;
+            resetGame();
+        }
     }
 
     function movePaddle(event) {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
 
-        settings.paddle.x = Math.max(
-            Math.min(mouseX - settings.paddle.width / 2, canvas.width - settings.paddle.width),
+        arkanoid.settings.paddle.x = Math.max(
+            Math.min(mouseX - arkanoid.settings.paddle.width / 2, canvas.width - arkanoid.settings.paddle.width),
             0
         );
 
-        if (!settings.playing) {
-            settings.playing = true;
+        if (!arkanoid.settings.playing) {
+            arkanoid.settings.playing = true;
+            pong.settings.playing = false;
         }
     }
 
     function resetGame() {
-        settings.ball.x = canvas.width / 2;
-        settings.ball.y = canvas.height / 2 + 20;
-        settings.ball.dx = 0;
-        settings.ball.dy = 1.8;
-        settings.paddle.x = canvas.width / 2 - settings.paddle.width / 2;
+        arkanoid.settings.ball.x = canvas.width / 2;
+        arkanoid.settings.ball.y = canvas.height / 2 + 20;
+        arkanoid.settings.ball.dx = 0;
+        arkanoid.settings.ball.dy = 1.8;
+        arkanoid.settings.paddle.x = canvas.width / 2 - arkanoid.settings.paddle.width / 2;
+        localStorage.setItem("arkanoidScore", arkanoid.settings.score);
         createBricks();
     }
 
     function gameLoop() {
         draw();
-        if (settings.playing) {
+        if (!arkanoid.settings.playing) {
+            ctx.font = "14px monospace";
+            const text = "Move your mouse to start";
+
+            ctx.fillText(text, canvas.width / 2 - ctx.measureText(text).width / 2, canvas.height - 30);
+        } else {
             moveBall();
         }
-        // requestAnimationFrame(gameLoop);
     }
 
     arkaDiv.addEventListener("mousemove", movePaddle);
     createBricks();
-    addCanvasRenderer(gameLoop)
+    addCanvasRenderer(gameLoop);
 })();

@@ -173,6 +173,9 @@ setInterval(async () => {
         hour: "numeric",
         minute: "numeric",
     });
+    if (newTime.startsWith("4:20")) timeCont.parentElement.classList.add("four20");
+    else timeCont.parentElement.classList.remove("four20");
+
     if (timeCont.innerText != newTime) timeCont.innerText = newTime;
     if (pageActivated && window.scrollY < 20) deactivatePage();
 }, 1000);

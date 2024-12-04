@@ -539,6 +539,10 @@ a.added[title] > svg > path,
     width: fit-content;
 }
 
+[head] > div[info].four20 {
+    background: #195905;
+}
+
 [head] > div[info], [head] > div[online] {
     /* max-width: 5em; */
     background-color: #181818e0;
@@ -654,7 +658,7 @@ main > div[p] > div > div > p {
 }
 
 /* Pong canvas */
-main > div[pong] {
+main > :is(div[pong], div[arkanoid]) {
     & > p {
         margin-top: -1em;
         margin-bottom: 0.5em;
@@ -731,6 +735,9 @@ main > div[wss] {
     border-radius: 5px;
 
     box-shadow: 0 4px 8px 6px rgba(0, 0, 0, 0.24);
+
+    max-width: 800px;
+    margin-inline: auto;
 
     &[data-status="online"] {
         --bg-color: #051f04b0;
