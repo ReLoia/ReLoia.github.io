@@ -537,6 +537,9 @@ a.added[title] > svg > path,
     font-size: 10px;
     margin-inline: auto;
     width: fit-content;
+    mix-blend-mode: difference;
+    position: relative;
+    z-index: 10;
 }
 
 [head] > div[info].four20 {

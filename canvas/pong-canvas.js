@@ -30,7 +30,7 @@ let pong = {};
         paddle: {
             width: 8 * scale,
             height: 30 * scale,
-            speed: 2
+            speed: 3
         },
         player: {
             x: 6,
@@ -53,7 +53,6 @@ let pong = {};
         if (!pong.settings.playing) {
             pong.settings.playing = true;
             arkanoid.settings.playing = false;
-
         }
 
     });
@@ -186,7 +185,12 @@ let pong = {};
             return;
         }
 
-        const computerCenter = computer.y + pong.settings.paddle.height / 2;
+        const computerCenter = computer.y + (pong.settings.paddle.height / 2);
+
+        if (Math.abs(computerCenter - ball.y) < 10) {
+            return;
+        }
+
         if (ball.y < computerCenter) {
             computer.y -= pong.settings.paddle.speed;
         } else {

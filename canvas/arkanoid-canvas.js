@@ -61,6 +61,7 @@ let arkanoid = {};
             speed: 5 * scale,
             x: canvas.width / 2 - (80 * scale) / 2,
             y: canvas.height - 20,
+            lives: 2
         },
         bricks: [],
         aliveBricks: 0,
@@ -88,7 +89,7 @@ let arkanoid = {};
                     row * (arkanoid.settings.brickConfig.height + arkanoid.settings.brickConfig.padding);
 
                 const level = Math.abs(row-arkanoid.settings.brickConfig.rows+1);
-                arkanoid.settings.bricks.push(new Brick(x, y, arkanoid.settings.brickConfig.width, arkanoid.settings.brickConfig.height, ["white", "yellow", "orange", "red"][level], 10**level));
+                arkanoid.settings.bricks.push(new Brick(x, y, arkanoid.settings.brickConfig.width, arkanoid.settings.brickConfig.height, ["white", "yellow", "orange", "red", "darkred"][level], 10**level));
             }
         }
         arkanoid.settings.aliveBricks = arkanoid.settings.brickConfig.rows*arkanoid.settings.brickConfig.cols;
@@ -150,10 +151,15 @@ let arkanoid = {};
 
         // Ball out of bounds
         if (ball.y + ball.radius > canvas.height) {
+            arkanoid.settings.paddle.lives -= 1;
             arkanoid.settings.playing = false;
-            arkanoid.settings.score *= 0.999;
-            arkanoid.settings.brickConfig.rows -= 1;
-            resetGame();
+            ballReset();
+
+            if (arkanoid.settings.paddle.lives == 0) {
+                arkanoid.settings.score *= 0.999;
+                arkanoid.settings.brickConfig.rows -= 1;
+                resetGame();
+            }
         }
 
         // Ball collision with bricks
@@ -187,11 +193,16 @@ let arkanoid = {};
         }
     }
 
-    function resetGame() {
+    function ballReset() {
         arkanoid.settings.ball.x = canvas.width / 2;
         arkanoid.settings.ball.y = canvas.height / 2 + 20;
         arkanoid.settings.ball.dx = 0;
         arkanoid.settings.ball.dy = 1.8;
+    }
+
+    function resetGame() {
+        ballReset();
+        arkanoid.settings.paddle.lives = 2;
         arkanoid.settings.paddle.x = canvas.width / 2 - arkanoid.settings.paddle.width / 2;
         localStorage.setItem("arkanoidScore", arkanoid.settings.score);
         createBricks();

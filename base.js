@@ -347,23 +347,6 @@ let lastTime = Date.now();
 let userIsAFK = false;
 
 backgroundImageEL = document.querySelector("background-image");
-window.countFPS = (function () {
-    var lastLoop = (new Date()).getMilliseconds();
-    var count = 1;
-    var fps = 0;
-
-    return function () {
-        var currentLoop = (new Date()).getMilliseconds();
-        if (lastLoop > currentLoop) {
-            fps = count;
-            count = 1;
-        } else {
-            count += 1;
-        }
-        lastLoop = currentLoop;
-        return fps;
-    };
-}());
 
 function baseCanvasRender() {
     // backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
