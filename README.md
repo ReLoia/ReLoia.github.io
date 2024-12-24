@@ -9,8 +9,8 @@ which is powered by my own API that uses the Spotify API to get the music I'm cu
 
 ### Do you want to use the music player?
 To do so, you need to clone and edit my API to your liking.  
-[GitHub Page](https://github.com/ReLoia/reloia_listen)  
-[API Direct Link](https://reloia.ddns.net/reloia_listen/)
+[GitHub Page](https://github.com/ReLoia/myspottyapi)  
+[API Direct Link](https://reloia.ddns.net/myspottyapi/)
 
 ### What did I use to create this website?
 The website is built with plain HTML, CSS, and JavaScript.  
