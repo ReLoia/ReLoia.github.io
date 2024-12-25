@@ -82,13 +82,14 @@
                 /**
                  * @param {{
                  *    name: string,
-                 *    playing: boolean,
-                 *    explicit: boolean,
+                 *    playing: boolean?,
+                 *    explicit: boolean?,
                  *    author: string,
                  *    progress: number,
                  *    duration: number,
                  *    song_link: string,
-                 *    album_image: string
+                 *    album_image: string,
+                 *    clients: number?
                  * }} data
                  */
                 function setMusicPlayerInfo(data) {
@@ -199,14 +200,13 @@
 
                     /**
                      * when a message is received, set the status of the widget to online and show the message
-                     * @param data {{
+                     * @param msg {{
                      *     type: string,
                      *     clients: number,
-                     *     username: string,
-                     *     message: string,
+                     *     data: {username: string, message: string}
                      * }}
                      */
-                    onmessage: function (data) {
+                    onmessage: function (msg) {
                         this.widget_element.querySelector("button").setAttribute("disabled", "");
                         setTimeout(() => {
                             this.oncooldown = false;
@@ -218,14 +218,14 @@
                         const box = document.createElement("div");
                         box.classList.add("box");
                         const username = document.createElement("b");
-                        username.innerText = data.message.username;
+                        username.innerText = msg.data.username;
                         box.appendChild(username);
                         const message = document.createElement("p");
-                        message.innerText = data.message.message;
+                        message.innerText = msg.data.message;
                         box.appendChild(message);
                         wssStatusWidgetHandlers.widget_element.querySelector(".chat > .messages").prepend(box);
 
-                        this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with <b id='onlineCont'>${data.clients - 1}</b> other ${data.clients == 1 ? "person" : "people"}`;
+                        this.widget_element.querySelector("p").innerHTML = `You are currently <b>connected</b> with <b id='onlineCont'>${msg.clients - 1}</b> other ${(msg.clients - 1) == 1 ? "person" : "people"}`;
                     },
                     sendmessage: function (message) {
                         if (this.oncooldown) return false;
@@ -243,11 +243,11 @@
                 // WSS handlers
                 const wssHandlers = {
                     onmessage: (event) => {
-                        let data;
+                        let msg;
                         try {
-                            data = JSON.parse(event.data);
+                            msg = JSON.parse(event.data);
                         } catch (error) {
-                            data = {
+                            msg = {
                                 type: "error",
                                 message: event.data,
                             }
@@ -255,29 +255,36 @@
                             console.error(error);
                         }
 
-                        if (data.type == "init") {
+                        if (msg.type == "init") {
                             /**
-                             * @type {{type: string, listening: {name: string, playing: boolean, explicit: boolean, author: string, progress: number, duration: number, song_link: string, album_image: string, clients: number}, recentMessages: {username: string, message: string}[]}}
+                             * @type {{type: string, data: {name: string, playing: boolean, explicit: boolean, author: string, progress: number, duration: number, song_link: string, album_image: string}, recentMessages: {username: string, message: string}[], clients: number}}
                              */
-                            const initData = data;
-                            setMusicPlayerInfo(data.listening);
+                            const initData = msg;
+                            setMusicPlayerInfo({...initData.data, clients: initData.clients});
 
                             initData.recentMessages.forEach((message) => {
                                 wssStatusWidgetHandlers.onmessage({
                                     type: "chat",
-                                    clients: initData.listening.clients,
+                                    clients: initData.data.clients,
                                     username: message.username,
                                     message: message.message
                                 })
                             });
-                        } else if (data.type == "listening-status") {
-                            setMusicPlayerInfo(data);
-                        } else if (data.type == "chat") {
-                            wssStatusWidgetHandlers.onmessage(data);
-                        } else if (data.type == "paintcanvas") {
-                            paintPixel(data.x * paintCanvasSettings.pixelSize, data.y * paintCanvasSettings.pixelSize, data.color)
+                        } else if (msg.type == "listening-status") {
+                            /**
+                             * @type {{type: string, clients: number, data: {name: string, playing: boolean, explicit: boolean, author: string, progress: number, duration: number, song_link: string, album_image: string}}}
+                             */
+                            const listeningData = msg;
+                            setMusicPlayerInfo({...listeningData.data, clients: listeningData.clients});
+                        } else if (msg.type == "chat") {
+                            /**
+                             * @type {{type: string, clients: number, data: {username: string, message: string}}}
+                             */
+                            wssStatusWidgetHandlers.onmessage(msg);
+                        } else if (msg.type == "paintcanvas") {
+                            paintPixel(msg.x * paintCanvasSettings.pixelSize, msg.y * paintCanvasSettings.pixelSize, msg.color)
                         } else {
-                            console.error(data);
+                            console.error(msg);
                             setMusicPlayerInfo({
                                 author: "An error occurred",
                                 name: "There was an error",
