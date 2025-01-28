@@ -291,7 +291,12 @@ const addSong = async (container, song, i, position = false) => {
     </div>
     <div>
         <a class="added mouse-hover" id="sotd-${i}" title="Remove song from SotD" data-hoveranimationicon="unlike" >
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32"">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 32 32">
+                <path></path>
+        </svg>
+        </a>
+        <a class="open" id="sotd-${i}" href="${song.url}" target="_blank" title="Open song in new tab" data-hoveranimationicon="open" >
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-4 0 512 512">
                 <path></path>
         </svg>
         </a>
@@ -303,7 +308,7 @@ const addSong = async (container, song, i, position = false) => {
         ?.addEventListener("click", () => {
             deleteSong(songEl);
         });
-    mouseHoverHandler(document.querySelector(`#sotd a#sotd-${i}`));
+    document.querySelectorAll(`#sotd a#sotd-${i}`).forEach(el => mouseHoverHandler(el))
 
     return songEl;
 };
@@ -349,7 +354,6 @@ let userIsAFK = false;
 backgroundImageEL = document.querySelector("background-image");
 
 function baseCanvasRender() {
-    // backgroundCanvasCTX.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
     canvasRenderers.forEach(func => func());
 
     // Check if user is AFK (has not moved the mouse in 15 seconds)

@@ -53,6 +53,8 @@ let pong = {};
         if (!pong.settings.playing) {
             pong.settings.playing = true;
             arkanoid.settings.playing = false;
+
+            updateCanvasPong();
         }
 
     });
@@ -125,6 +127,7 @@ let pong = {};
         } else {
             movePongBall();
             moveAI();
+            requestAnimationFrame(updateCanvasPong);
         }
     }
 
@@ -198,5 +201,6 @@ let pong = {};
         }
     }
 
-    addCanvasRenderer(updateCanvasPong);
+    updateCanvasPong();
+    // addCanvasRenderer(updateCanvasPong);
 })();

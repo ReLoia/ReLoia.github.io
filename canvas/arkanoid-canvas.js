@@ -52,13 +52,12 @@ let arkanoid = {};
             x: canvas.width / 2,
             y: canvas.height / 2 + 20,
             dx: 0,
-            dy: 2,
+            dy: 1.8,
             radius: 6 * scale,
         },
         paddle: {
             width: 60 * scale,
             height: 10 * scale,
-            speed: 5 * scale,
             x: canvas.width / 2 - (80 * scale) / 2,
             y: canvas.height - 20,
             lives: 2
@@ -179,6 +178,7 @@ let arkanoid = {};
     }
 
     function movePaddle(event) {
+        
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
 
@@ -190,6 +190,7 @@ let arkanoid = {};
         if (!arkanoid.settings.playing) {
             arkanoid.settings.playing = true;
             pong.settings.playing = false;
+            gameLoop();
         }
     }
 
@@ -217,10 +218,12 @@ let arkanoid = {};
             ctx.fillText(text, canvas.width / 2 - ctx.measureText(text).width / 2, canvas.height - 30);
         } else {
             moveBall();
+            requestAnimationFrame(gameLoop);
         }
     }
+    gameLoop();
 
     arkaDiv.addEventListener("mousemove", movePaddle);
     createBricks();
-    addCanvasRenderer(gameLoop);
+    // addCanvasRenderer(gameLoop);
 })();

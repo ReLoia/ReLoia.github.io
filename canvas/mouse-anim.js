@@ -57,6 +57,8 @@ window.addEventListener('mouseup', () => {
 // This needs to be a variable because it is used in SOTD as well
 const mouseHoverHandler = (el) => {
     el.addEventListener('mouseover', () => {
+        if (arkanoid.settings.playing || pong.settings.playing) return;
+        
         mouse.hover = true
         mouse.hoverEl = el
 
@@ -134,8 +136,6 @@ function customMouseIcon() {
         mouse.currentX = rect.left + rect.width / 2
         mouse.currentY = rect.top + rect.height / 2
 
-        // mouseEl.style.left = `${rect.left + rect.width / 2}px`
-        // mouseEl.style.top = `${rect.top + rect.height / 2}px`
         mouseEl.style.width = `${rect.width}px`
         mouseEl.style.height = `${rect.height}px`
 
