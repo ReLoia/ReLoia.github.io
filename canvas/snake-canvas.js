@@ -16,7 +16,7 @@ let snakeGame = {};
     const gridSize = 10;
 
     snakeGame.settings = {
-        snake: [{ x: 4 * gridSize, y: 2 * gridSize }],
+        snake: [getRandomGridPosition()],
         food: { x: 8 * gridSize, y: 10 * gridSize },
         dx: 1,
         dy: 0,
@@ -103,11 +103,15 @@ let snakeGame = {};
         }
     }
 
-    function generateFood() {
-        snakeGame.settings.food = {
-            x: Math.floor(Math.random() * canvas.width / gridSize) * gridSize,
-            y: Math.floor(Math.random() * canvas.height / gridSize) * gridSize,
+    function getRandomGridPosition() {
+        return {
+            x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+            y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize,
         };
+    }
+
+    function generateFood() {
+        snakeGame.settings.food = getRandomGridPosition();
 
         if (snakeGame.settings.snake.some(segment => segment.x === snakeGame.settings.food.x && segment.y === snakeGame.settings.food.y)) {
             generateFood();
@@ -139,7 +143,7 @@ let snakeGame = {};
     });
 
     function resetGame() {
-        snakeGame.settings.snake = [{ x: 4 * gridSize, y: 2 * gridSize }];
+        snakeGame.settings.snake = [getRandomGridPosition()];
         snakeGame.settings.dx = 1;
         snakeGame.settings.dy = 0;
         snakeGame.settings.score = 0;

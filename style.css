@@ -679,8 +679,8 @@ main > div[p] > div > div > p {
     display: inline-block;
 }
 
-/* Pong canvas */
-main > :is(div[pong], div[arkanoid]) {
+/* Game canvases */
+main > :is(div[pong], div[arkanoid], div[snake]) {
     & > p {
         margin-top: -1em;
         margin-bottom: 0.5em;

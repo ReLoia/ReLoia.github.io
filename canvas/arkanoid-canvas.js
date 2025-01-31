@@ -119,7 +119,7 @@ let arkanoid = {};
 
         // Draw score
         ctx.fillStyle = "white";
-        ctx.font = `${16 * scale}px Arial`;
+        ctx.font = `${16 * scale}px monospace`;
         ctx.fillText(""+Math.floor(arkanoid.settings.score), 10, 18);
     }
 
