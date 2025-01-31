@@ -357,7 +357,7 @@ function baseCanvasRender() {
     canvasRenderers.forEach(func => func());
 
     // Check if user is AFK (has not moved the mouse in 15 seconds)
-    if ((Date.now() - lastTime) > 15_000) {
+    if (!(arkanoid.settings.playing || !snakeGame.settings.gameOver || pong.settings.playing) && (Date.now() - lastTime) > 15_000) {
         if (!userIsAFK) {
             userIsAFK = true;
         }
