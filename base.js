@@ -112,7 +112,7 @@ const activatePage = e => {
         } else {
             if (e.button == 2) return;
             if (e.target._prevent) return;
-            if (e.target.path.some(
+            if (e.target?.path.some(
                 el => el == document.querySelector("div[spotify]") || el == document.querySelector("links") || el == document.querySelector("showcase")
             )) return e.target._prevent = true;
         }
