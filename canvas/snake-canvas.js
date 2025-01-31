@@ -2,7 +2,7 @@
  * @fileoverview Snake game
  */
 
-let snakeGame = {};
+let snake = {};
 
 (() => {
     const snakeDiv = document.querySelector("div[snake]");
@@ -15,7 +15,7 @@ let snakeGame = {};
     
     const gridSize = 10;
 
-    snakeGame.settings = {
+    snake.settings = {
         snake: [getRandomGridPosition()],
         food: { x: 8 * gridSize, y: 10 * gridSize },
         dx: 1,
@@ -34,12 +34,12 @@ let snakeGame = {};
         drawSnake();
         drawFood();
 
-        if (!snakeGame.settings.gameOver) {
+        if (!snake.settings.gameOver) {
             moveSnake();
             checkCollision();
         }
 
-        if (snakeGame.settings.gameOver) {
+        if (snake.settings.gameOver) {
             clearInterval(gameLoop);
 
             const restartText = "press any arrow key to start";
@@ -52,12 +52,12 @@ let snakeGame = {};
 
         ctx.font = `${16 * scale}px monospace`;
         ctx.fillStyle = "white";
-        ctx.fillText(snakeGame.settings.score, 10, 18);
+        ctx.fillText(snake.settings.score, 10, 18);
     }
 
     function drawSnake() {
         ctx.fillStyle = "green";
-        snakeGame.settings.snake.forEach(segment => {
+        snake.settings.snake.forEach(segment => {
             ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
             ctx.strokeStyle = "black";
             ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
@@ -66,38 +66,38 @@ let snakeGame = {};
 
     function drawFood() {
         ctx.fillStyle = "red";
-        ctx.fillRect(snakeGame.settings.food.x, snakeGame.settings.food.y, gridSize, gridSize);
+        ctx.fillRect(snake.settings.food.x, snake.settings.food.y, gridSize, gridSize);
         ctx.strokeStyle = "black";
-        ctx.strokeRect(snakeGame.settings.food.x, snakeGame.settings.food.y, gridSize, gridSize);
+        ctx.strokeRect(snake.settings.food.x, snake.settings.food.y, gridSize, gridSize);
     }
 
     function moveSnake() {
-        const head = { ...snakeGame.settings.snake[0] };
-        head.x += snakeGame.settings.dx * gridSize;
-        head.y += snakeGame.settings.dy * gridSize;
+        const head = { ...snake.settings.snake[0] };
+        head.x += snake.settings.dx * gridSize;
+        head.y += snake.settings.dy * gridSize;
 
-        snakeGame.settings.snake.unshift(head);
+        snake.settings.snake.unshift(head);
 
-        if (head.x === snakeGame.settings.food.x && head.y === snakeGame.settings.food.y) {
-            snakeGame.settings.score++;
+        if (head.x === snake.settings.food.x && head.y === snake.settings.food.y) {
+            snake.settings.score++;
             generateFood();
         } else {
-            snakeGame.settings.snake.pop();
+            snake.settings.snake.pop();
         }
         
     }
 
     function checkCollision() {
-        const head = snakeGame.settings.snake[0];
+        const head = snake.settings.snake[0];
         
         if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
-            snakeGame.settings.gameOver = true;
+            snake.settings.gameOver = true;
             return;
         }
 
-        for (let i = 1; i < snakeGame.settings.snake.length; i++) {
-            if (head.x === snakeGame.settings.snake[i].x && head.y === snakeGame.settings.snake[i].y) {
-                snakeGame.settings.gameOver = true;
+        for (let i = 1; i < snake.settings.snake.length; i++) {
+            if (head.x === snake.settings.snake[i].x && head.y === snake.settings.snake[i].y) {
+                snake.settings.gameOver = true;
                 return;
             }
         }
@@ -111,9 +111,9 @@ let snakeGame = {};
     }
 
     function generateFood() {
-        snakeGame.settings.food = getRandomGridPosition();
+        snake.settings.food = getRandomGridPosition();
 
-        if (snakeGame.settings.snake.some(segment => segment.x === snakeGame.settings.food.x && segment.y === snakeGame.settings.food.y)) {
+        if (snake.settings.snake.some(segment => segment.x === snake.settings.food.x && segment.y === snake.settings.food.y)) {
             generateFood();
         }
     }
@@ -122,36 +122,36 @@ let snakeGame = {};
         if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key))
             event.preventDefault();
         
-        if (snakeGame.settings.gameOver) {
+        if (snake.settings.gameOver) {
             resetGame();
             return;
         }
 
-        if (event.code === "ArrowLeft" && snakeGame.settings.dx !== 1) {
-            snakeGame.settings.dx = -1;
-            snakeGame.settings.dy = 0;
-        } else if (event.code === "ArrowUp" && snakeGame.settings.dy !== 1) {
-            snakeGame.settings.dx = 0;
-            snakeGame.settings.dy = -1;
-        } else if (event.code === "ArrowRight" && snakeGame.settings.dx !== -1) {
-            snakeGame.settings.dx = 1;
-            snakeGame.settings.dy = 0;
-        } else if (event.code === "ArrowDown" && snakeGame.settings.dy !== -1) {
-            snakeGame.settings.dx = 0;
-            snakeGame.settings.dy = 1;
+        if (event.code === "ArrowLeft" && snake.settings.dx !== 1) {
+            snake.settings.dx = -1;
+            snake.settings.dy = 0;
+        } else if (event.code === "ArrowUp" && snake.settings.dy !== 1) {
+            snake.settings.dx = 0;
+            snake.settings.dy = -1;
+        } else if (event.code === "ArrowRight" && snake.settings.dx !== -1) {
+            snake.settings.dx = 1;
+            snake.settings.dy = 0;
+        } else if (event.code === "ArrowDown" && snake.settings.dy !== -1) {
+            snake.settings.dx = 0;
+            snake.settings.dy = 1;
         }
     });
 
     function resetGame() {
-        snakeGame.settings.snake = [getRandomGridPosition()];
-        snakeGame.settings.dx = 1;
-        snakeGame.settings.dy = 0;
-        snakeGame.settings.score = 0;
-        snakeGame.settings.gameOver = false;
+        snake.settings.snake = [getRandomGridPosition()];
+        snake.settings.dx = 1;
+        snake.settings.dy = 0;
+        snake.settings.score = 0;
+        snake.settings.gameOver = false;
         generateFood();
-        gameLoop = setInterval(updateCanvasSnake, snakeGame.settings.speed);
+        gameLoop = setInterval(updateCanvasSnake, snake.settings.speed);
     }
 
     generateFood();
-    gameLoop = setInterval(updateCanvasSnake, snakeGame.settings.speed);
+    gameLoop = setInterval(updateCanvasSnake, snake.settings.speed);
 })();
