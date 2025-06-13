@@ -7,7 +7,7 @@ console.log(
 /**
  * This JavaScript file is executed after the HTML is loaded
  */
-let BASEURL = "https://reloia.ddns.net/myspottyapi";
+let BASEURL = "https://reloia.uk/myspottyapi";
 
 // Elements
 const timeCont = document.querySelector("[head] > div[info] t");

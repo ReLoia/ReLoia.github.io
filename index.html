@@ -12,7 +12,7 @@
     <meta name="language" content="English"/>
     <meta name="author" content="Renato Loiacono"/>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    
+
     <link rel="stylesheet" href="reset.css"/>
     <link rel="stylesheet" href="style.css"/>
     <link rel="stylesheet" href="general.css"/>
@@ -23,7 +23,6 @@
     <script defer src="canvas/paint-canvas.js"></script>
     <script defer src="canvas/pong-canvas.js"></script>
     <script defer src="canvas/arkanoid-canvas.js"></script>
-    <script defer src="canvas/snake-canvas.js"></script>
 </head>
 
 <body>
@@ -307,7 +306,7 @@
                             }
                             wssHandlers.retries++;
                             setTimeout(() => {
-                                wss = new WebSocket("wss://reloia.ddns.net/myspottyapi/");
+                                wss = new WebSocket("wss://reloia.uk/myspottyapi/");
                                 wss.onmessage = wssHandlers.onmessage;
                                 wss.onclose = wssHandlers.onclose;
                                 wss.onerror = wssHandlers.onerror;
@@ -327,7 +326,7 @@
                 (async () => {
                     console.info("Connecting to websocket...");
                     wss = await new Promise(resolve => {
-                        const ws = new WebSocket("wss://reloia.ddns.net/myspottyapi/");
+                        const ws = new WebSocket("wss://reloia.uk/myspottyapi/");
                         ws.onopen = () => resolve(ws);
                         ws.onerror = () => resolve(ws);
                     });
@@ -482,14 +481,14 @@
                 <h3>mySpotty</h3>
                 <p>Android app that makes it easier to communicate with the api and add favorite songs.</p>
                 <br/>
-                <a regu href="https://reloia.ddns.net/myspottyapi" target="_blank">reloia.ddns.net/myspottyapi</a> -
+                <a regu href="https://reloia.uk/myspottyapi" target="_blank">reloia.uk/myspottyapi</a> -
                 <a regu href="https://github.com/ReLoia/myspotty" target="_blank">GitHub</a> page
             </div>
             <div>
                 <h3>mySpottyAPI</h3>
                 <p>Api endpoint to see what I'm listening to and other spotify-related stuff</p>
                 <br/>
-                <a regu href="https://reloia.ddns.net/myspottyapi" target="_blank">reloia.ddns.net/myspottyapi</a> -
+                <a regu href="https://reloia.uk/myspottyapi" target="_blank">reloia.uk/myspottyapi</a> -
                 <a regu href="https://github.com/ReLoia/myspottyapi" target="_blank">GitHub</a> page
             </div>
             <div>
@@ -527,6 +526,13 @@
                                                                                                                  href="https://github.com/ReLoia/liberMobile/blob/master/README.md"
                                                                                                                  target="_blank">Readme</a>.md
             </div>
+            <div>
+                <h3>voltaRSS</h3>
+                <p>A Go HTML to Atom RSS wrapper for https://iissvoltadegemmis.edu.it/circolari</p>
+                <br/>
+                <a regu href="https://reloia.uk/voltarss" target="_blank">voltaRSS</a> -
+                <a regu href="https://github.com/ReLoia/voltarss" target="_blank">GitHub</a> page
+            </div>
             See my GitHub Profile for more <a regu href="https://github.com/ReLoia"
                                               target="_blank">github.com/ReLoia</a>
         </div>
@@ -540,11 +546,6 @@
         <h2>Arkanoid</h2>
         <p>Play a game of Arkanoid using your mouse<br>Your score will <b>persist forever</b>! (in this browser)</p>
         <canvas id="arkanoidCanvas" width="420" height="140"></canvas>
-    </div>
-    <div snake>
-        <h2>Snake</h2>
-        <p>Play a game of Snake using your arrow keys</p>
-        <canvas id="snakeCanvas" width="420" height="140"></canvas>
     </div>
     <div paint data-status="loading">
         <h2>Your Canvas</h2>
@@ -634,7 +635,7 @@
                                                                           href="https://github.com/ReLoia/myspottyapi"
                                                                           target="_blank">API hosted on my VPS</a>
                     and loads it.</p>
-                <span code="js">/* I make a GET request to my backend server to get my currently or last played song */\nl const response = await fetch('https://reloia.ddns.net/myspottyapi/api');\nl /* Next, I convert the response to JSON */\nl const json = await response.json();\nl /* And I pass that to my <a
+                <span code="js">/* I make a GET request to my backend server to get my currently or last played song */\nl const response = await fetch('https://reloia.uk/myspottyapi/api');\nl /* Next, I convert the response to JSON */\nl const json = await response.json();\nl /* And I pass that to my <a
                         href="https://github.com/ReLoia/ReLoia.github.io/blob/master/index.html#L78-L129">function that handles all the changes to the player</a> */\nl setInfo(json); </span>
             </div>
             <div>
