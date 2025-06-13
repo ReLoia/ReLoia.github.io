@@ -5,7 +5,6 @@
 let pong = {};
 
 (() => {
-
     const pongDiv = document.querySelector("div[pong]");
 
     const canvas = pongDiv.querySelector("canvas#pongCanvas");
@@ -23,8 +22,8 @@ let pong = {};
         ball: {
             x: canvas.width / 2,
             y: canvas.height / 2,
-            dx: 2.3,
-            dy: -1.3,
+            dx: 180.3,
+            dy: -80.3,
             radius: 8 * scale,
         },
         paddle: {
@@ -52,11 +51,11 @@ let pong = {};
 
         if (!pong.settings.playing) {
             pong.settings.playing = true;
+            pong.settings.v = pong.settings.v ? pong.settings.v + 1 : 1;
             arkanoid.settings.playing = false;
 
-            updateCanvasPong();
+            requestAnimationFrame(updateCanvasPong);
         }
-
     });
 
     const pongMinHeight = pong.settings.borderWidth + 1
@@ -65,8 +64,12 @@ let pong = {};
 // Border
     ctx.fillStyle = "white"
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    function updateCanvasPong() {
+    
+    let lastTime = performance.now();
+    function updateCanvasPong(c) {
+        const deltaTime = (c - lastTime) / 1000;
+        lastTime = c;
+        
         ctx.fillStyle = "#000097";
         ctx.fillRect(5, 5, canvas.width - 10, canvas.height - 10);
 
@@ -125,7 +128,7 @@ let pong = {};
 
             ctx.fillText(text, canvas.width / 2 - ctx.measureText(text).width / 2, canvas.height - 10);
         } else {
-            movePongBall();
+            movePongBall(deltaTime);
             moveAI();
             requestAnimationFrame(updateCanvasPong);
         }
@@ -135,18 +138,22 @@ let pong = {};
         pong.settings.ball.x = canvas.width / 2;
         const randHeight = Math.random() * canvas.height;
         pong.settings.ball.y = Math.max(pong.settings.borderWidth + pong.settings.ball.radius, Math.min(randHeight, canvas.height - pong.settings.borderWidth - pong.settings.ball.radius));
-        pong.settings.ball.dx = Math.sign(pong.settings.ball.dx) * 2.3;
-        pong.settings.ball.dy = Math.sign(pong.settings.ball.dy) * 1.3;
+        pong.settings.ball.dx = Math.sign(pong.settings.ball.dx) * 180.3;
+        pong.settings.ball.dy = Math.sign(pong.settings.ball.dy) * 80.3;
 
     }
 
-    function movePongBall() {
-        pong.settings.ball.x += pong.settings.ball.dx;
-        pong.settings.ball.y += pong.settings.ball.dy;
+    function movePongBall(dt) {
+        dt = dt || 0.0017;
+        
+        pong.settings.ball.x += pong.settings.ball.dx * dt;
+        pong.settings.ball.y += pong.settings.ball.dy * dt;
 
-        if (pong.settings.ball.y + pong.settings.ball.radius > canvas.height || pong.settings.ball.y - pong.settings.ball.radius < 0) {
-            pong.settings.ball.dy = -pong.settings.ball.dy;
-        }
+        if (pong.settings.ball.y + pong.settings.ball.radius > canvas.height) {
+            pong.settings.ball.dy = -Math.abs(pong.settings.ball.dy);
+        } else if (pong.settings.ball.y - pong.settings.ball.radius < 0) {
+            pong.settings.ball.dy = Math.abs(pong.settings.ball.dy);
+        } 
 
         if (pong.settings.ball.x + pong.settings.ball.radius > canvas.width) {
             pong.settings.player.score++;
@@ -201,6 +208,6 @@ let pong = {};
         }
     }
 
-    updateCanvasPong();
+    requestAnimationFrame(updateCanvasPong);
     // addCanvasRenderer(updateCanvasPong);
 })();

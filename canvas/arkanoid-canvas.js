@@ -52,7 +52,7 @@ let arkanoid = {};
             x: canvas.width / 2,
             y: canvas.height / 2 + 20,
             dx: 0,
-            dy: 1.8,
+            dy: 102.4,
             radius: 6 * scale,
         },
         paddle: {
@@ -87,11 +87,11 @@ let arkanoid = {};
                     arkanoid.settings.brickConfig.offsetTop +
                     row * (arkanoid.settings.brickConfig.height + arkanoid.settings.brickConfig.padding);
 
-                const level = Math.abs(row-arkanoid.settings.brickConfig.rows+1);
-                arkanoid.settings.bricks.push(new Brick(x, y, arkanoid.settings.brickConfig.width, arkanoid.settings.brickConfig.height, ["white", "yellow", "orange", "red", "darkred"][level], 10**level));
+                const level = Math.abs(row - arkanoid.settings.brickConfig.rows + 1);
+                arkanoid.settings.bricks.push(new Brick(x, y, arkanoid.settings.brickConfig.width, arkanoid.settings.brickConfig.height, ["white", "yellow", "orange", "red", "darkred"][level], 10 ** level));
             }
         }
-        arkanoid.settings.aliveBricks = arkanoid.settings.brickConfig.rows*arkanoid.settings.brickConfig.cols;
+        arkanoid.settings.aliveBricks = arkanoid.settings.brickConfig.rows * arkanoid.settings.brickConfig.cols;
     }
 
     function draw() {
@@ -120,21 +120,26 @@ let arkanoid = {};
         // Draw score
         ctx.fillStyle = "white";
         ctx.font = `${16 * scale}px monospace`;
-        ctx.fillText(""+Math.floor(arkanoid.settings.score), 10, 18);
+        ctx.fillText("" + Math.floor(arkanoid.settings.score), 10, 18);
     }
 
-    function moveBall() {
+    function moveBall(D) {
         const {ball, paddle} = arkanoid.settings;
 
-        ball.x += ball.dx;
-        ball.y += ball.dy;
+        ball.D = D ? D : 0.0017;
+        console.log(ball.D)
+
+        ball.x += ball.dx * ball.D;
+        ball.y += ball.dy * ball.D;
 
         // Ball collision with walls
-        if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
-            ball.dx = -ball.dx;
+        if (ball.x + ball.radius > canvas.width) {
+            ball.dx = -Math.abs(ball.dx);
+        } else if (ball.x - ball.radius < 0) {
+            ball.dx = Math.abs(ball.dx);
         }
         if (ball.y - ball.radius < 0) {
-            ball.dy = -ball.dy;
+            ball.dy = Math.abs(ball.dy);
         }
 
         // Ball collision with paddle
@@ -145,7 +150,7 @@ let arkanoid = {};
         ) {
             ball.dy = -Math.abs(ball.dy);
             const angle = ((ball.x - (paddle.x + paddle.width / 2)) / paddle.width) * 130;
-            ball.dx = Math.sin(angle * (Math.PI / 180)) * 2.5 * scale;
+            ball.dx = Math.sin(angle * (Math.PI / 180)) * 150.5 * scale;
         }
 
         // Ball out of bounds
@@ -178,7 +183,7 @@ let arkanoid = {};
     }
 
     function movePaddle(event) {
-        
+
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
 
@@ -198,7 +203,7 @@ let arkanoid = {};
         arkanoid.settings.ball.x = canvas.width / 2;
         arkanoid.settings.ball.y = canvas.height / 2 + 20;
         arkanoid.settings.ball.dx = 0;
-        arkanoid.settings.ball.dy = 1.8;
+        arkanoid.settings.ball.dy = 102.4;
     }
 
     function resetGame() {
@@ -209,7 +214,11 @@ let arkanoid = {};
         createBricks();
     }
 
-    function gameLoop() {
+    let lastTime = performance.now();
+
+    function gameLoop(c) {
+        const deltaTime = (c - lastTime) / 1000;
+        lastTime = c;
         draw();
         if (!arkanoid.settings.playing) {
             ctx.font = "14px monospace";
@@ -217,10 +226,11 @@ let arkanoid = {};
 
             ctx.fillText(text, canvas.width / 2 - ctx.measureText(text).width / 2, canvas.height - 30);
         } else {
-            moveBall();
+            moveBall(deltaTime);
             requestAnimationFrame(gameLoop);
         }
     }
+
     gameLoop();
 
     arkaDiv.addEventListener("mousemove", movePaddle);
