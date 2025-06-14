@@ -126,7 +126,7 @@ let arkanoid = {};
     function moveBall(D) {
         const {ball, paddle} = arkanoid.settings;
 
-        ball.D = D ? D : 0.0017;
+        ball.D = D ? Math.min(D, 0.002) : 0.0017;
         
         ball.x += ball.dx * ball.D;
         ball.y += ball.dy * ball.D;

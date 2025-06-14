@@ -294,9 +294,8 @@
                             });
                         }
                     },
-                    onclose: function (e) {
+                    onclose: function () {
                         console.warn("Websocket closed", wssHandlers.retries);
-                        console.error(e);
                         if (wssHandlers.retries < 3) {
                             console.warn("Websocket closed, retrying...");
                             if (usingProxy) {
@@ -308,6 +307,11 @@
                             wssHandlers.retries++;
                             setTimeout(() => {
                                 wss = new WebSocket("wss://reloia.uk/myspottyapi/");
+                                wss.onopen = () => {
+                                    console.info("Websocket reconnected");
+                                    wssStatusWidgetHandlers.onopen();
+                                    wssHandlers.retries = 0;
+                                };
                                 wss.onmessage = wssHandlers.onmessage;
                                 wss.onclose = wssHandlers.onclose;
                                 wss.onerror = wssHandlers.onerror;
