@@ -294,8 +294,9 @@
                             });
                         }
                     },
-                    onclose: function () {
+                    onclose: function (e) {
                         console.warn("Websocket closed", wssHandlers.retries);
+                        console.error(e);
                         if (wssHandlers.retries < 3) {
                             console.warn("Websocket closed, retrying...");
                             if (usingProxy) {

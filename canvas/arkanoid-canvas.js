@@ -127,8 +127,7 @@ let arkanoid = {};
         const {ball, paddle} = arkanoid.settings;
 
         ball.D = D ? D : 0.0017;
-        console.log(ball.D)
-
+        
         ball.x += ball.dx * ball.D;
         ball.y += ball.dy * ball.D;
 
