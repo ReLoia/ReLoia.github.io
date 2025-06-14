@@ -144,7 +144,7 @@ let pong = {};
     }
 
     function movePongBall(dt) {
-        dt = Math.min(dt, 0.002) || 0.0017;
+        dt = Math.min(dt, 0.04) || 0.0017;
         
         pong.settings.ball.x += pong.settings.ball.dx * dt;
         pong.settings.ball.y += pong.settings.ball.dy * dt;
